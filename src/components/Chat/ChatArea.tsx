@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Socket } from 'socket.io-client';
 import { Upload } from 'lucide-react';
-import ImageModal from '../../ImageModal';
+import { API_URL } from '../../config';
 import { useAuth } from '../../context/AuthContext';
 
 interface ChatAreaProps {
@@ -24,7 +24,6 @@ const ChatArea: React.FC<ChatAreaProps> = ({ socket }) => {
     const [typingUser, setTypingUser] = useState<string | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const { user } = useAuth();
 
     useEffect(() => {
@@ -75,7 +74,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({ socket }) => {
         formData.append('image', file);
 
         try {
-            const response = await fetch('http://localhost:3001/upload', {
+            const response = await fetch(`${API_URL}/upload`, {
                 method: 'POST',
                 body: formData,
             });
@@ -113,7 +112,6 @@ const ChatArea: React.FC<ChatAreaProps> = ({ socket }) => {
                                         src={msg.image}
                                         alt="uploaded"
                                         className="chat-message-image"
-                                        onClick={() => setSelectedImage(msg.image!)}
                                     />
                                 )}
                                 {msg.text && <div className="chat-message-text">{msg.text}</div>}
@@ -159,9 +157,6 @@ const ChatArea: React.FC<ChatAreaProps> = ({ socket }) => {
                     Send
                 </button>
             </div>
-            {selectedImage && (
-                <ImageModal src={selectedImage} onClose={() => setSelectedImage(null)} />
-            )}
         </div>
     );
 };

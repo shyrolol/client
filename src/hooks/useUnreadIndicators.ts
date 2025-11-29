@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useSocket } from '../context/SocketContext';
 import { useAuth } from '../context/AuthContext';
 
-const API_URL = 'http://localhost:3001';
+import { API_URL } from '../config';
 
 interface UnreadIndicatorsHook {
   channelUnreads: Map<string, number>;

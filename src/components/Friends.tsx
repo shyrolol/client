@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { API_URL } from "../config";
 import { useSocket } from "../context/SocketContext";
 import FriendContextMenu from "./FriendContextMenu";
 import { useUnreadIndicators } from "../hooks/useUnreadIndicators";
 import { UnreadBadge } from "./UnreadBadge";
 import { useNotification } from "../context/NotificationContext";
-
-const API_URL = "http://localhost:3001";
 
 interface Props {
   onClose: () => void;

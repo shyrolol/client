@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useNotification } from "../context/NotificationContext";
+import { API_URL } from "../config";
 
 interface Props {
   onClose: () => void;
   position?: { top?: number; left?: number; bottom?: number; right?: number };
 }
 
-const API_URL = "http://localhost:3001";
+
 
 const UserStatusPicker: React.FC<Props> = ({ onClose, position }) => {
   const { user, setUser } = useAuth();

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import BetaAccessModal from "../components/BetaAccessModal";
 import "../styles/login.css";
 
-const API_URL = "http://localhost:3001";
+import { API_URL } from "../config";
 
 const Login: React.FC = () => {
   const [showBeta, setShowBeta] = useState(false);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { EmojiIcon } from './Icons';
+import { API_URL } from '../config';
 
 /* Add to MessageReactions.css */
 /*
@@ -10,7 +11,7 @@ import { EmojiIcon } from './Icons';
 }
 */
 
-const API_URL = 'http://localhost:3001';
+ 
 
 interface Reaction {
   emoji: string;

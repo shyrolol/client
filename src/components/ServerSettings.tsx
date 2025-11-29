@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { API_URL } from "../config";
 import { useAuth } from "../context/AuthContext";
 import {
   DeleteIcon,
@@ -10,8 +11,6 @@ import {
 } from "./Icons";
 import { Input, Textarea, Select, Button } from "./ui";
 import { useNotification } from "../context/NotificationContext";
-
-const API_URL = "http://localhost:3001";
 
 interface Props {
   server: any;

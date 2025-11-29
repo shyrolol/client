@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { CloseIcon, HashIcon, MicIcon, DeleteIcon } from './Icons';
+import { HashIcon, MicIcon, DeleteIcon } from './Icons';
 import { Input, Button } from './ui';
 import { useNotification } from '../context/NotificationContext';
+import { API_URL } from '../config';
 
-const API_URL = 'http://localhost:3001';
 
 interface Props {
   serverId: string;

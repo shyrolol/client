@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useBeta } from "../context/BetaContext";
+import { API_URL } from "../config";
 
 interface BetaAccessModalProps {
   onClose: () => void;
@@ -34,7 +35,7 @@ const BetaAccessModal: React.FC<BetaAccessModalProps> = ({ onClose }) => {
         localStorage.setItem("open_beta_modal", "true");
         localStorage.setItem("beta_key_attempt", key);
         // Redirect to Google login
-        window.location.href = "http://localhost:3001/auth/google";
+        window.location.href = `${API_URL}/auth/google`;
         return;
       }
       setError(

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001';
+import { API_URL } from '../config';
 
 interface User {
   id: string;

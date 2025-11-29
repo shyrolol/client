@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { API_URL } from "../config";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useSocket } from "../context/SocketContext";
@@ -27,7 +28,6 @@ import {
   UploadIcon,
 } from "../components/Icons";
 
-const API_URL = "http://localhost:3001";
 
 interface Server {
   id: string;

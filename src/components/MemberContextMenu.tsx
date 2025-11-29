@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useNotification } from "../context/NotificationContext";
-
-const API_URL = "http://localhost:3001";
+import { API_URL } from "../config";
 
 interface MemberContextMenuProps {
   memberId: string;

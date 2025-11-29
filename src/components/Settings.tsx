@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { API_URL } from "../config";
 import { useAuth } from "../context/AuthContext";
 import {
   LogoutIcon,
@@ -11,8 +12,6 @@ import {
 } from "./Icons";
 import { Input, Select, Toggle, Button } from "./ui";
 import { useNotification } from "../context/NotificationContext";
-
-const API_URL = "http://localhost:3001";
 
 interface Props {
   onClose: () => void;
