@@ -8,17 +8,16 @@ branches:
 jobs:
 deploy:
 runs-on: ubuntu-latest
-
 steps:
-  - name: Checkout code
-    uses: actions/checkout@v3
+- name: Checkout repository
+uses: actions/checkout@v3
+  - name: Setup SSH key
+    uses: webfactory/ssh-agent@v0.9.1
+    with:
+      ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-  - name: Copy files to VPS
-    env:
-      SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+  - name: Deploy via rsync
     run: |
-      mkdir -p ~/.ssh
-      printf "%s\n" "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-      chmod 600 ~/.ssh/id_rsa
-      ssh-keyscan -H 51.178.136.139 >> ~/.ssh/known_hosts
       rsync -avz --delete ./ ubuntu@51.178.136.139:/var/www/html/
+      echo "Deployment finished."
+
