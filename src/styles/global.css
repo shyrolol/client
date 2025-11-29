@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  /* Couleurs dominantes - Noir & Gris */
+  --bg-primary: #000000;
+  --bg-secondary: #0f0f0f;
+  --bg-tertiary: #1a1a1a;
+  --bg-quaternary: #252525;
+  
+  /* Gris pour structurer */
+  --gray-dark: #0f0f0f;
+  --gray-medium: #1a1a1a;
+  --gray-light: #2a2a2a;
+  
+  /* Texte - Gris clair uniquement */
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --text-muted: #707070;
+  
+  /* Accent color - Unique, utilisé avec parcimonie */
+  --accent: #5865f2;
+  --accent-hover: #4752c4;
+  
+  /* Séparations - Différences de tonalité uniquement */
+  --divider-subtle: rgba(255, 255, 255, 0.05);
+  --divider-visible: rgba(255, 255, 255, 0.08);
+  
+  /* Ombre unique et diffuse */
+  --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.3);
+  
+  /* Spacing minimal */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  --space-2xl: 24px;
+  --space-3xl: 32px;
+  
+  /* Border radius - Minimal ou inexistant */
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  
+  /* Typographie - 2 tailles max */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-size-base: 14px;
+  --font-size-large: 16px;
+  
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  
+  --line-height: 1.5;
+  
+  /* Transitions - Légères uniquement */
+  --transition-base: 0.2s ease;
+  
+  /* Z-Index */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 1000;
+  
+  /* Legacy aliases pour compatibilité */
+  --bg-dark: var(--bg-primary);
+  --bg-darker: var(--bg-secondary);
+  --bg-medium: var(--bg-tertiary);
+  --bg-light: var(--bg-quaternary);
+  --text-disabled: var(--text-muted);
+  --border-default: var(--divider-visible);
+  --border-subtle: var(--divider-subtle);
+  --accent-primary: var(--accent);
+  --accent-hover: var(--accent-hover);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 14px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height);
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Scrollbar minimaliste */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-none);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-quaternary);
+}
+
+/* Focus minimaliste */
+*:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* Utility classes minimalistes */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-1 { flex: 1; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.inset-0 { inset: 0; }
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
