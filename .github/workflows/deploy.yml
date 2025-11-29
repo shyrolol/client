@@ -20,4 +20,4 @@ jobs:
         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H 51.178.136.139 >> ~/.ssh/known_hosts
-        rsync -avz --delete ./ debian@51.178.136.139:/var/www/html/
+        rsync -avz --delete ./ ubuntu@51.178.136.139:/var/www/html/
