@@ -34,7 +34,7 @@ export const useUnreadIndicators = (
         const response = await axios.get(`${API_URL}/dms/conversations`, {
           withCredentials: true,
         });
-        const conversations = response.data || [];
+        const conversations = Array.isArray(response.data) ? response.data : [];
 
         const newDmUnreads = new Map<string, number>();
         conversations.forEach((conv: any) => {
@@ -94,7 +94,7 @@ export const useUnreadIndicators = (
           const response = await axios.get(`${API_URL}/dms/conversations`, {
             withCredentials: true,
           });
-          const conversations = response.data || [];
+          const conversations = Array.isArray(response.data) ? response.data : [];
 
           const newDmUnreads = new Map<string, number>();
           conversations.forEach((conv: any) => {

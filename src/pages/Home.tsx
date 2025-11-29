@@ -28,7 +28,6 @@ import {
   UploadIcon,
 } from "../components/Icons";
 
-
 interface Server {
   id: string;
   name: string;
@@ -94,10 +93,12 @@ const Home: React.FC = () => {
   const [showServerSettings, setShowServerSettings] = useState(false);
   const [showFriends, setShowFriends] = useState(false);
   const [showStatusPicker, setShowStatusPicker] = useState(false);
-  const [showMobileChannelDropdown, setShowMobileChannelDropdown] = useState(false);
+  const [showMobileChannelDropdown, setShowMobileChannelDropdown] =
+    useState(false);
   const [unreadChannels, setUnreadChannels] = useState<Set<string>>(new Set());
   const [unreadDMs, setUnreadDMs] = useState<Set<string>>(new Set());
-  const [pendingFriendRequestsCount, setPendingFriendRequestsCount] = useState(0);
+  const [pendingFriendRequestsCount, setPendingFriendRequestsCount] =
+    useState(0);
   const [viewMode, setViewMode] = useState<"server" | "dm">("server");
   const [typingUsers, setTypingUsers] = useState<Set<string>>(new Set());
   const [uploadingFiles, setUploadingFiles] = useState<File[]>([]);
@@ -147,7 +148,10 @@ const Home: React.FC = () => {
 
     const onDocClick = (e: MouseEvent | TouchEvent) => {
       const target = e.target as Node;
-      if (mobileChannelRef.current && !mobileChannelRef.current.contains(target)) {
+      if (
+        mobileChannelRef.current &&
+        !mobileChannelRef.current.contains(target)
+      ) {
         setShowMobileChannelDropdown(false);
       }
     };
@@ -334,45 +338,66 @@ const Home: React.FC = () => {
       );
     });
 
-    socket.on("member_removed", ({ serverId, userId }: { serverId: string; userId: string }) => {
-      if (currentServer?.id === serverId) {
-        setCurrentServer((prev: any) => {
-          if (!prev) return prev;
-          return {
-            ...prev,
-            members: prev.members.filter((m: any) => m.user.id !== userId),
-          };
-        });
+    socket.on(
+      "member_removed",
+      ({ serverId, userId }: { serverId: string; userId: string }) => {
+        if (currentServer?.id === serverId) {
+          setCurrentServer((prev: any) => {
+            if (!prev) return prev;
+            return {
+              ...prev,
+              members: prev.members.filter((m: any) => m.user.id !== userId),
+            };
+          });
+        }
       }
-    });
+    );
 
-    socket.on("member_kicked", ({ serverId, redirectToFriends }: { serverId: string; redirectToFriends?: boolean }) => {
-      if (redirectToFriends && user?.id) {
-        setViewMode("dm");
-        setShowFriends(true);
-        setCurrentServer(null);
-        setCurrentChannel(null);
-        return;
+    socket.on(
+      "member_kicked",
+      ({
+        serverId,
+        redirectToFriends,
+      }: {
+        serverId: string;
+        redirectToFriends?: boolean;
+      }) => {
+        if (redirectToFriends && user?.id) {
+          setViewMode("dm");
+          setShowFriends(true);
+          setCurrentServer(null);
+          setCurrentChannel(null);
+          return;
+        }
+        if (currentServer?.id === serverId) {
+          loadServers();
+          if (currentServer) selectServer(currentServer.id);
+        }
       }
-      if (currentServer?.id === serverId) {
-        loadServers();
-        if (currentServer) selectServer(currentServer.id);
-      }
-    });
+    );
 
-    socket.on("member_banned", ({ serverId, redirectToFriends }: { serverId: string; redirectToFriends?: boolean }) => {
-      if (redirectToFriends && user?.id) {
-        setViewMode("dm");
-        setShowFriends(true);
-        setCurrentServer(null);
-        setCurrentChannel(null);
-        return;
+    socket.on(
+      "member_banned",
+      ({
+        serverId,
+        redirectToFriends,
+      }: {
+        serverId: string;
+        redirectToFriends?: boolean;
+      }) => {
+        if (redirectToFriends && user?.id) {
+          setViewMode("dm");
+          setShowFriends(true);
+          setCurrentServer(null);
+          setCurrentChannel(null);
+          return;
+        }
+        if (currentServer?.id === serverId) {
+          loadServers();
+          if (currentServer) selectServer(currentServer.id);
+        }
       }
-      if (currentServer?.id === serverId) {
-        loadServers();
-        if (currentServer) selectServer(currentServer.id);
-      }
-    });
+    );
 
     socket.on("friend_request_received", () => {
       // Notification will be handled by Friends component
@@ -385,13 +410,15 @@ const Home: React.FC = () => {
       }
     });
 
-    socket.on("server_members_updated", ({ serverId }: { serverId: string }) => {
-      if (currentServer?.id === serverId) {
-        loadServers();
-        if (currentServer) selectServer(currentServer.id);
+    socket.on(
+      "server_members_updated",
+      ({ serverId }: { serverId: string }) => {
+        if (currentServer?.id === serverId) {
+          loadServers();
+          if (currentServer) selectServer(currentServer.id);
+        }
       }
-    });
-
+    );
 
     socket.on("channel_created", (channel: Channel) => {
       if (currentServer && channel.serverId === currentServer.id) {
@@ -561,11 +588,19 @@ const Home: React.FC = () => {
       const res = await axios.get(`${API_URL}/servers`, {
         withCredentials: true,
       });
-      setServers(res.data);
-      if (res.data.length > 0) {
-        selectServer(res.data[0].id);
+      if (Array.isArray(res.data)) {
+        setServers(res.data);
+        if (res.data.length > 0) {
+          selectServer(res.data[0].id);
+        }
+      } else {
+        console.error("Servers data is not an array:", res.data);
+        setServers([]);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Failed to load servers:", error);
+      setServers([]);
+    }
   };
 
   const selectServer = async (serverId: string) => {
@@ -576,14 +611,18 @@ const Home: React.FC = () => {
       const res = await axios.get(`${API_URL}/servers/${serverId}`, {
         withCredentials: true,
       });
-      setCurrentServer(res.data);
-      if (res.data.channels?.length > 0) {
-        const textChannel = res.data.channels.find(
-          (c: any) => c.type === "text"
-        );
-        setCurrentChannel(textChannel || res.data.channels[0]);
+      if (res.data && typeof res.data === "object") {
+        setCurrentServer(res.data);
+        if (Array.isArray(res.data.channels) && res.data.channels.length > 0) {
+          const textChannel = res.data.channels.find(
+            (c: any) => c.type === "text"
+          );
+          setCurrentChannel(textChannel || res.data.channels[0]);
+        }
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Failed to select server:", error);
+    }
   };
 
   const selectChannel = (channel: Channel) => {
@@ -596,7 +635,7 @@ const Home: React.FC = () => {
     });
     // Mark as read on server
     if (socket && user) {
-      socket.emit('mark_read', { channelId: channel.id });
+      socket.emit("mark_read", { channelId: channel.id });
     }
 
     if (channel.type === "voice") {
@@ -639,8 +678,16 @@ const Home: React.FC = () => {
       const res = await axios.get(`${API_URL}/dms/conversations`, {
         withCredentials: true,
       });
-      setDmConversations(res.data);
-    } catch (error) {}
+      if (Array.isArray(res.data)) {
+        setDmConversations(res.data);
+      } else {
+        console.error("DM conversations data is not an array:", res.data);
+        setDmConversations([]);
+      }
+    } catch (error) {
+      console.error("Failed to load DM conversations:", error);
+      setDmConversations([]);
+    }
   };
 
   const selectDM = async (dmUser: any) => {
@@ -659,12 +706,18 @@ const Home: React.FC = () => {
       const res = await axios.get(`${API_URL}/dms/${dmUser.id}/messages`, {
         withCredentials: true,
       });
-      setMessages(res.data);
+      if (Array.isArray(res.data)) {
+        setMessages(res.data);
+      } else {
+        setMessages([]);
+      }
       // Mark DM as read on server
       if (socket && user) {
-        socket.emit('mark_read', { dmUserId: dmUser.id });
+        socket.emit("mark_read", { dmUserId: dmUser.id });
       }
-    } catch (error) {}
+    } catch (error) {
+      setMessages([]);
+    }
   };
 
   const loadMessages = async (channelId: string) => {
@@ -672,12 +725,18 @@ const Home: React.FC = () => {
       const res = await axios.get(`${API_URL}/channels/${channelId}/messages`, {
         withCredentials: true,
       });
-      setMessages(res.data);
+      if (Array.isArray(res.data)) {
+        setMessages(res.data);
+      } else {
+        setMessages([]);
+      }
       // Mark channel as read when opening
       if (socket && user) {
-        socket.emit('mark_read', { channelId });
+        socket.emit("mark_read", { channelId });
       }
-    } catch (error) {}
+    } catch (error) {
+      setMessages([]);
+    }
   };
 
   const handleFileUpload = async (files: FileList | null) => {
@@ -687,7 +746,10 @@ const Home: React.FC = () => {
     const validFiles = fileArray.filter((file) => {
       const maxSize = 100 * 1024 * 1024;
       if (file.size > maxSize) {
-        showNotification(`File ${file.name} is too large. Maximum size is 100MB.`, "error");
+        showNotification(
+          `File ${file.name} is too large. Maximum size is 100MB.`,
+          "error"
+        );
         return false;
       }
       return true;
@@ -712,7 +774,10 @@ const Home: React.FC = () => {
       setUploadedFiles((prev) => [...prev, ...uploaded]);
       setUploadingFiles([]);
     } catch (error: any) {
-      showNotification(error?.response?.data?.error || "Failed to upload files", "error");
+      showNotification(
+        error?.response?.data?.error || "Failed to upload files",
+        "error"
+      );
       setUploadingFiles([]);
     }
   };
@@ -769,8 +834,8 @@ const Home: React.FC = () => {
 
   const deleteMessage = async (messageId: string, isDM: boolean = false) => {
     showConfirm(
-      'Delete Message',
-      'Are you sure you want to delete this message?',
+      "Delete Message",
+      "Are you sure you want to delete this message?",
       async () => {
         try {
           if (isDM && currentDM) {
@@ -786,14 +851,14 @@ const Home: React.FC = () => {
 
           // Remove from UI
           setMessages((prev) => prev.filter((m) => m.id !== messageId));
-          showNotification('Message deleted', 'success');
+          showNotification("Message deleted", "success");
         } catch (error) {
-          showNotification('Failed to delete message', 'error');
+          showNotification("Failed to delete message", "error");
         }
       },
       undefined,
-      'Delete',
-      'Cancel'
+      "Delete",
+      "Cancel"
     );
   };
 
@@ -801,7 +866,7 @@ const Home: React.FC = () => {
     if (!currentServer || !user) return;
 
     showConfirm(
-      'Leave Server',
+      "Leave Server",
       `Are you sure you want to leave ${currentServer.name}?`,
       async () => {
         try {
@@ -813,14 +878,17 @@ const Home: React.FC = () => {
           setServers((prev) => prev.filter((s) => s.id !== currentServer.id));
           setCurrentServer(null);
           setCurrentChannel(null);
-          showNotification('You have left the server', 'success');
+          showNotification("You have left the server", "success");
         } catch (error: any) {
-          showNotification(error?.response?.data?.error || 'Failed to leave server', 'error');
+          showNotification(
+            error?.response?.data?.error || "Failed to leave server",
+            "error"
+          );
         }
       },
       undefined,
-      'Leave',
-      'Cancel'
+      "Leave",
+      "Cancel"
     );
   };
 
@@ -855,7 +923,14 @@ const Home: React.FC = () => {
               setCurrentServer(null);
               setCurrentChannel(null);
             }}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { setShowFriends(true); setViewMode('dm'); setCurrentServer(null); setCurrentChannel(null); } }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                setShowFriends(true);
+                setViewMode("dm");
+                setCurrentServer(null);
+                setCurrentChannel(null);
+              }
+            }}
             title="Friends"
             aria-label="Friends"
           >
@@ -868,7 +943,9 @@ const Home: React.FC = () => {
             role="button"
             tabIndex={0}
             onClick={() => setShowSettings(true)}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setShowSettings(true); }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") setShowSettings(true);
+            }}
             title="Settings"
             aria-label="Settings"
           >
@@ -885,11 +962,17 @@ const Home: React.FC = () => {
               role="button"
               tabIndex={0}
               onClick={() => selectServer(server.id)}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') selectServer(server.id); }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") selectServer(server.id);
+              }}
               style={
                 server.icon
                   ? {
-                      backgroundImage: `url('${server.icon.startsWith('http') ? server.icon : `${API_URL}${server.icon}`}')`,
+                      backgroundImage: `url('${
+                        server.icon.startsWith("http")
+                          ? server.icon
+                          : `${API_URL}${server.icon}`
+                      }')`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                       backgroundRepeat: "no-repeat",
@@ -908,7 +991,9 @@ const Home: React.FC = () => {
             role="button"
             tabIndex={0}
             onClick={() => setShowCreateServer(true)}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setShowCreateServer(true); }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") setShowCreateServer(true);
+            }}
             aria-label="Create server"
           >
             <AddIcon size={24} />
@@ -925,27 +1010,42 @@ const Home: React.FC = () => {
                 <div className="mobile-channel-selector" ref={mobileChannelRef}>
                   <button
                     className="mobile-channel-btn"
-                    onClick={() => setShowMobileChannelDropdown(!showMobileChannelDropdown)}
+                    onClick={() =>
+                      setShowMobileChannelDropdown(!showMobileChannelDropdown)
+                    }
                     title="Select Channel"
                     aria-label="Select Channel"
                     aria-expanded={showMobileChannelDropdown}
                     aria-controls="mobile-channel-dropdown"
                   >
-                    {currentChannel ? `# ${currentChannel.name}` : "Select Channel"}
+                    {currentChannel
+                      ? `# ${currentChannel.name}`
+                      : "Select Channel"}
                   </button>
                   {showMobileChannelDropdown && (
-                    <div id="mobile-channel-dropdown" className="mobile-channel-dropdown" role="menu">
+                    <div
+                      id="mobile-channel-dropdown"
+                      className="mobile-channel-dropdown"
+                      role="menu"
+                    >
                       {currentServer.channels?.map((channel: Channel) => (
                         <div
                           key={channel.id}
                           role="menuitem"
                           tabIndex={0}
-                          className={`mobile-channel-item ${currentChannel?.id === channel.id ? "active" : ""}`}
+                          className={`mobile-channel-item ${
+                            currentChannel?.id === channel.id ? "active" : ""
+                          }`}
                           onClick={() => {
                             selectChannel(channel);
                             setShowMobileChannelDropdown(false);
                           }}
-                          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { selectChannel(channel); setShowMobileChannelDropdown(false); } }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              selectChannel(channel);
+                              setShowMobileChannelDropdown(false);
+                            }
+                          }}
                         >
                           {channel.type === "voice" ? "🔊" : "#"} {channel.name}
                         </div>
@@ -998,7 +1098,10 @@ const Home: React.FC = () => {
                       role="button"
                       tabIndex={0}
                       onClick={() => selectChannel(channel)}
-                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') selectChannel(channel); }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ")
+                          selectChannel(channel);
+                      }}
                       aria-label={`Channel ${channel.name}`}
                     >
                       <div className="channel-item-content">
@@ -1046,7 +1149,10 @@ const Home: React.FC = () => {
                       role="button"
                       tabIndex={0}
                       onClick={() => selectChannel(channel)}
-                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') selectChannel(channel); }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ")
+                          selectChannel(channel);
+                      }}
                       aria-label={`Voice channel ${channel.name}`}
                     >
                       <div className="channel-item-content">
@@ -1127,7 +1233,9 @@ const Home: React.FC = () => {
                   role="button"
                   tabIndex={0}
                   onClick={() => selectDM(conv)}
-                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') selectDM(conv); }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") selectDM(conv);
+                  }}
                   aria-label={`Direct message ${conv.displayName}`}
                 >
                   <span>{conv.displayName}</span>
@@ -1312,7 +1420,9 @@ const Home: React.FC = () => {
                         >
                           <ReplyIcon size={14} />
                         </button>
-                        {(msg.user.id === user?.id || (viewMode === "server" && currentServer?.ownerId === user?.id)) && (
+                        {(msg.user.id === user?.id ||
+                          (viewMode === "server" &&
+                            currentServer?.ownerId === user?.id)) && (
                           <button
                             className="message-delete-btn"
                             onClick={() =>
@@ -1408,15 +1518,22 @@ const Home: React.FC = () => {
         {viewMode === "server" && currentServer && (
           <div className="members-sidebar">
             <MemberList
-              members={currentServer.members?.map((m: any) => ({
-                id: m.user.id,
-                displayName: m.user.displayName,
-                username: m.user.username,
-                avatar: m.user.avatar,
-                status: m.user.status,
-                customStatus: m.user.customStatus,
-                role: m.role === "admin" ? "admin" : m.role === "moderator" ? "moderator" : "member",
-              })) || []}
+              members={
+                currentServer.members?.map((m: any) => ({
+                  id: m.user.id,
+                  displayName: m.user.displayName,
+                  username: m.user.username,
+                  avatar: m.user.avatar,
+                  status: m.user.status,
+                  customStatus: m.user.customStatus,
+                  role:
+                    m.role === "admin"
+                      ? "admin"
+                      : m.role === "moderator"
+                      ? "moderator"
+                      : "member",
+                })) || []
+              }
               currentUserId={user?.id}
               serverId={currentServer.id}
               serverOwnerId={currentServer.ownerId}
@@ -1455,10 +1572,14 @@ const Home: React.FC = () => {
           onPendingCountChange={setPendingFriendRequestsCount}
         />
       )}
-      
+
       {/* Notification badges */}
       {pendingFriendRequestsCount > 0 && (
-        <div className="notification-badge friends" onClick={() => setShowFriends(true)} title="Pending friend requests">
+        <div
+          className="notification-badge friends"
+          onClick={() => setShowFriends(true)}
+          title="Pending friend requests"
+        >
           {pendingFriendRequestsCount > 99 ? "99+" : pendingFriendRequestsCount}
         </div>
       )}

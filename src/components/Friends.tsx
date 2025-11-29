@@ -14,7 +14,11 @@ interface Props {
   onPendingCountChange?: (count: number) => void;
 }
 
-const Friends: React.FC<Props> = ({ onClose, selectDM, onPendingCountChange }) => {
+const Friends: React.FC<Props> = ({
+  onClose,
+  selectDM,
+  onPendingCountChange,
+}) => {
   const { socket } = useSocket();
   const { showNotification } = useNotification();
   const [tab, setTab] = useState<
@@ -42,11 +46,19 @@ const Friends: React.FC<Props> = ({ onClose, selectDM, onPendingCountChange }) =
       loadSentRequests();
     };
 
-    const handleStatusUpdate = (data: { userId: string; status: string; customStatus?: string }) => {
+    const handleStatusUpdate = (data: {
+      userId: string;
+      status: string;
+      customStatus?: string;
+    }) => {
       setFriends((prev) =>
         prev.map((friend) =>
           friend.id === data.userId
-            ? { ...friend, status: data.status, customStatus: data.customStatus }
+            ? {
+                ...friend,
+                status: data.status,
+                customStatus: data.customStatus,
+              }
             : friend
         )
       );
@@ -78,9 +90,10 @@ const Friends: React.FC<Props> = ({ onClose, selectDM, onPendingCountChange }) =
       const response = await axios.get(`${API_URL}/friends`, {
         withCredentials: true,
       });
-      setFriends(response.data || []);
+      setFriends(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       // Silent fail
+      setFriends([]);
     }
   };
 
@@ -89,13 +102,14 @@ const Friends: React.FC<Props> = ({ onClose, selectDM, onPendingCountChange }) =
       const response = await axios.get(`${API_URL}/friends/pending`, {
         withCredentials: true,
       });
-      const requests = response.data || [];
+      const requests = Array.isArray(response.data) ? response.data : [];
       setPendingRequests(requests);
       if (onPendingCountChange) {
         onPendingCountChange(requests.length);
       }
     } catch (error) {
       // Silent fail
+      setPendingRequests([]);
     }
   };
 
@@ -104,9 +118,10 @@ const Friends: React.FC<Props> = ({ onClose, selectDM, onPendingCountChange }) =
       const response = await axios.get(`${API_URL}/friends/sent`, {
         withCredentials: true,
       });
-      setSentRequests(response.data || []);
+      setSentRequests(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       // Silent fail
+      setSentRequests([]);
     }
   };
 
@@ -128,7 +143,10 @@ const Friends: React.FC<Props> = ({ onClose, selectDM, onPendingCountChange }) =
       loadPendingRequests();
       loadSentRequests();
     } catch (error: any) {
-      showNotification(error?.response?.data?.error || "Failed to send friend request", "error");
+      showNotification(
+        error?.response?.data?.error || "Failed to send friend request",
+        "error"
+      );
     } finally {
       setLoading(false);
     }
@@ -157,7 +175,9 @@ const Friends: React.FC<Props> = ({ onClose, selectDM, onPendingCountChange }) =
 
   // Group friends: online (including idle and dnd), offline
   const onlineFriends = friends.filter(
-    (f) => (f.status === "online" || f.status === "idle" || f.status === "dnd") && f.friendStatus !== "blocked"
+    (f) =>
+      (f.status === "online" || f.status === "idle" || f.status === "dnd") &&
+      f.friendStatus !== "blocked"
   );
   const offlineFriends = friends.filter(
     (f) => f.status === "offline" && f.friendStatus !== "blocked"
@@ -233,25 +253,44 @@ const Friends: React.FC<Props> = ({ onClose, selectDM, onPendingCountChange }) =
                   return (
                     <div key={friend.id} className="friend-item-container">
                       <div
-                        className={`friend-item ${unreadCount > 0 ? "unread" : ""}`}
+                        className={`friend-item ${
+                          unreadCount > 0 ? "unread" : ""
+                        }`}
                         onClick={() => handleMessageClick(friend)}
                       >
                         <div className="friend-avatar-container">
                           <img
-                            src={friend.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(friend.displayName || "User")}&size=128`}
+                            src={
+                              friend.avatar ||
+                              `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                friend.displayName || "User"
+                              )}&size=128`
+                            }
                             alt="avatar"
                             className="friend-avatar"
                           />
-                          <div className={`friend-status-dot status-${friend.status || "offline"}`} />
+                          <div
+                            className={`friend-status-dot status-${
+                              friend.status || "offline"
+                            }`}
+                          />
                         </div>
                         <div className="friend-info">
-                          <div className="friend-name">{friend.displayName}</div>
+                          <div className="friend-name">
+                            {friend.displayName}
+                          </div>
                           <div className="friend-username-status">
                             {friend.username && (
-                              <span className="friend-username">@{friend.username}</span>
+                              <span className="friend-username">
+                                @{friend.username}
+                              </span>
                             )}
-                            {friend.username && <span className="friend-separator">•</span>}
-                            <span className="friend-status-text">{getStatusText(friend)}</span>
+                            {friend.username && (
+                              <span className="friend-separator">•</span>
+                            )}
+                            <span className="friend-status-text">
+                              {getStatusText(friend)}
+                            </span>
                           </div>
                         </div>
                         {unreadCount > 0 && <UnreadBadge count={unreadCount} />}
@@ -277,34 +316,57 @@ const Friends: React.FC<Props> = ({ onClose, selectDM, onPendingCountChange }) =
               <>
                 {onlineFriends.length > 0 && (
                   <div className="friend-group">
-                    <div className="friend-group-header">Online — {onlineFriends.length}</div>
+                    <div className="friend-group-header">
+                      Online — {onlineFriends.length}
+                    </div>
                     {onlineFriends.map((friend) => {
                       const unreadCount = getDMUnreadCount(friend.id);
                       return (
                         <div key={friend.id} className="friend-item-container">
                           <div
-                            className={`friend-item ${unreadCount > 0 ? "unread" : ""}`}
+                            className={`friend-item ${
+                              unreadCount > 0 ? "unread" : ""
+                            }`}
                             onClick={() => handleMessageClick(friend)}
                           >
                             <div className="friend-avatar-container">
                               <img
-                                src={friend.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(friend.displayName || "User")}&size=128`}
+                                src={
+                                  friend.avatar ||
+                                  `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                    friend.displayName || "User"
+                                  )}&size=128`
+                                }
                                 alt="avatar"
                                 className="friend-avatar"
                               />
-                              <div className={`friend-status-dot status-${friend.status || "offline"}`} />
+                              <div
+                                className={`friend-status-dot status-${
+                                  friend.status || "offline"
+                                }`}
+                              />
                             </div>
                             <div className="friend-info">
-                              <div className="friend-name">{friend.displayName}</div>
+                              <div className="friend-name">
+                                {friend.displayName}
+                              </div>
                               <div className="friend-username-status">
                                 {friend.username && (
-                                  <span className="friend-username">@{friend.username}</span>
+                                  <span className="friend-username">
+                                    @{friend.username}
+                                  </span>
                                 )}
-                                {friend.username && <span className="friend-separator">•</span>}
-                                <span className="friend-status-text">{getStatusText(friend)}</span>
+                                {friend.username && (
+                                  <span className="friend-separator">•</span>
+                                )}
+                                <span className="friend-status-text">
+                                  {getStatusText(friend)}
+                                </span>
                               </div>
                             </div>
-                            {unreadCount > 0 && <UnreadBadge count={unreadCount} />}
+                            {unreadCount > 0 && (
+                              <UnreadBadge count={unreadCount} />
+                            )}
                           </div>
                           <FriendContextMenu
                             friendId={friend.id}
@@ -318,34 +380,57 @@ const Friends: React.FC<Props> = ({ onClose, selectDM, onPendingCountChange }) =
                 )}
                 {offlineFriends.length > 0 && (
                   <div className="friend-group">
-                    <div className="friend-group-header">Offline — {offlineFriends.length}</div>
+                    <div className="friend-group-header">
+                      Offline — {offlineFriends.length}
+                    </div>
                     {offlineFriends.map((friend) => {
                       const unreadCount = getDMUnreadCount(friend.id);
                       return (
                         <div key={friend.id} className="friend-item-container">
                           <div
-                            className={`friend-item ${unreadCount > 0 ? "unread" : ""}`}
+                            className={`friend-item ${
+                              unreadCount > 0 ? "unread" : ""
+                            }`}
                             onClick={() => handleMessageClick(friend)}
                           >
                             <div className="friend-avatar-container">
                               <img
-                                src={friend.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(friend.displayName || "User")}&size=128`}
+                                src={
+                                  friend.avatar ||
+                                  `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                    friend.displayName || "User"
+                                  )}&size=128`
+                                }
                                 alt="avatar"
                                 className="friend-avatar"
                               />
-                              <div className={`friend-status-dot status-${friend.status || "offline"}`} />
+                              <div
+                                className={`friend-status-dot status-${
+                                  friend.status || "offline"
+                                }`}
+                              />
                             </div>
                             <div className="friend-info">
-                              <div className="friend-name">{friend.displayName}</div>
+                              <div className="friend-name">
+                                {friend.displayName}
+                              </div>
                               <div className="friend-username-status">
                                 {friend.username && (
-                                  <span className="friend-username">@{friend.username}</span>
+                                  <span className="friend-username">
+                                    @{friend.username}
+                                  </span>
                                 )}
-                                {friend.username && <span className="friend-separator">•</span>}
-                                <span className="friend-status-text">{getStatusText(friend)}</span>
+                                {friend.username && (
+                                  <span className="friend-separator">•</span>
+                                )}
+                                <span className="friend-status-text">
+                                  {getStatusText(friend)}
+                                </span>
                               </div>
                             </div>
-                            {unreadCount > 0 && <UnreadBadge count={unreadCount} />}
+                            {unreadCount > 0 && (
+                              <UnreadBadge count={unreadCount} />
+                            )}
                           </div>
                           <FriendContextMenu
                             friendId={friend.id}
@@ -371,18 +456,29 @@ const Friends: React.FC<Props> = ({ onClose, selectDM, onPendingCountChange }) =
                 <div key={request.id} className="friend-item">
                   <div className="friend-avatar-container">
                     <img
-                      src={request.user?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(request.user?.displayName || "User")}&size=128`}
+                      src={
+                        request.user?.avatar ||
+                        `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                          request.user?.displayName || "User"
+                        )}&size=128`
+                      }
                       alt="avatar"
                       className="friend-avatar"
                     />
                   </div>
                   <div className="friend-info">
-                    <div className="friend-name">{request.user?.displayName || "Unknown User"}</div>
+                    <div className="friend-name">
+                      {request.user?.displayName || "Unknown User"}
+                    </div>
                     <div className="friend-username-status">
                       {request.user?.username && (
-                        <span className="friend-username">@{request.user.username}</span>
+                        <span className="friend-username">
+                          @{request.user.username}
+                        </span>
                       )}
-                      {request.user?.username && <span className="friend-separator">•</span>}
+                      {request.user?.username && (
+                        <span className="friend-separator">•</span>
+                      )}
                       <span className="friend-status-text">Pending</span>
                     </div>
                   </div>
@@ -407,18 +503,29 @@ const Friends: React.FC<Props> = ({ onClose, selectDM, onPendingCountChange }) =
                 <div key={request.id} className="friend-item">
                   <div className="friend-avatar-container">
                     <img
-                      src={request.friend?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(request.friend?.displayName || "User")}&size=128`}
+                      src={
+                        request.friend?.avatar ||
+                        `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                          request.friend?.displayName || "User"
+                        )}&size=128`
+                      }
                       alt="avatar"
                       className="friend-avatar"
                     />
                   </div>
                   <div className="friend-info">
-                    <div className="friend-name">{request.friend?.displayName || "Unknown User"}</div>
+                    <div className="friend-name">
+                      {request.friend?.displayName || "Unknown User"}
+                    </div>
                     <div className="friend-username-status">
                       {request.friend?.username && (
-                        <span className="friend-username">@{request.friend.username}</span>
+                        <span className="friend-username">
+                          @{request.friend.username}
+                        </span>
                       )}
-                      {request.friend?.username && <span className="friend-separator">•</span>}
+                      {request.friend?.username && (
+                        <span className="friend-separator">•</span>
+                      )}
                       <span className="friend-status-text">Pending</span>
                     </div>
                   </div>
@@ -438,7 +545,12 @@ const Friends: React.FC<Props> = ({ onClose, selectDM, onPendingCountChange }) =
                   <div className="friend-item">
                     <div className="friend-avatar-container">
                       <img
-                        src={friend.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(friend.displayName || "User")}&size=128`}
+                        src={
+                          friend.avatar ||
+                          `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                            friend.displayName || "User"
+                          )}&size=128`
+                        }
                         alt="avatar"
                         className="friend-avatar"
                       />
@@ -448,9 +560,13 @@ const Friends: React.FC<Props> = ({ onClose, selectDM, onPendingCountChange }) =
                       <div className="friend-name">{friend.displayName}</div>
                       <div className="friend-username-status">
                         {friend.username && (
-                          <span className="friend-username">@{friend.username}</span>
+                          <span className="friend-username">
+                            @{friend.username}
+                          </span>
                         )}
-                        {friend.username && <span className="friend-separator">•</span>}
+                        {friend.username && (
+                          <span className="friend-separator">•</span>
+                        )}
                         <span className="friend-status-text">Blocked</span>
                       </div>
                     </div>

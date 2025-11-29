@@ -7,7 +7,7 @@
 const baseURL: string = (import.meta.env as any).VITE_API_URL ||
   ((import.meta.env.MODE === 'production')
     ? (typeof window !== 'undefined' ? window.location.origin : 'https://shyro.ovh')
-    : 'http://localhost:3001');
+    : 'https://shyro.ovh');
 
 // API_URL always includes /api prefix for all endpoint calls
 export const API_URL: string = `${baseURL}/api`;
