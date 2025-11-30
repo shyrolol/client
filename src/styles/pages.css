@@ -81,14 +81,27 @@
 }
 
 .settings-icon {
+  width: 48px;
+  height: 48px;
   background-color: var(--bg-secondary);
-  border: none;
-  color: var(--text-primary);
-  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* No hover effects, no transitions - pure clone of home-icon */
+  font-weight: var(--font-weight-medium);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  color: var(--text-primary);
+  overflow: hidden;
+  position: relative;
+  border: none;
+}
+
+.settings-icon:hover {
+  border-radius: 16px;
 }
 
 .server-divider {

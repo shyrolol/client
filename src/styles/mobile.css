@@ -76,11 +76,16 @@ html {
   }
 
   .settings-icon {
-    /* Fixed in server sidebar, no longer floating */
     width: 48px;
     height: 48px;
+    min-width: 48px;
     background: var(--bg-secondary);
-    border-radius: 50%;
+    border-radius: 10px;
+    transition: all 0.12s ease;
+  }
+
+  .settings-icon:hover {
+    border-radius: 16px;
   }
 
   .main-content {

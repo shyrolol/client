@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { API_URL, BASE_URL } from "../config";
+import { API_URL } from "../config";
 import { useAuth } from "../context/AuthContext";
 import {
   LogoutIcon,
@@ -162,7 +162,7 @@ const Settings: React.FC<Props> = ({ onClose }) => {
         withCredentials: true,
       });
 
-      const avatarUrl = `${BASE_URL}${uploadRes.data.url}`;
+      const avatarUrl = `${API_URL}${uploadRes.data.url}`;
 
       const response = await axios.patch(
         `${API_URL}/users/me`,
