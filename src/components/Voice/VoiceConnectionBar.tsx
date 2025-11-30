@@ -28,7 +28,7 @@ const VoiceConnectionBar: React.FC<VoiceConnectionBarProps> = ({
   onDisconnect,
 }) => {
   const [ping, setPing] = useState<number>(45);
-  const [connectionStatus, setConnectionStatus] = useState<
+  const [connectionStatus, _setConnectionStatus] = useState<
     "connected" | "connecting" | "reconnecting"
   >("connected");
 
@@ -39,12 +39,6 @@ const VoiceConnectionBar: React.FC<VoiceConnectionBarProps> = ({
     }, 3000);
     return () => clearInterval(interval);
   }, []);
-
-  const getPingColor = () => {
-    if (ping < 50) return "#23a55a"; // Green
-    if (ping < 100) return "#faa81a"; // Yellow
-    return "#ed4245"; // Red
-  };
 
   const getStatusText = () => {
     switch (connectionStatus) {

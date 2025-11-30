@@ -93,7 +93,8 @@ body {
 }
 
 .link-btn {
-    background-color: transparent;
+  text-align: center;
+  background-color: transparent;
 }
 
 .login-footer {

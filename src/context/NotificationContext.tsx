@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback } from "react";
 
 interface Notification {
   id: string;
   message: string;
-  type: 'success' | 'error' | 'info';
+  type: "success" | "error" | "info";
   duration?: number;
 }
 
@@ -15,11 +15,15 @@ interface ConfirmDialog {
   onCancel?: () => void;
   confirmText?: string;
   cancelText?: string;
-  variant?: 'default' | 'danger';
+  variant?: "default" | "danger";
 }
 
 interface NotificationContextType {
-  showNotification: (message: string, type?: 'success' | 'error' | 'info', duration?: number) => void;
+  showNotification: (
+    message: string,
+    type?: "success" | "error" | "info",
+    duration?: number
+  ) => void;
   showConfirm: (
     title: string,
     message: string,
@@ -27,18 +31,28 @@ interface NotificationContextType {
     onCancel?: () => void,
     confirmText?: string,
     cancelText?: string,
-    variant?: 'default' | 'danger'
+    variant?: "default" | "danger"
   ) => void;
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+const NotificationContext = createContext<NotificationContextType | undefined>(
+  undefined
+);
 
-export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [confirmDialog, setConfirmDialog] = useState<ConfirmDialog | null>(null);
+  const [confirmDialog, setConfirmDialog] = useState<ConfirmDialog | null>(
+    null
+  );
 
   const showNotification = useCallback(
-    (message: string, type: 'success' | 'error' | 'info' = 'info', duration: number = 3000) => {
+    (
+      message: string,
+      type: "success" | "error" | "info" = "info",
+      duration: number = 3000
+    ) => {
       const id = Math.random().toString(36).substr(2, 9);
       const notification: Notification = { id, message, type, duration };
 
@@ -57,9 +71,9 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
       message: string,
       onConfirm: () => void,
       onCancel?: () => void,
-      confirmText: string = 'Confirm',
-      cancelText: string = 'Cancel',
-      variant: 'default' | 'danger' = 'default'
+      confirmText: string = "Confirm",
+      cancelText: string = "Cancel",
+      variant: "default" | "danger" = "default"
     ) => {
       const id = Math.random().toString(36).substr(2, 9);
       const dialog: ConfirmDialog = {
@@ -93,11 +107,16 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
   );
 };
 
-const NotificationContainer: React.FC<{ notifications: Notification[] }> = ({ notifications }) => {
+const NotificationContainer: React.FC<{ notifications: Notification[] }> = ({
+  notifications,
+}) => {
   return (
     <div className="notification-container">
       {notifications.map((notification) => (
-        <div key={notification.id} className={`notification notification-${notification.type}`}>
+        <div
+          key={notification.id}
+          className={`notification notification-${notification.type}`}
+        >
           {notification.message}
         </div>
       ))}
@@ -105,7 +124,9 @@ const NotificationContainer: React.FC<{ notifications: Notification[] }> = ({ no
   );
 };
 
-const ConfirmDialogComponent: React.FC<{ dialog: ConfirmDialog }> = ({ dialog }) => {
+const ConfirmDialogComponent: React.FC<{ dialog: ConfirmDialog }> = ({
+  dialog,
+}) => {
   return (
     <div className="confirm-dialog-overlay" onClick={dialog.onCancel}>
       <div className="confirm-dialog" onClick={(e) => e.stopPropagation()}>
@@ -120,7 +141,9 @@ const ConfirmDialogComponent: React.FC<{ dialog: ConfirmDialog }> = ({ dialog })
             {dialog.cancelText}
           </button>
           <button
-            className={dialog.variant === 'danger' ? 'btn-danger' : 'btn-primary'}
+            className={
+              dialog.variant === "danger" ? "btn-danger" : "btn-primary"
+            }
             onClick={dialog.onConfirm}
           >
             {dialog.confirmText}
@@ -134,8 +157,7 @@ const ConfirmDialogComponent: React.FC<{ dialog: ConfirmDialog }> = ({ dialog })
 export const useNotification = () => {
   const context = useContext(NotificationContext);
   if (!context) {
-    throw new Error('useNotification must be used within NotificationProvider');
+    throw new Error("useNotification must be used within NotificationProvider");
   }
   return context;
 };
-

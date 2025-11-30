@@ -4,12 +4,12 @@
 // 2. In production, default to window.location.origin (same origin deployment)
 // 3. Fallback to localhost dev backend
 
-const baseURL: string = (import.meta.env as any).VITE_API_URL ||
-  ((import.meta.env.MODE === 'production')
-    ? (typeof window !== 'undefined' ? window.location.origin : 'https://shyro.ovh')
-    : 'https://shyro.ovh');
+const baseURL: string = (import.meta.env as any).VITE_API_URL || 'https://shyro.ovh';
 
 // API_URL always includes /api prefix for all endpoint calls
 export const API_URL: string = `${baseURL}/api`;
+
+// Base origin for Socket.IO connection (no /api prefix)
+export const BASE_URL: string = baseURL;
 
 export default API_URL;

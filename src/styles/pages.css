@@ -2,6 +2,7 @@
 .home-container {
   display: flex;
   height: 100vh;
+  height: 100dvh;
   width: 100vw;
   overflow: hidden;
   background-color: var(--bg-primary);
@@ -618,6 +619,7 @@
 
 .message-input-container {
   padding: var(--space-lg) var(--space-lg);
+  padding-bottom: calc(var(--space-lg) + env(safe-area-inset-bottom));
   flex-shrink: 0;
   background-color: var(--bg-secondary);
   min-height: 60px;

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import io, { Socket } from "socket.io-client";
 import { useAuth } from "./AuthContext";
-import { API_URL } from "../config";
+import { BASE_URL } from "../config";
 
 interface SocketContextType {
   socket: Socket | null;
@@ -16,12 +16,33 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
   const { user, setUser } = useAuth();
 
   useEffect(() => {
-    const newSocket = io(API_URL, { withCredentials: true });
+    if (!user) {
+      if (socket) {
+        socket.close();
+        setSocket(null);
+      }
+      return;
+    }
+
+    const newSocket = io(BASE_URL, {
+      withCredentials: true,
+      transports: ["websocket", "polling"], // Force transports for better compatibility
+    });
+
+    newSocket.on("connect", () => {
+      console.log("✅ Socket connected:", newSocket.id);
+    });
+
+    newSocket.on("connect_error", (err) => {
+      console.error("❌ Socket connection error:", err);
+    });
+
     setSocket(newSocket);
+
     return () => {
       newSocket.close();
     };
-  }, []);
+  }, [user?.id]); // Reconnect when user ID changes
 
   useEffect(() => {
     if (!socket || !user) return;
