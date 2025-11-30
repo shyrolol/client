@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useBeta } from '../context/BetaContext';
-import { Clock, ExternalLink } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { useBeta } from "../context/BetaContext";
+import { Clock, ExternalLink } from "lucide-react";
 
 const BetaExpiryNotice: React.FC = () => {
   const { isBetaAccess, remainingMinutes } = useBeta();
@@ -21,7 +21,7 @@ const BetaExpiryNotice: React.FC = () => {
 
           <div className="beta-expiry-actions">
             <a
-              href="https://forms.gle/feedback"
+              href="https://forms.gle/qYNTkKk5gXQBcPkq8"
               target="_blank"
               rel="noopener noreferrer"
               className="beta-feedback-btn"
@@ -45,7 +45,7 @@ const BetaExpiryNotice: React.FC = () => {
         <Clock size={16} />
         <span>
           Beta access expires in {remainingMinutes} minute
-          {remainingMinutes !== 1 ? 's' : ''}
+          {remainingMinutes !== 1 ? "s" : ""}
         </span>
       </div>
     );

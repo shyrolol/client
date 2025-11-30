@@ -120,7 +120,7 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
         withCredentials: true,
       });
 
-      setServerIcon(`${API_URL}${uploadRes.data.url}`);
+      setServerIcon(uploadRes.data.url);
     } catch (error) {
       setMessageType("error");
       setMessage("Failed to upload icon");

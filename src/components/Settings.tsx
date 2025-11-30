@@ -162,11 +162,9 @@ const Settings: React.FC<Props> = ({ onClose }) => {
         withCredentials: true,
       });
 
-      const avatarUrl = `${API_URL}${uploadRes.data.url}`;
-
       const response = await axios.patch(
         `${API_URL}/users/me`,
-        { avatar: avatarUrl },
+        { avatar: uploadRes.data.url },
         { withCredentials: true }
       );
 

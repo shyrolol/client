@@ -48,7 +48,7 @@ const Maintenance: React.FC = () => {
       }}
     >
       <h1 style={{ fontSize: "2rem", marginBottom: "16px" }}>
-        System Under Maintenance
+        Echo is under maintenance
       </h1>
 
       <p
@@ -74,7 +74,7 @@ const Maintenance: React.FC = () => {
           }}
         >
           <span style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
-            Estimated completion:
+            Estimated time:
           </span>
           <div
             style={{ fontSize: "1.2rem", fontWeight: "bold", marginTop: "4px" }}

@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import axios from 'axios';
-
-import { API_URL } from '../config';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { useSocket } from "./SocketContext";
+import { API_URL } from "../config";
 
 interface BetaContextType {
   isBetaAccess: boolean;
@@ -13,11 +13,14 @@ interface BetaContextType {
 
 const BetaContext = createContext<BetaContextType | undefined>(undefined);
 
-export const BetaProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const BetaProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isBetaAccess, setIsBetaAccess] = useState(false);
   const [betaExpiry, setBetaExpiry] = useState<number | null>(null);
   const [remainingMinutes, setRemainingMinutes] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const { socket } = useSocket();
 
   const redeemBetaKey = async (key: string): Promise<boolean> => {
     try {
@@ -34,17 +37,38 @@ export const BetaProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setError(null);
         return true;
       }
-      setError('Invalid response from server');
+      setError("Invalid response from server");
       return false;
     } catch (err: any) {
-      setError(err?.response?.data?.error || 'Invalid beta key');
+      setError(err?.response?.data?.error || "Invalid beta key");
       return false;
     }
   };
 
+  // Listen for beta expiry from server
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleBetaExpired = () => {
+      // Mark beta as expired
+      setIsBetaAccess(false);
+      setBetaExpiry(null);
+      setRemainingMinutes(0);
+
+      // Reload page to show modal
+      window.location.reload();
+    };
+
+    socket.on("beta_expired", handleBetaExpired);
+
+    return () => {
+      socket.off("beta_expired", handleBetaExpired);
+    };
+  }, [socket]);
+
   useEffect(() => {
     const timer = setInterval(() => {
-      if (betaExpiry && typeof betaExpiry === 'number') {
+      if (betaExpiry && typeof betaExpiry === "number") {
         const now = Date.now();
         const remaining = Math.max(0, betaExpiry - now);
         const minutes = Math.ceil(remaining / (1000 * 60));
@@ -79,6 +103,6 @@ export const BetaProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 export const useBeta = () => {
   const context = useContext(BetaContext);
-  if (!context) throw new Error('useBeta must be used within BetaProvider');
+  if (!context) throw new Error("useBeta must be used within BetaProvider");
   return context;
 };

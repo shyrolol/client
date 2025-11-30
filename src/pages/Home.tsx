@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { API_URL } from "../config";
+import { API_URL, BASE_URL } from "../config";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useSocket } from "../context/SocketContext";
@@ -971,7 +971,7 @@ const Home: React.FC = () => {
                       backgroundImage: `url('${
                         server.icon.startsWith("http")
                           ? server.icon
-                          : `${API_URL}${server.icon}`
+                          : `${BASE_URL}${server.icon}`
                       }')`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
@@ -1391,13 +1391,13 @@ const Home: React.FC = () => {
                                 <div key={idx} className="message-attachment">
                                   {isImage ? (
                                     <img
-                                      src={`${API_URL}${url}`}
+                                      src={`${BASE_URL}${url}`}
                                       alt={filename}
                                       className="message-image"
                                     />
                                   ) : (
                                     <a
-                                      href={`${API_URL}${url}`}
+                                      href={`${BASE_URL}${url}`}
                                       target="_blank"
                                       rel="noopener noreferrer"
                                       className="message-file-link"

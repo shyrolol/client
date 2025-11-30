@@ -52,9 +52,29 @@ function App() {
 import { useAuth } from "./context/AuthContext";
 import { useLocation } from "react-router-dom";
 
+import { useSocket } from "./context/SocketContext";
+
 const AppContent = ({ maintenance }: { maintenance: boolean }) => {
   const { user, loading } = useAuth();
+  const { socket } = useSocket();
   const location = useLocation();
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleMaintenance = (data: { active: boolean; message?: string }) => {
+      // If status changes, reload to ensure fresh state/cache
+      if (data.active !== maintenance) {
+        window.location.reload();
+      }
+    };
+
+    socket.on("maintenance_status", handleMaintenance);
+
+    return () => {
+      socket.off("maintenance_status", handleMaintenance);
+    };
+  }, [socket, maintenance]);
 
   if (maintenance && !loading) {
     const isAdmin =
