@@ -434,6 +434,17 @@
   flex: 1;
 }
 
+.channel-item-content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex: 1;
+}
+
+.channel-item-content svg {
+  flex-shrink: 0;
+}
+
 .channel-item.unread {
   color: var(--text-primary);
   font-weight: var(--font-weight-medium);

@@ -76,15 +76,11 @@ html {
   }
 
   .settings-icon {
-    position: fixed;
-    bottom: var(--space-md);
-    right: var(--space-md);
+    /* Fixed in server sidebar, no longer floating */
     width: 48px;
     height: 48px;
-    z-index: 100;
     background: var(--bg-secondary);
     border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
 
   .main-content {
