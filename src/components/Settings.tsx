@@ -229,14 +229,14 @@ const Settings: React.FC<Props> = ({ onClose }) => {
 
   const handleLogout = async () => {
     showConfirm(
-      'Logout',
-      'Are you sure you want to logout?',
+      "Logout",
+      "Are you sure you want to logout?",
       async () => {
         await logout();
       },
       undefined,
-      'Logout',
-      'Cancel'
+      "Logout",
+      "Cancel"
     );
   };
 
@@ -358,11 +358,7 @@ const Settings: React.FC<Props> = ({ onClose }) => {
                         </span>
                       </div>
                       <span className="profile-email">{user?.email}</span>
-                      <div
-                        className="profile-id-row"
-                      >
-                        ID: {user?.id}
-                      </div>
+                      <div className="profile-id-row">ID: {user?.id}</div>
                     </div>
                   </div>
                 </div>

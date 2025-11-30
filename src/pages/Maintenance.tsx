@@ -1,26 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { API_URL } from "../config";
-import { AlertTriangle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Maintenance: React.FC = () => {
   const [status, setStatus] = useState<{
     message?: string;
     estimatedTime?: string;
   } | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${API_URL}/system/status`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.maintenance) {
-          setStatus({
-            message: data.message,
-            estimatedTime: data.estimatedTime,
-          });
-        }
-      })
-      .catch(() => {});
-  }, []);
+    const checkStatus = () => {
+      fetch(`${API_URL}/system/status`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.maintenance) {
+            setStatus({
+              message: data.message,
+              estimatedTime: data.estimatedTime,
+            });
+          } else {
+            window.location.href = "/";
+          }
+        })
+        .catch(() => {});
+    };
+
+    checkStatus();
+    const interval = setInterval(checkStatus, 10000);
+
+    return () => clearInterval(interval);
+  }, [navigate]);
 
   return (
     <div
@@ -37,16 +47,6 @@ const Maintenance: React.FC = () => {
         padding: "20px",
       }}
     >
-      <div
-        style={{
-          marginBottom: "24px",
-          color: "var(--accent)",
-          animation: "pulse 2s infinite",
-        }}
-      >
-        <AlertTriangle size={64} />
-      </div>
-
       <h1 style={{ fontSize: "2rem", marginBottom: "16px" }}>
         System Under Maintenance
       </h1>

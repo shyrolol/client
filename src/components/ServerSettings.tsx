@@ -78,8 +78,8 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
 
   const handleUnban = async (userId: string) => {
     showConfirm(
-      'Unban User',
-      'Are you sure you want to unban this user?',
+      "Unban User",
+      "Are you sure you want to unban this user?",
       async () => {
         try {
           await axios.delete(`${API_URL}/servers/${server.id}/bans/${userId}`, {
@@ -94,13 +94,16 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
         } catch (error: any) {
           setMessageType("error");
           setMessage(error?.response?.data?.error || "Failed to unban user");
-          showNotification(error?.response?.data?.error || "Failed to unban user", "error");
+          showNotification(
+            error?.response?.data?.error || "Failed to unban user",
+            "error"
+          );
           setTimeout(() => setMessage(""), 3000);
         }
       },
       undefined,
-      'Unban',
-      'Cancel'
+      "Unban",
+      "Cancel"
     );
   };
 
@@ -132,23 +135,33 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
       // Build payload only with fields that should be updated
       const payload: any = {};
       const trimmedName = serverName.trim();
-      if (trimmedName && trimmedName !== server.name && trimmedName.length > 0) {
+      if (
+        trimmedName &&
+        trimmedName !== server.name &&
+        trimmedName.length > 0
+      ) {
         payload.name = trimmedName;
       }
       if (serverIcon !== server.icon) {
         payload.icon = serverIcon || null;
       }
       const trimmedDescription = description.trim();
-      if (trimmedDescription !== (server.description || '')) {
+      if (trimmedDescription !== (server.description || "")) {
         payload.description = trimmedDescription || null;
       }
       const trimmedWelcome = welcomeMessage.trim();
-      if (trimmedWelcome !== (server.welcomeMessage || '')) {
+      if (trimmedWelcome !== (server.welcomeMessage || "")) {
         payload.welcomeMessage = trimmedWelcome || null;
       }
       const notificationsValue = Number(defaultNotifications);
-      if (!isNaN(notificationsValue) && notificationsValue !== (server.defaultNotifications || 0)) {
-        payload.defaultNotifications = Math.max(0, Math.min(1, notificationsValue));
+      if (
+        !isNaN(notificationsValue) &&
+        notificationsValue !== (server.defaultNotifications || 0)
+      ) {
+        payload.defaultNotifications = Math.max(
+          0,
+          Math.min(1, notificationsValue)
+        );
       }
 
       // Only send request if there are changes
@@ -160,7 +173,11 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
         return;
       }
 
-      const response = await axios.patch(`${API_URL}/servers/${server.id}`, payload, { withCredentials: true });
+      const response = await axios.patch(
+        `${API_URL}/servers/${server.id}`,
+        payload,
+        { withCredentials: true }
+      );
 
       if (response.data) {
         setMessageType("success");
@@ -183,7 +200,7 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
 
   const handleDeleteServer = async () => {
     showConfirm(
-      'Delete Server',
+      "Delete Server",
       `Are you sure you want to delete "${server.name}"?\n\nThis action cannot be undone and will delete all channels, messages, and members.`,
       async () => {
         setSaving(true);
@@ -191,25 +208,28 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
           await axios.delete(`${API_URL}/servers/${server.id}`, {
             withCredentials: true,
           });
-          showNotification('Server deleted successfully', 'success');
+          showNotification("Server deleted successfully", "success");
           onSuccess();
           onClose();
         } catch (error: any) {
-          showNotification(error?.response?.data?.error || "Failed to delete server", "error");
+          showNotification(
+            error?.response?.data?.error || "Failed to delete server",
+            "error"
+          );
         } finally {
           setSaving(false);
         }
       },
       undefined,
-      'Delete',
-      'Cancel',
-      'danger'
+      "Delete",
+      "Cancel",
+      "danger"
     );
   };
 
   const handleLeaveServer = async () => {
     showConfirm(
-      'Leave Server',
+      "Leave Server",
       `Are you sure you want to leave "${server.name}"?`,
       async () => {
         setSaving(true);
@@ -219,18 +239,21 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
             {},
             { withCredentials: true }
           );
-          showNotification('You have left the server', 'success');
+          showNotification("You have left the server", "success");
           onSuccess();
           onClose();
         } catch (error: any) {
-          showNotification(error?.response?.data?.error || "Failed to leave server", "error");
+          showNotification(
+            error?.response?.data?.error || "Failed to leave server",
+            "error"
+          );
         } finally {
           setSaving(false);
         }
       },
       undefined,
-      'Leave',
-      'Cancel'
+      "Leave",
+      "Cancel"
     );
   };
 
@@ -243,9 +266,12 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
       );
       setInviteCode(res.data.code || "");
       setCopied(false);
-      showNotification('Invite code generated', 'success');
+      showNotification("Invite code generated", "success");
     } catch (error: any) {
-      showNotification(error?.response?.data?.error || "Failed to generate invite", "error");
+      showNotification(
+        error?.response?.data?.error || "Failed to generate invite",
+        "error"
+      );
     }
   };
 
@@ -568,10 +594,19 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
                             )}
                           </div>
                           <div className="member-role">
-                            {ban.reason ? `Reason: ${ban.reason}` : "No reason provided"}
+                            {ban.reason
+                              ? `Reason: ${ban.reason}`
+                              : "No reason provided"}
                           </div>
-                          <div className="member-role" style={{ fontSize: "12px", color: "var(--text-muted)" }}>
-                            Banned by {ban.bannedByUser?.displayName || "Unknown"} on{" "}
+                          <div
+                            className="member-role"
+                            style={{
+                              fontSize: "12px",
+                              color: "var(--text-muted)",
+                            }}
+                          >
+                            Banned by{" "}
+                            {ban.bannedByUser?.displayName || "Unknown"} on{" "}
                             {new Date(ban.createdAt).toLocaleDateString()}
                           </div>
                         </div>
