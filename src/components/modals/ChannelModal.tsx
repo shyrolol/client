@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { HashIcon, MicIcon, DeleteIcon } from "../ui/Icons";
+import { HashIcon, MicIcon } from "../ui/Icons";
 import { Input, Button } from "../ui";
 import { useNotification } from "../../context/NotificationContext";
 import { API_URL } from "../../config";
@@ -171,8 +171,7 @@ const ChannelModal: React.FC<Props> = ({
         <div className="channel-modal-footer">
           {mode === "edit" && (
             <Button variant="danger" onClick={handleDelete} disabled={loading}>
-              <DeleteIcon size={16} />
-              Delete
+              Delete Channel
             </Button>
           )}
           <div className="flex-1" />
