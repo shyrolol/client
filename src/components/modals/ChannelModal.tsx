@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { HashIcon, MicIcon } from "../ui/Icons";
 import { Input, Button } from "../ui";
+import Modal from "../ui/Modal";
 import { useNotification } from "../../context/NotificationContext";
 import { API_URL } from "../../config";
 
@@ -103,95 +104,92 @@ const ChannelModal: React.FC<Props> = ({
     );
   };
 
+  const footer = (
+    <>
+      {mode === "edit" && (
+        <Button variant="danger" onClick={handleDelete} disabled={loading}>
+          Delete Channel
+        </Button>
+      )}
+      <div className="flex-1" />
+      <Button variant="secondary" onClick={onClose} disabled={loading}>
+        Cancel
+      </Button>
+      <Button
+        variant="primary"
+        onClick={handleSubmit}
+        disabled={loading || !name.trim()}
+      >
+        {loading
+          ? "Saving..."
+          : mode === "create"
+          ? "Create Channel"
+          : "Save Changes"}
+      </Button>
+    </>
+  );
+
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="channel-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="channel-modal-header">
-          <h2>{mode === "create" ? "Create Channel" : "Edit Channel"}</h2>
-          <button className="channel-modal-close" onClick={onClose}>
-            ×
-          </button>
-        </div>
+    <Modal
+      isOpen={true}
+      onClose={onClose}
+      title={mode === "create" ? "Create Channel" : "Edit Channel"}
+      size="md"
+      footer={footer}
+    >
+      <Input
+        label="Channel Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="e.g., general"
+        autoFocus
+        maxLength={100}
+      />
 
-        <div className="channel-modal-body">
-          <Input
-            label="Channel Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="e.g., general"
-            autoFocus
-            maxLength={100}
-          />
-
-          {mode === "create" && (
-            <div className="form-group">
-              <label className="ds-form-label">Channel Type</label>
-              <div className="channel-type-selector">
-                <div
-                  className={`channel-type-option ${
-                    type === "text" ? "selected" : ""
-                  }`}
-                  onClick={() => setType("text")}
-                >
-                  <div className="channel-type-icon">
-                    <HashIcon size={20} />
-                  </div>
-                  <div className="channel-type-info">
-                    <div className="channel-type-name">Text Channel</div>
-                    <div className="channel-type-desc">
-                      Send messages, images, GIFs, and more
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className={`channel-type-option ${
-                    type === "voice" ? "selected" : ""
-                  }`}
-                  onClick={() => setType("voice")}
-                >
-                  <div className="channel-type-icon">
-                    <MicIcon size={20} />
-                  </div>
-                  <div className="channel-type-info">
-                    <div className="channel-type-name">Voice Channel</div>
-                    <div className="channel-type-desc">
-                      Hang out together with voice and video
-                    </div>
-                  </div>
+      {mode === "create" && (
+        <div className="form-group">
+          <label className="ds-form-label">Channel Type</label>
+          <div className="channel-type-selector">
+            <div
+              className={`channel-type-option ${
+                type === "text" ? "selected" : ""
+              }`}
+              onClick={() => setType("text")}
+            >
+              <div className="channel-type-icon">
+                <HashIcon size={20} />
+              </div>
+              <div className="channel-type-info">
+                <div className="channel-type-name">Text Channel</div>
+                <div className="channel-type-desc">
+                  Send messages, images, GIFs, and more
                 </div>
               </div>
             </div>
-          )}
-
-          {message && (
-            <div className={`feedback-message ${messageType}`}>{message}</div>
-          )}
+            <div
+              className={`channel-type-option ${
+                type === "voice" ? "selected" : ""
+              }`}
+              onClick={() => setType("voice")}
+            >
+              <div className="channel-type-icon">
+                <MicIcon size={20} />
+              </div>
+              <div className="channel-type-info">
+                <div className="channel-type-name">Voice Channel</div>
+                <div className="channel-type-desc">
+                  Hang out together with voice and video
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      )}
 
-        <div className="channel-modal-footer">
-          {mode === "edit" && (
-            <Button variant="danger" onClick={handleDelete} disabled={loading}>
-              Delete Channel
-            </Button>
-          )}
-          <div className="flex-1" />
-          <Button variant="secondary" onClick={onClose} disabled={loading}>
-            Cancel
-          </Button>
-          <Button
-            variant="primary"
-            onClick={handleSubmit}
-            disabled={loading || !name.trim()}
-          >
-            {loading
-              ? "Saving..."
-              : mode === "create"
-              ? "Create Channel"
-              : "Save Changes"}
-          </Button>
-        </div>
-      </div>
-    </div>
+      {message && (
+        <div className={`feedback-message ${messageType}`}>{message}</div>
+      )}
+    </Modal>
   );
 };
 

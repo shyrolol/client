@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useBeta } from "../../context/BetaContext";
 import { Clock, ExternalLink } from "lucide-react";
+import Modal from "../ui/Modal";
+import { Button } from "../ui";
 
 const BetaExpiryNotice: React.FC = () => {
   const { isBetaAccess, remainingMinutes } = useBeta();
@@ -14,28 +16,34 @@ const BetaExpiryNotice: React.FC = () => {
 
   if (showExpired) {
     return (
-      <div className="beta-expiry-modal-overlay">
-        <div className="beta-expiry-modal">
-          <h2>Thank you for trying Echo Beta!</h2>
-          <p>Your 6-hour beta access has ended. We hope you enjoyed it!</p>
+      <Modal
+        isOpen={true}
+        onClose={() => setShowExpired(false)}
+        title="Thank you for trying Echo Beta!"
+        size="sm"
+        showCloseButton={true}
+      >
+        <div className="text-center">
+          <p className="mb-6 text-gray-300">
+            Your 6-hour beta access has ended. We hope you enjoyed it!
+          </p>
 
-          <div className="beta-expiry-actions">
-            <a
-              href="https://forms.gle/qYNTkKk5gXQBcPkq8"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="beta-feedback-btn"
+          <div className="mb-6">
+            <Button
+              variant="primary"
+              onClick={() => window.open("https://forms.gle/qYNTkKk5gXQBcPkq8", "_blank")}
+              className="w-full"
             >
-              <ExternalLink size={16} />
+              <ExternalLink size={16} className="mr-2" />
               Send Feedback
-            </a>
+            </Button>
           </div>
 
-          <p className="beta-expiry-note">
+          <p className="text-sm text-gray-400">
             Want more access? Join our community or wait for the next beta wave.
           </p>
         </div>
-      </div>
+      </Modal>
     );
   }
 

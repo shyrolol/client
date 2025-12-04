@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useBeta } from "../../context/BetaContext";
+import Modal from "../ui/Modal";
+import { Input, Button } from "../ui";
 import { API_URL } from "../../config";
 
 interface BetaAccessModalProps {
@@ -43,47 +45,60 @@ const BetaAccessModal: React.FC<BetaAccessModalProps> = ({ onClose }) => {
     }
   };
 
+  const footer = (
+    <Button
+      onClick={handleRedeem}
+      disabled={loading || !key.trim()}
+      variant="primary"
+    >
+      {loading ? "Validating..." : "Redeem"}
+    </Button>
+  );
+
+  if (success) {
+    return (
+      <Modal
+        isOpen={true}
+        onClose={onClose}
+        title=""
+        size="sm"
+        showCloseButton={false}
+        closeOnOverlayClick={false}
+      >
+        <div className="text-center">
+          <h2 className="text-green-500 text-2xl font-bold mb-4">Success!</h2>
+          <p className="text-gray-300">Beta access granted. Redirecting...</p>
+        </div>
+      </Modal>
+    );
+  }
+
   return (
-    <div className="beta-modal-overlay" onClick={onClose}>
-      <div className="beta-modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="beta-modal-close" onClick={onClose}>
-          ×
-        </button>
+    <Modal
+      isOpen={true}
+      onClose={onClose}
+      title="Echo Beta Access"
+      size="sm"
+      footer={footer}
+    >
+      <p className="text-center mb-6 text-gray-300">
+        Enter your beta key for free access to Echo !
+      </p>
 
-        {success ? (
-          <div className="beta-success">
-            <h2>Success!</h2>
-            <p>Beta access granted. Redirecting...</p>
-          </div>
-        ) : (
-          <>
-            <h2>Echo Beta Access</h2>
-            <p>Enter your beta key for free access to Echo !</p>
+      <Input
+        type="text"
+        placeholder="Enter beta key"
+        value={key}
+        onChange={(e) => setKey(e.target.value)}
+        onKeyPress={(e) => e.key === "Enter" && handleRedeem()}
+        disabled={loading}
+        autoFocus
+      />
 
-            <div className="beta-form">
-              <input
-                type="text"
-                placeholder="Enter beta key"
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
-                onKeyPress={(e) => e.key === "Enter" && handleRedeem()}
-                disabled={loading}
-                autoFocus
-              />
-              <button
-                onClick={handleRedeem}
-                disabled={loading || !key.trim()}
-                className="beta-submit-btn"
-              >
-                {loading ? "Validating..." : "Redeem"}
-              </button>
-            </div>
-
-            {error && <div className="beta-error">{error}</div>}
-          </>
-        )}
-      </div>
-    </div>
+      {error && (
+        <div className="feedback-message error mt-4">{error}</div>
+      )}
+    </Modal>
   );
 };
 

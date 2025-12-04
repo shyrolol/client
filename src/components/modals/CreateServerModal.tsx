@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNotification } from "../../context/NotificationContext";
+import Modal from "../ui/Modal";
+import { Input, Button } from "../ui";
 import { API_URL } from "../../config";
 
 interface Props {
@@ -38,7 +40,7 @@ const CreateServerModal: React.FC<Props> = ({ onClose, onSuccess }) => {
     }
   };
 
-  const handleJoin = async () => {
+ const handleJoin = async () => {
     if (!inviteCode.trim()) return;
 
     setLoading(true);
@@ -61,82 +63,71 @@ const CreateServerModal: React.FC<Props> = ({ onClose, onSuccess }) => {
     }
   };
 
+  const footer = (
+    <>
+      <div className="flex-1" />
+      <Button variant="secondary" onClick={onClose} disabled={loading}>
+        Cancel
+      </Button>
+      <Button
+        onClick={tab === "create" ? handleCreate : handleJoin}
+        variant="primary"
+        disabled={
+          loading || (tab === "create" ? !name.trim() : !inviteCode.trim())
+        }
+      >
+        {loading
+          ? tab === "create"
+            ? "Creating..."
+            : "Joining..."
+          : tab === "create"
+          ? "Create"
+          : "Join Server"}
+      </Button>
+    </>
+  );
+
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="channel-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="channel-modal-header">
-          <h2>{tab === "create" ? "Create Server" : "Join Server"}</h2>
-          <button className="channel-modal-close" onClick={onClose}>
-            ×
-          </button>
-        </div>
-
-        <div className="channel-modal-body">
-          <div className="modal-tabs">
-            <button
-              className={tab === "create" ? "active" : ""}
-              onClick={() => setTab("create")}
-            >
-              Create
-            </button>
-            <button
-              className={tab === "join" ? "active" : ""}
-              onClick={() => setTab("join")}
-            >
-              Join
-            </button>
-          </div>
-
-          {tab === "create" ? (
-            <div className="form-group">
-              <label className="ds-form-label">Server Name</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Server name"
-                className="input"
-                autoFocus
-              />
-            </div>
-          ) : (
-            <div className="form-group">
-              <label className="ds-form-label">Invite Code</label>
-              <input
-                type="text"
-                value={inviteCode}
-                onChange={(e) => setInviteCode(e.target.value)}
-                placeholder="Enter invite code"
-                className="input"
-                autoFocus
-              />
-            </div>
-          )}
-        </div>
-
-        <div className="channel-modal-footer">
-          <div className="flex-1" />
-          <button onClick={onClose} className="btn-secondary">
-            Cancel
-          </button>
-          <button
-            onClick={tab === "create" ? handleCreate : handleJoin}
-            className="btn-primary"
-            disabled={
-              loading || (tab === "create" ? !name.trim() : !inviteCode.trim())
-            }
-          >
-            {loading
-              ? tab === "create"
-                ? "Creating..."
-                : "Joining..."
-              : tab === "create"
-              ? "Create"
-              : "Join Server"}
-          </button>
-        </div>
+    <Modal
+      isOpen={true}
+      onClose={onClose}
+      title={tab === "create" ? "Create Server" : "Join Server"}
+      size="md"
+      footer={footer}
+    >
+      <div className="modal-tabs">
+        <button
+          className={tab === "create" ? "active" : ""}
+          onClick={() => setTab("create")}
+        >
+          Create
+        </button>
+        <button
+          className={tab === "join" ? "active" : ""}
+          onClick={() => setTab("join")}
+        >
+          Join
+        </button>
       </div>
-    </div>
+
+      {tab === "create" ? (
+        <Input
+          label="Server Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Server name"
+          autoFocus
+        />
+      ) : (
+        <Input
+          label="Invite Code"
+          value={inviteCode}
+          onChange={(e) => setInviteCode(e.target.value)}
+          placeholder="Enter invite code"
+          autoFocus
+        />
+      )}
+    </Modal>
   );
 };
 

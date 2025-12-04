@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useNotification } from "../../context/NotificationContext";
+import Modal from "../ui/Modal";
+import { Input, Button } from "../ui";
 import { API_URL } from "../../config";
 
 interface MemberContextMenuProps {
@@ -133,93 +135,75 @@ const MemberContextMenu: React.FC<MemberContextMenuProps> = ({
       )}
 
       {showKickModal && (
-        <div className="modal-overlay" onClick={() => setShowKickModal(false)}>
-          <div className="channel-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="channel-modal-header">
-              <h2>Kick {memberName}</h2>
-              <button
-                className="channel-modal-close"
-                onClick={() => setShowKickModal(false)}
-              >
-                ×
-              </button>
-            </div>
-            <div className="channel-modal-body">
-              <div className="form-group">
-                <label className="ds-form-label">Reason (optional)</label>
-                <input
-                  type="text"
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  placeholder="Reason for kicking this member"
-                  className="input"
-                  autoFocus
-                />
-              </div>
-            </div>
-            <div className="channel-modal-footer">
-              <div className="flex-1" />
-              <button
-                onClick={() => setShowKickModal(false)}
-                className="btn-secondary"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleKick}
-                className="btn-primary danger"
-                disabled={loading}
-              >
-                {loading ? "Kicking..." : "Kick"}
-              </button>
-            </div>
+        <Modal
+          isOpen={true}
+          onClose={() => setShowKickModal(false)}
+          title={`Kick ${memberName}`}
+          size="sm"
+          variant="danger"
+        >
+          <Input
+            label="Reason (optional)"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            placeholder="Reason for kicking this member"
+            autoFocus
+          />
+          <div className="form-actions mt-6">
+            <div className="flex-1" />
+            <Button
+              variant="secondary"
+              onClick={() => setShowKickModal(false)}
+              disabled={loading}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleKick}
+              variant="primary"
+              disabled={loading}
+              className="bg-red-500 hover:bg-red-600"
+            >
+              {loading ? "Kicking..." : "Kick"}
+            </Button>
           </div>
-        </div>
+        </Modal>
       )}
 
       {showBanModal && (
-        <div className="modal-overlay" onClick={() => setShowBanModal(false)}>
-          <div className="channel-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="channel-modal-header">
-              <h2>Ban {memberName}</h2>
-              <button
-                className="channel-modal-close"
-                onClick={() => setShowBanModal(false)}
-              >
-                ×
-              </button>
-            </div>
-            <div className="channel-modal-body">
-              <div className="form-group">
-                <label className="ds-form-label">Reason (optional)</label>
-                <input
-                  type="text"
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  placeholder="Reason for banning this member"
-                  className="input"
-                  autoFocus
-                />
-              </div>
-            </div>
-            <div className="channel-modal-footer">
-              <div className="flex-1" />
-              <button
-                onClick={() => setShowBanModal(false)}
-                className="btn-secondary"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleBan}
-                className="btn-primary danger"
-                disabled={loading}
-              >
-                {loading ? "Banning..." : "Ban"}
-              </button>
-            </div>
+        <Modal
+          isOpen={true}
+          onClose={() => setShowBanModal(false)}
+          title={`Ban ${memberName}`}
+          size="sm"
+          variant="danger"
+        >
+          <Input
+            label="Reason (optional)"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            placeholder="Reason for banning this member"
+            autoFocus
+          />
+          <div className="form-actions mt-6">
+            <div className="flex-1" />
+            <Button
+              variant="secondary"
+              onClick={() => setShowBanModal(false)}
+              disabled={loading}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleBan}
+              variant="primary"
+              disabled={loading}
+              className="bg-red-500 hover:bg-red-600"
+            >
+              {loading ? "Banning..." : "Ban"}
+            </Button>
           </div>
-        </div>
+        </Modal>
       )}
     </>
   );
