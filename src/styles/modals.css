@@ -1,12 +1,13 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: var(--z-modal);
+  animation: fadeIn var(--transition-fast);
 }
 
 .modal-overlay-transparent {
@@ -16,19 +17,18 @@
   pointer-events: auto;
 }
 
-
-
 .settings-modal {
   background: var(--bg-primary);
   width: 90vw;
   max-width: 1200px;
   height: 85vh;
   max-height: 800px;
-  border-radius: var(--radius-none);
+  border-radius: var(--radius-lg);
   display: flex;
   overflow: hidden;
-  box-shadow: var(--shadow-subtle);
-  border: none;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-primary);
+  animation: scaleIn var(--transition-smooth);
 }
 
 .settings-sidebar {
@@ -37,7 +37,7 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  border-right: 1px solid var(--divider-subtle);
+  border-right: 1px solid var(--border-secondary);
 }
 
 .settings-sidebar-header {
@@ -63,18 +63,18 @@
 
 .settings-tab {
   padding: var(--space-sm) var(--space-lg);
-  border-radius: var(--radius-none);
+  border-radius: var(--radius-md);
   cursor: pointer;
   color: var(--text-secondary);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
-  transition: all var(--transition-base);
+  transition: all var(--transition-fast);
   display: flex;
   align-items: center;
   gap: var(--space-md);
   position: relative;
   margin: 0 var(--space-md);
-  margin-bottom: 1px;
+  margin-bottom: 2px;
 }
 
 .settings-tab:hover {
@@ -687,12 +687,13 @@
   background: var(--bg-secondary);
   width: 90vw;
   max-width: 500px;
-  border-radius: var(--radius-none);
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: var(--shadow-subtle);
-  border: none;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-primary);
+  animation: scaleIn var(--transition-smooth);
 }
 
 .channel-modal-header {
