@@ -132,7 +132,6 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
     setSaving(true);
     setMessage("");
     try {
-      
       const payload: any = {};
       const trimmedName = serverName.trim();
       if (
@@ -164,7 +163,6 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
         );
       }
 
-      
       if (Object.keys(payload).length === 0) {
         setMessageType("success");
         setMessage("No changes to save");
@@ -366,18 +364,8 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
           <div className="settings-content-body">
             {tab === "overview" && isOwner && (
               <div className="settings-section">
-                <div
-                  className="profile-card"
-                  style={{ border: "none", padding: 0, marginBottom: "20px" }}
-                >
-                  <div
-                    className="profile-avatar-wrapper"
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      margin: "0 auto",
-                    }}
-                  >
+                <div className="profile-card">
+                  <div className="profile-avatar-wrapper">
                     <div
                       className="avatar-overlay"
                       onClick={() => fileInputRef.current?.click()}
@@ -392,7 +380,10 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
                       accept="image/*"
                     />
                     <img
-                      src={serverIcon || "https://example.com/default-server-icon.png"}
+                      src={
+                        serverIcon ||
+                        "https://example.com/default-server-icon.png"
+                      }
                       alt="server icon"
                       className="profile-avatar"
                     />

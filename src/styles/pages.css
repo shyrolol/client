@@ -603,18 +603,20 @@
 }
 
 /* ========================================
-   MEMBERS SIDEBAR (240px)
+   MEMBERS SIDEBAR (280px - wider)
    ======================================== */
 .members-sidebar {
-  width: 240px;
-  min-width: 240px;
-  max-width: 240px;
+  width: 280px;
+  min-width: 280px;
+  max-width: 280px;
   height: 100%;
   background-color: var(--bg-secondary);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  border: none;
+  box-shadow: none;
 }
 
 /* ========================================
