@@ -69,19 +69,22 @@
   font-size: 16px;
   color: var(--text-normal);
   cursor: pointer;
-  transition: border-radius 0.2s, background-color 0.2s;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   flex-shrink: 0;
 }
 
 .server-icon:hover {
   background-color: var(--accent);
-  border-radius: 16px;
+  border-radius: 14px;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
 }
 
 .server-icon.active {
   background-color: var(--accent);
-  border-radius: 16px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
 }
 
 .server-icon.home-icon,
