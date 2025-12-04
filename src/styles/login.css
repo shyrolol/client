@@ -1,21 +1,20 @@
 .login-container {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   min-height: 100vh;
-  width: 100vw;
-  background-color: var(--bg-primary);
+  background-color: var(--bg-tertiary);
   padding: 16px;
 }
 
 .login-box {
   width: 100%;
   max-width: 480px;
-  background-color: var(--bg-tertiary);
+  background-color: var(--bg-primary);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-high);
   padding: 32px;
-  animation: scaleIn var(--transition-normal);
+  animation: fadeIn var(--transition-normal);
 }
 
 .login-header {
@@ -32,65 +31,68 @@
 
 .login-header p {
   font-size: 16px;
-  color: var(--header-secondary);
-  line-height: 1.4;
+  color: var(--text-muted);
 }
 
-.google-login-btn {
+.login-google-btn {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  background-color: var(--header-primary);
-  color: var(--bg-primary);
-  padding: 12px 16px;
+  padding: 12px 24px;
   min-height: 44px;
-  border-radius: var(--radius-sm);
   font-size: 16px;
   font-weight: 500;
+  color: var(--header-primary);
+  background-color: var(--bg-secondary);
   border: none;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: background-color var(--transition-fast);
 }
 
-.google-login-btn:hover {
-  background-color: #e0e0e0;
-  transform: translateY(-1px);
+.login-google-btn:hover {
+  background-color: var(--bg-mod-subtle);
 }
 
-.google-login-btn:active {
-  transform: translateY(0);
+.login-google-btn img,
+.login-google-btn svg {
+  width: 20px;
+  height: 20px;
 }
 
 .login-footer {
+  margin-top: 24px;
   text-align: center;
-  margin-top: 20px;
-}
-
-.beta-link {
-  background: none;
-  border: none;
-  color: var(--text-muted);
   font-size: 14px;
-  cursor: pointer;
-  transition: color var(--transition-fast);
-  padding: 8px;
+  color: var(--text-muted);
 }
 
-.beta-link:hover {
+.login-footer a {
   color: var(--text-link);
 }
 
+.beta-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--text-link);
+  cursor: pointer;
+}
+
+.beta-link:hover {
+  text-decoration: underline;
+}
+
 .beta-error {
-  background-color: rgba(237, 66, 69, 0.1);
-  color: var(--danger);
-  padding: 12px 16px;
+  margin-top: 12px;
+  padding: 12px;
+  background-color: rgba(218, 55, 60, 0.1);
   border-radius: var(--radius-sm);
+  color: var(--danger);
   font-size: 14px;
   text-align: center;
-  border: 1px solid rgba(237, 66, 69, 0.3);
-  animation: shake 0.3s ease;
 }
 
 .maintenance-container {
@@ -99,27 +101,75 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  width: 100vw;
-  background-color: var(--bg-primary);
+  background-color: var(--bg-tertiary);
   padding: 32px;
   text-align: center;
 }
 
-.maintenance-icon {
-  font-size: 64px;
-  margin-bottom: 24px;
-}
-
-.maintenance-title {
+.maintenance-container h1 {
   font-size: 32px;
   font-weight: 700;
   color: var(--header-primary);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
-.maintenance-message {
+.maintenance-container p {
   font-size: 16px;
   color: var(--text-muted);
   max-width: 400px;
-  line-height: 1.5;
+}
+
+.beta-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  animation: fadeIn var(--transition-fast);
+}
+
+.beta-modal {
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-high);
+  padding: 24px;
+  animation: scaleIn var(--transition-normal);
+}
+
+.beta-modal h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--header-primary);
+  margin-bottom: 8px;
+}
+
+.beta-modal p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.beta-modal input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  color: var(--text-normal);
+  background-color: var(--bg-tertiary);
+  border: none;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+}
+
+.beta-modal input::placeholder {
+  color: var(--text-muted);
+}
+
+.beta-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
 }
