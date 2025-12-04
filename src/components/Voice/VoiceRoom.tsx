@@ -5,7 +5,7 @@ import {
   HeadphoneIcon,
   HeadphoneOffIcon,
   PhoneOffIcon,
-} from "./Icons";
+} from "../ui/Icons";
 
 interface VoiceUser {
   id: string;

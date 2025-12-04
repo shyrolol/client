@@ -1,4 +1,3 @@
-/* Modals - Minimaliste */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -17,9 +16,7 @@
   pointer-events: auto;
 }
 
-/* ============================================
-   SETTINGS MODAL 2.0 - Minimaliste & Moderne
-   ============================================ */
+
 
 .settings-modal {
   background: var(--bg-primary);
@@ -190,7 +187,7 @@
   line-height: var(--line-height);
 }
 
-/* Profile Card */
+
 .profile-card {
   background: transparent;
   border-radius: var(--radius-none);
@@ -292,7 +289,7 @@
   margin-top: var(--space-xs);
 }
 
-/* Form Elements */
+
 .form-group {
   margin-bottom: 0;
   padding: var(--space-lg) var(--space-xl);
@@ -355,7 +352,7 @@
 
 .select {
   padding-right: var(--space-3xl);
-  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23a0a0a0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%2372767D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right var(--space-md) center;
   appearance: none;
@@ -379,7 +376,7 @@
   cursor: not-allowed;
 }
 
-/* Theme Selector */
+
 .theme-selector {
   display: flex;
   gap: var(--space-md);
@@ -429,18 +426,16 @@
 }
 
 .theme-preview.dark {
-  background: linear-gradient(
-    135deg,
-    var(--bg-primary) 0%,
-    var(--bg-secondary) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--bg-primary) 0%,
+      var(--bg-secondary) 100%);
 }
 
 .theme-preview.light {
   background: linear-gradient(135deg, #ffffff 0%, #f2f3f5 100%);
 }
 
-/* Color Picker */
+
 .color-picker {
   width: 48px;
   height: 48px;
@@ -482,7 +477,7 @@
   flex: 1;
 }
 
-/* Form Actions */
+
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -529,7 +524,7 @@
   font-size: var(--font-size-large);
 }
 
-/* Members List */
+
 .members-list {
   display: flex;
   flex-direction: column;
@@ -574,7 +569,7 @@
   text-transform: capitalize;
 }
 
-/* Feedback Message */
+
 .feedback-message {
   padding: var(--space-md) var(--space-lg);
   margin-top: var(--space-md);
@@ -598,7 +593,7 @@
   border-left-color: var(--text-muted);
 }
 
-/* Volume Slider - Style amélioré */
+
 .volume-slider-container {
   display: flex;
   align-items: center;
@@ -687,7 +682,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Channel Modal & Create Server Modal - Structure identique */
+
 .channel-modal {
   background: var(--bg-secondary);
   width: 90vw;
@@ -754,7 +749,7 @@
   flex-shrink: 0;
 }
 
-/* Channel Type Selector */
+
 .channel-type-selector {
   display: flex;
   flex-direction: column;
@@ -832,7 +827,7 @@
   flex-shrink: 0;
 }
 
-/* Modal Tabs - CreateServerModal */
+
 .modal-tabs {
   display: flex;
   gap: var(--space-sm);
@@ -870,7 +865,7 @@
   background-color: var(--accent);
 }
 
-/* Invite Code Container */
+
 .invite-code-container {
   display: flex;
   gap: var(--space-md);
@@ -881,7 +876,7 @@
   flex: 1;
 }
 
-/* Animations */
+
 .fade-in {
   animation: fadeIn var(--transition-base);
 }
@@ -891,6 +886,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -901,7 +897,7 @@
   animation: fadeIn var(--transition-base);
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .settings-modal {
     flex-direction: column;
@@ -1437,13 +1433,14 @@
     transform: translateY(-100%);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
   }
 }
 
-/* Notification System */
+
 .notification-container {
   position: fixed;
   top: var(--space-lg);
@@ -1480,6 +1477,7 @@
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -1498,7 +1496,7 @@
   border-left-color: var(--accent);
 }
 
-/* Confirm Dialog */
+
 .confirm-dialog-overlay {
   position: fixed;
   inset: 0;
@@ -1526,6 +1524,7 @@
     transform: translateY(20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -1565,6 +1564,3 @@
   gap: var(--space-md);
   justify-content: flex-end;
 }
-
-
-

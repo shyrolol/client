@@ -26,15 +26,15 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const newSocket = io(BASE_URL, {
       withCredentials: true,
-      transports: ["websocket", "polling"], // Force transports for better compatibility
+      transports: ["websocket", "polling"],
     });
 
     newSocket.on("connect", () => {
-      console.log("✅ Socket connected:", newSocket.id);
+
     });
 
-    newSocket.on("connect_error", (err) => {
-      console.error("❌ Socket connection error:", err);
+    newSocket.on("connect_error", () => {
+
     });
 
     setSocket(newSocket);
@@ -42,7 +42,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => {
       newSocket.close();
     };
-  }, [user?.id]); // Reconnect when user ID changes
+  }, [user?.id]);
 
   useEffect(() => {
     if (!socket || !user) return;

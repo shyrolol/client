@@ -25,7 +25,7 @@ export const useUnreadIndicators = (
   );
   const [dmUnreads, setDmUnreads] = useState<Map<string, number>>(new Map());
 
-  // Load initial unread counts from server
+  
   useEffect(() => {
     if (!user) return;
 
@@ -41,54 +41,54 @@ export const useUnreadIndicators = (
           if (conv.unreadCount && conv.unreadCount > 0) {
             newDmUnreads.set(conv.id, conv.unreadCount);
           } else {
-            // Ensure we remove entries that are now read
+            
             newDmUnreads.delete(conv.id);
           }
         });
 
         setDmUnreads(newDmUnreads);
       } catch (error) {
-        // Silent fail
+        
       }
     };
 
     loadDMUnreads();
   }, [user]);
 
-  // Mark channel as read
+  
   const markChannelAsRead = useCallback(
     (channelId: string) => {
       if (!socket || !user) return;
 
-      // Clear local unread count
+      
       setChannelUnreads((prev) => {
         const newMap = new Map(prev);
         newMap.delete(channelId);
         return newMap;
       });
 
-      // Notify server
+      
       socket.emit('mark_read', { channelId });
     },
     [socket, user]
   );
 
-  // Mark DM as read
+  
   const markDMAsRead = useCallback(
     (dmUserId: string) => {
       if (!socket || !user) return;
 
-      // Clear local unread count immediately
+      
       setDmUnreads((prev) => {
         const newMap = new Map(prev);
         newMap.delete(dmUserId);
         return newMap;
       });
 
-      // Notify server
+      
       socket.emit('mark_read', { dmUserId });
 
-      // Reload unread counts from server after a short delay to ensure sync
+      
       setTimeout(async () => {
         try {
           const response = await axios.get(`${API_URL}/dms/conversations`, {
@@ -105,14 +105,14 @@ export const useUnreadIndicators = (
 
           setDmUnreads(newDmUnreads);
         } catch (error) {
-          // Silent fail
+          
         }
       }, 500);
     },
     [socket, user]
   );
 
-  // Auto-mark active channel/DM as read
+  
   useEffect(() => {
     if (activeChannelId) {
       markChannelAsRead(activeChannelId);
@@ -125,17 +125,17 @@ export const useUnreadIndicators = (
     }
   }, [activeDMUserId, markDMAsRead]);
 
-  // Listen for new messages
+  
   useEffect(() => {
     if (!socket) return;
 
     const handleNewMessage = (message: any) => {
-      // Don't increment if message is from current user
+      
       if (message.userId === user?.id) return;
 
-      // Channel message
+      
       if (message.channelId) {
-        // Don't increment if user is viewing this channel
+        
         if (message.channelId === activeChannelId) {
           markChannelAsRead(message.channelId);
           return;
@@ -149,12 +149,12 @@ export const useUnreadIndicators = (
         });
       }
 
-      // DM message
+      
       if (message.dmUserId) {
-        // Sender is the DM partner
+        
         const dmPartnerId = message.userId;
 
-        // Don't increment if user is viewing this DM
+        
         if (dmPartnerId === activeDMUserId) {
           markDMAsRead(dmPartnerId);
           return;

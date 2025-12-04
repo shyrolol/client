@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
-import { useNotification } from "../context/NotificationContext";
-import { API_URL } from "../config";
+import { useAuth } from "../../context/AuthContext";
+import { useNotification } from "../../context/NotificationContext";
+import { API_URL } from "../../config";
 
 interface Props {
   onClose: () => void;
   position?: { top?: number; left?: number; bottom?: number; right?: number };
 }
-
-
 
 const UserStatusPicker: React.FC<Props> = ({ onClose, position }) => {
   const { user, setUser } = useAuth();
@@ -20,22 +18,29 @@ const UserStatusPicker: React.FC<Props> = ({ onClose, position }) => {
     try {
       if (!user) return;
 
-      // API call first
+      
       const response = await axios.patch(
         `${API_URL}/users/status`,
         { status, customStatus: customText || null },
         { withCredentials: true }
       );
 
-      // Update local state after successful API call
-      const updatedUser = { ...user, status: response.data.status, customStatus: response.data.customStatus };
+      
+      const updatedUser = {
+        ...user,
+        status: response.data.status,
+        customStatus: response.data.customStatus,
+      };
       setUser(updatedUser);
       localStorage.setItem("userStatus", status);
 
       onClose();
     } catch (error: any) {
       console.error("Failed to update status", error);
-      showNotification(error?.response?.data?.error || "Failed to update status", "error");
+      showNotification(
+        error?.response?.data?.error || "Failed to update status",
+        "error"
+      );
     }
   };
 
@@ -50,12 +55,18 @@ const UserStatusPicker: React.FC<Props> = ({ onClose, position }) => {
           { withCredentials: true }
         );
 
-        const updatedUser = { ...user, customStatus: response.data.customStatus };
+        const updatedUser = {
+          ...user,
+          customStatus: response.data.customStatus,
+        };
         setUser(updatedUser);
 
         onClose();
       } catch (error: any) {
-        showNotification(error?.response?.data?.error || "Failed to update status", "error");
+        showNotification(
+          error?.response?.data?.error || "Failed to update status",
+          "error"
+        );
       }
     }
   };
@@ -63,7 +74,11 @@ const UserStatusPicker: React.FC<Props> = ({ onClose, position }) => {
   return (
     <>
       <div className="user-status-picker-overlay" onClick={onClose}></div>
-      <div className="user-status-picker" style={position} onClick={(e) => e.stopPropagation()}>
+      <div
+        className="user-status-picker"
+        style={position}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div
           className="status-option"
           onClick={(e) => {
@@ -105,7 +120,10 @@ const UserStatusPicker: React.FC<Props> = ({ onClose, position }) => {
           <span>Invisible</span>
         </div>
 
-        <div className="custom-status-input" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="custom-status-input"
+          onClick={(e) => e.stopPropagation()}
+        >
           <input
             type="text"
             placeholder="Set a custom status..."

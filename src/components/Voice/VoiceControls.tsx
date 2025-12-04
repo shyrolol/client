@@ -7,7 +7,7 @@ import {
   PhoneOffIcon,
   ScreenShareIcon,
   ScreenShareOffIcon,
-} from "../Icons";
+} from "../ui/Icons";
 
 interface VoiceControlsProps {
   isMuted: boolean;

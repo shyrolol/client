@@ -1,34 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+@import url('https:fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-  /* Couleurs dominantes - Noir & Gris */
+
   --bg-primary: #000000;
   --bg-secondary: #0f0f0f;
   --bg-tertiary: #1a1a1a;
   --bg-quaternary: #252525;
-  
-  /* Gris pour structurer */
+
+
   --gray-dark: #0f0f0f;
   --gray-medium: #1a1a1a;
   --gray-light: #2a2a2a;
-  
-  /* Texte - Gris clair uniquement */
+
+
   --text-primary: #e0e0e0;
   --text-secondary: #a0a0a0;
   --text-muted: #707070;
-  
-  /* Accent color - Unique, utilisé avec parcimonie */
+
+
   --accent: #5865f2;
   --accent-hover: #4752c4;
-  
-  /* Séparations - Différences de tonalité uniquement */
+
+
   --divider-subtle: rgba(255, 255, 255, 0.05);
   --divider-visible: rgba(255, 255, 255, 0.08);
-  
-  /* Ombre unique et diffuse */
+
+
   --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.3);
-  
-  /* Spacing minimal */
+
+
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 12px;
@@ -36,34 +36,34 @@
   --space-xl: 20px;
   --space-2xl: 24px;
   --space-3xl: 32px;
-  
-  /* Border radius - Minimal ou inexistant */
+
+
   --radius-none: 0;
   --radius-sm: 2px;
   --radius-md: 4px;
-  
-  /* Typographie - 2 tailles max */
+
+
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-size-base: 14px;
   --font-size-large: 16px;
-  
+
   --font-weight-light: 300;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
-  
+
   --line-height: 1.5;
-  
-  /* Transitions - Légères uniquement */
+
+
   --transition-base: 0.2s ease;
-  
-  /* Z-Index */
+
+
   --z-base: 1;
   --z-dropdown: 100;
   --z-sticky: 200;
   --z-modal: 1000;
-  
-  /* Legacy aliases pour compatibilité */
+
+
   --bg-dark: var(--bg-primary);
   --bg-darker: var(--bg-secondary);
   --bg-medium: var(--bg-tertiary);
@@ -104,7 +104,7 @@ body {
   overflow: hidden;
 }
 
-/* Scrollbar minimaliste */
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -123,31 +123,64 @@ body {
   background: var(--bg-quaternary);
 }
 
-/* Focus minimaliste */
+
 *:focus-visible {
   outline: 1px solid var(--accent);
   outline-offset: 1px;
 }
 
-/* Utility classes minimalistes */
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.flex-1 { flex: 1; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.w-full { width: 100%; }
-.h-full { height: 100%; }
-.relative { position: relative; }
-.absolute { position: absolute; }
-.fixed { position: fixed; }
-.inset-0 { inset: 0; }
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.inset-0 {
+  inset: 0;
+}
+
 .truncate {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-/* Screen reader only */
+
 .sr-only {
   position: absolute;
   width: 1px;

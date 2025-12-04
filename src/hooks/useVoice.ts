@@ -137,7 +137,7 @@ export const useVoice = (channelId: string | null) => {
 
   const setupRemoteAudioAnalysis = (stream: MediaStream, socketId: string) => {
     try {
-      // Create a new audio context for this specific peer
+      
       const audioContext = new (window.AudioContext ||
         (window as any).webkitAudioContext)();
       remoteAudioContextsRef.current[socketId] = audioContext;
@@ -170,7 +170,7 @@ export const useVoice = (channelId: string | null) => {
 
       checkAudioLevel();
     } catch (error) {
-      // Silent fail
+      
     }
   };
 
@@ -242,13 +242,13 @@ export const useVoice = (channelId: string | null) => {
       delete audioElementsRef.current[socketId];
     }
 
-    // Clean up remote audio context
+    
     if (remoteAudioContextsRef.current[socketId]) {
       remoteAudioContextsRef.current[socketId].close();
       delete remoteAudioContextsRef.current[socketId];
     }
 
-    // Clean up remote animation frame
+    
     if (remoteAnimationFramesRef.current[socketId]) {
       cancelAnimationFrame(remoteAnimationFramesRef.current[socketId]);
       delete remoteAnimationFramesRef.current[socketId];
@@ -308,7 +308,7 @@ export const useVoice = (channelId: string | null) => {
     });
 
     peer.on('error', () => {
-      // Silent fail
+      
     });
 
     peer.on('close', () => {
@@ -475,13 +475,13 @@ export const useVoice = (channelId: string | null) => {
     gainNodeRef.current = null;
     analyserRef.current = null;
 
-    // Clean up all remote audio contexts
+    
     Object.values(remoteAudioContextsRef.current).forEach((ctx) => {
       ctx.close();
     });
     remoteAudioContextsRef.current = {};
 
-    // Clean up all remote animation frames
+    
     Object.values(remoteAnimationFramesRef.current).forEach((frameId) => {
       cancelAnimationFrame(frameId);
     });
@@ -546,7 +546,7 @@ export const useVoice = (channelId: string | null) => {
               peer.peer.removeStream(currentStream);
             }
           } catch (error) {
-            // Silent fail
+            
           }
         });
       }, 50);
@@ -589,7 +589,7 @@ export const useVoice = (channelId: string | null) => {
         };
       });
     } catch (error) {
-      // Silent fail
+      
     }
   }, [isScreenSharing, user, stopScreenShare]);
 

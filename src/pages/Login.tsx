@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import BetaAccessModal from "../components/BetaAccessModal";
+import BetaAccessModal from "../components/modals/BetaAccessModal";
 import "../styles/login.css";
 
 import { API_URL } from "../config";
@@ -9,7 +9,7 @@ const Login: React.FC = () => {
   const [betaError, setBetaError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check for beta error message from redirect
+    
     const error = localStorage.getItem("betaError");
     if (error) {
       setBetaError(error);
@@ -66,7 +66,7 @@ const Login: React.FC = () => {
 
         <div className="login-footer">
           <button
-            className="link-btn"
+            className="beta-link"
             onClick={() => setShowBeta(true)}
             type="button"
           >

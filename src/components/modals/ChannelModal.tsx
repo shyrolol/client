@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { HashIcon, MicIcon, DeleteIcon } from './Icons';
-import { Input, Button } from './ui';
-import { useNotification } from '../context/NotificationContext';
-import { API_URL } from '../config';
-
+import React, { useState } from "react";
+import axios from "axios";
+import { HashIcon, MicIcon, DeleteIcon } from "../ui/Icons";
+import { Input, Button } from "../ui";
+import { useNotification } from "../../context/NotificationContext";
+import { API_URL } from "../../config";
 
 interface Props {
   serverId: string;
@@ -22,50 +21,52 @@ const ChannelModal: React.FC<Props> = ({
   onSuccess,
 }) => {
   const { showNotification, showConfirm } = useNotification();
-  const [name, setName] = useState(channel?.name || '');
-  const [type, setType] = useState<'text' | 'voice'>(
-    (channel as any)?.type === 'voice' ? 'voice' : 'text'
+  const [name, setName] = useState(channel?.name || "");
+  const [type, setType] = useState<"text" | "voice">(
+    (channel as any)?.type === "voice" ? "voice" : "text"
   );
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-  const [messageType, setMessageType] = useState<'success' | 'error'>('success');
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState<"success" | "error">(
+    "success"
+  );
 
   const handleSubmit = async () => {
     if (!name.trim()) {
-      setMessageType('error');
-      setMessage('Channel name is required');
-      setTimeout(() => setMessage(''), 3000);
+      setMessageType("error");
+      setMessage("Channel name is required");
+      setTimeout(() => setMessage(""), 3000);
       return;
     }
 
     setLoading(true);
-    setMessage('');
+    setMessage("");
     try {
-      if (mode === 'create') {
+      if (mode === "create") {
         await axios.post(
           `${API_URL}/channels`,
           { serverId, name: name.trim(), type },
           { withCredentials: true }
         );
-        setMessageType('success');
-        setMessage('Channel created successfully!');
+        setMessageType("success");
+        setMessage("Channel created successfully!");
       } else if (channel) {
         await axios.patch(
           `${API_URL}/channels/${channel.id}`,
           { name: name.trim() },
           { withCredentials: true }
         );
-        setMessageType('success');
-        setMessage('Channel updated successfully!');
+        setMessageType("success");
+        setMessage("Channel updated successfully!");
       }
       setTimeout(() => {
         onSuccess();
         onClose();
       }, 1000);
     } catch (error: any) {
-      setMessageType('error');
-      setMessage(error?.response?.data?.error || 'Failed to save channel');
-      setTimeout(() => setMessage(''), 5000);
+      setMessageType("error");
+      setMessage(error?.response?.data?.error || "Failed to save channel");
+      setTimeout(() => setMessage(""), 5000);
     } finally {
       setLoading(false);
     }
@@ -75,7 +76,7 @@ const ChannelModal: React.FC<Props> = ({
     if (!channel) return;
 
     showConfirm(
-      'Delete Channel',
+      "Delete Channel",
       `Are you sure you want to delete #${channel.name}? This action cannot be undone.`,
       async () => {
         setLoading(true);
@@ -83,19 +84,22 @@ const ChannelModal: React.FC<Props> = ({
           await axios.delete(`${API_URL}/channels/${channel.id}`, {
             withCredentials: true,
           });
-          showNotification('Channel deleted successfully', 'success');
+          showNotification("Channel deleted successfully", "success");
           onSuccess();
           onClose();
         } catch (error: any) {
-          showNotification(error?.response?.data?.error || 'Failed to delete channel', 'error');
+          showNotification(
+            error?.response?.data?.error || "Failed to delete channel",
+            "error"
+          );
         } finally {
           setLoading(false);
         }
       },
       undefined,
-      'Delete',
-      'Cancel',
-      'danger'
+      "Delete",
+      "Cancel",
+      "danger"
     );
   };
 
@@ -103,7 +107,7 @@ const ChannelModal: React.FC<Props> = ({
     <div className="modal-overlay" onClick={onClose}>
       <div className="channel-modal" onClick={(e) => e.stopPropagation()}>
         <div className="channel-modal-header">
-          <h2>{mode === 'create' ? 'Create Channel' : 'Edit Channel'}</h2>
+          <h2>{mode === "create" ? "Create Channel" : "Edit Channel"}</h2>
           <button className="channel-modal-close" onClick={onClose}>
             ×
           </button>
@@ -119,13 +123,15 @@ const ChannelModal: React.FC<Props> = ({
             maxLength={100}
           />
 
-          {mode === 'create' && (
+          {mode === "create" && (
             <div className="form-group">
               <label className="ds-form-label">Channel Type</label>
               <div className="channel-type-selector">
                 <div
-                  className={`channel-type-option ${type === 'text' ? 'selected' : ''}`}
-                  onClick={() => setType('text')}
+                  className={`channel-type-option ${
+                    type === "text" ? "selected" : ""
+                  }`}
+                  onClick={() => setType("text")}
                 >
                   <div className="channel-type-icon">
                     <HashIcon size={20} />
@@ -138,8 +144,10 @@ const ChannelModal: React.FC<Props> = ({
                   </div>
                 </div>
                 <div
-                  className={`channel-type-option ${type === 'voice' ? 'selected' : ''}`}
-                  onClick={() => setType('voice')}
+                  className={`channel-type-option ${
+                    type === "voice" ? "selected" : ""
+                  }`}
+                  onClick={() => setType("voice")}
                 >
                   <div className="channel-type-icon">
                     <MicIcon size={20} />
@@ -161,7 +169,7 @@ const ChannelModal: React.FC<Props> = ({
         </div>
 
         <div className="channel-modal-footer">
-          {mode === 'edit' && (
+          {mode === "edit" && (
             <Button variant="danger" onClick={handleDelete} disabled={loading}>
               <DeleteIcon size={16} />
               Delete
@@ -177,10 +185,10 @@ const ChannelModal: React.FC<Props> = ({
             disabled={loading || !name.trim()}
           >
             {loading
-              ? 'Saving...'
-              : mode === 'create'
-              ? 'Create Channel'
-              : 'Save Changes'}
+              ? "Saving..."
+              : mode === "create"
+              ? "Create Channel"
+              : "Save Changes"}
           </Button>
         </div>
       </div>

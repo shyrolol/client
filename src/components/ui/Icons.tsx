@@ -16,6 +16,7 @@ import {
   Image,
   Keyboard,
   LogOut,
+  Menu,
   Mic,
   MicOff,
   MoreVertical,
@@ -110,3 +111,4 @@ export const UserCheckIcon = createIcon(UserCheck);
 export const UserPlusIcon = createIcon(UserPlus);
 export const UserXIcon = createIcon(UserX);
 export const XIcon = createIcon(X);
+export const MenuIcon = createIcon(Menu);

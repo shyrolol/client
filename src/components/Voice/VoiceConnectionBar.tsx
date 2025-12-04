@@ -5,7 +5,7 @@ import {
   HeadphoneIcon,
   HeadphoneOffIcon,
   PhoneOffIcon,
-} from "../Icons";
+} from "../ui/Icons";
 
 interface VoiceConnectionBarProps {
   channelName?: string;
@@ -32,7 +32,7 @@ const VoiceConnectionBar: React.FC<VoiceConnectionBarProps> = ({
     "connected" | "connecting" | "reconnecting"
   >("connected");
 
-  // Simulate ping updates
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setPing(Math.floor(Math.random() * 100) + 20);

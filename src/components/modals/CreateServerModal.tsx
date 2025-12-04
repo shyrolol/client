@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNotification } from '../context/NotificationContext';
-import { API_URL } from '../config';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNotification } from "../../context/NotificationContext";
+import { API_URL } from "../../config";
 
 interface Props {
   onClose: () => void;
@@ -10,22 +10,29 @@ interface Props {
 
 const CreateServerModal: React.FC<Props> = ({ onClose, onSuccess }) => {
   const { showNotification } = useNotification();
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
-  const [tab, setTab] = useState<'create' | 'join'>('create');
-  const [inviteCode, setInviteCode] = useState('');
+  const [tab, setTab] = useState<"create" | "join">("create");
+  const [inviteCode, setInviteCode] = useState("");
 
   const handleCreate = async () => {
     if (!name.trim()) return;
-    
+
     setLoading(true);
     try {
-      await axios.post(`${API_URL}/servers`, { name }, { withCredentials: true });
-      showNotification('Server created successfully', 'success');
+      await axios.post(
+        `${API_URL}/servers`,
+        { name },
+        { withCredentials: true }
+      );
+      showNotification("Server created successfully", "success");
       onSuccess();
       onClose();
     } catch (error: any) {
-      showNotification(error?.response?.data?.error || 'Failed to create server', 'error');
+      showNotification(
+        error?.response?.data?.error || "Failed to create server",
+        "error"
+      );
     } finally {
       setLoading(false);
     }
@@ -33,15 +40,22 @@ const CreateServerModal: React.FC<Props> = ({ onClose, onSuccess }) => {
 
   const handleJoin = async () => {
     if (!inviteCode.trim()) return;
-    
+
     setLoading(true);
     try {
-      await axios.post(`${API_URL}/servers/join/${inviteCode}`, {}, { withCredentials: true });
-      showNotification('You have joined the server', 'success');
+      await axios.post(
+        `${API_URL}/servers/join/${inviteCode}`,
+        {},
+        { withCredentials: true }
+      );
+      showNotification("You have joined the server", "success");
       onSuccess();
       onClose();
     } catch (error: any) {
-      showNotification(error?.response?.data?.error || 'Failed to join server', 'error');
+      showNotification(
+        error?.response?.data?.error || "Failed to join server",
+        "error"
+      );
     } finally {
       setLoading(false);
     }
@@ -51,7 +65,7 @@ const CreateServerModal: React.FC<Props> = ({ onClose, onSuccess }) => {
     <div className="modal-overlay" onClick={onClose}>
       <div className="channel-modal" onClick={(e) => e.stopPropagation()}>
         <div className="channel-modal-header">
-          <h2>{tab === 'create' ? 'Create Server' : 'Join Server'}</h2>
+          <h2>{tab === "create" ? "Create Server" : "Join Server"}</h2>
           <button className="channel-modal-close" onClick={onClose}>
             ×
           </button>
@@ -59,21 +73,21 @@ const CreateServerModal: React.FC<Props> = ({ onClose, onSuccess }) => {
 
         <div className="channel-modal-body">
           <div className="modal-tabs">
-            <button 
-              className={tab === 'create' ? 'active' : ''} 
-              onClick={() => setTab('create')}
+            <button
+              className={tab === "create" ? "active" : ""}
+              onClick={() => setTab("create")}
             >
               Create
             </button>
-            <button 
-              className={tab === 'join' ? 'active' : ''} 
-              onClick={() => setTab('join')}
+            <button
+              className={tab === "join" ? "active" : ""}
+              onClick={() => setTab("join")}
             >
               Join
             </button>
           </div>
 
-          {tab === 'create' ? (
+          {tab === "create" ? (
             <div className="form-group">
               <label className="ds-form-label">Server Name</label>
               <input
@@ -102,15 +116,23 @@ const CreateServerModal: React.FC<Props> = ({ onClose, onSuccess }) => {
 
         <div className="channel-modal-footer">
           <div className="flex-1" />
-          <button onClick={onClose} className="btn-secondary">Cancel</button>
-          <button 
-            onClick={tab === 'create' ? handleCreate : handleJoin} 
-            className="btn-primary" 
-            disabled={loading || (tab === 'create' ? !name.trim() : !inviteCode.trim())}
+          <button onClick={onClose} className="btn-secondary">
+            Cancel
+          </button>
+          <button
+            onClick={tab === "create" ? handleCreate : handleJoin}
+            className="btn-primary"
+            disabled={
+              loading || (tab === "create" ? !name.trim() : !inviteCode.trim())
+            }
           >
-            {loading 
-              ? (tab === 'create' ? 'Creating...' : 'Joining...')
-              : (tab === 'create' ? 'Create' : 'Join Server')}
+            {loading
+              ? tab === "create"
+                ? "Creating..."
+                : "Joining..."
+              : tab === "create"
+              ? "Create"
+              : "Join Server"}
           </button>
         </div>
       </div>

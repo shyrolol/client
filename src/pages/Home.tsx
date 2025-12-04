@@ -4,17 +4,18 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useSocket } from "../context/SocketContext";
 import { useNavigate } from "react-router-dom";
-import CreateServerModal from "../components/CreateServerModal";
-import ChannelModal from "../components/ChannelModal";
-import Settings from "../components/Settings";
-import ServerSettings from "../components/ServerSettings";
-import Friends from "../components/Friends";
-import UserStatusPicker from "../components/UserStatusPicker";
-import BetaExpiryNotice from "../components/BetaExpiryNotice";
-import VoiceStage from "../components/Voice/VoiceStage";
-import MemberList from "../components/MemberList";
+import CreateServerModal from "../components/modals/CreateServerModal";
+import ChannelModal from "../components/modals/ChannelModal";
+import Settings from "../components/settings/Settings";
+import ServerSettings from "../components/settings/ServerSettings";
+import Friends from "../components/friends/Friends";
+import UserStatusPicker from "../components/user/UserStatusPicker";
+import BetaExpiryNotice from "../components/friends/BetaExpiryNotice";
+import VoiceStage from "../components/voice/VoiceStage";
+import MemberList from "../components/user/MemberList";
 import { useVoice } from "../hooks/useVoice";
 import { useNotification } from "../context/NotificationContext";
+import MobileNav from "../components/layout/MobileNav";
 import {
   UsersIcon,
   SettingsIcon,
@@ -26,7 +27,8 @@ import {
   VolumeUpIcon,
   LogoutIcon,
   UploadIcon,
-} from "../components/Icons";
+  MenuIcon,
+} from "../components/ui/Icons";
 
 interface Server {
   id: string;
@@ -100,13 +102,17 @@ const Home: React.FC = () => {
   const [pendingFriendRequestsCount, setPendingFriendRequestsCount] =
     useState(0);
   const [viewMode, setViewMode] = useState<"server" | "dm">("server");
+  const [mobileTab, setMobileTab] = useState<
+    "servers" | "friends" | "settings"
+  >("servers");
+  const [showMobileDrawer, setShowMobileDrawer] = useState(true);
   const [typingUsers, setTypingUsers] = useState<Set<string>>(new Set());
   const [uploadingFiles, setUploadingFiles] = useState<File[]>([]);
   const [uploadedFiles, setUploadedFiles] = useState<
     Array<{ url: string; filename: string; mimetype: string }>
   >([]);
 
-  // Voice state
+  
   const [currentVoiceChannel, setCurrentVoiceChannel] =
     useState<Channel | null>(null);
   const {
@@ -134,7 +140,7 @@ const Home: React.FC = () => {
 
   const hasAutoSwitchedToOnline = useRef(false);
 
-  // Auto-set status to online if offline on load - RUNS ONLY ONCE
+  
   useEffect(() => {
     if (user && user.status === "offline" && !hasAutoSwitchedToOnline.current) {
       hasAutoSwitchedToOnline.current = true;
@@ -142,7 +148,7 @@ const Home: React.FC = () => {
     }
   }, [user, setUser]);
 
-  // Close mobile channel dropdown when clicking outside or pressing Escape
+  
   useEffect(() => {
     if (!showMobileChannelDropdown) return;
 
@@ -171,54 +177,54 @@ const Home: React.FC = () => {
     };
   }, [showMobileChannelDropdown]);
 
-  // Redirect to login if not authenticated or loading is done
+  
   useEffect(() => {
     if (!loading && !user) {
       navigate("/login", { replace: true });
     }
   }, [loading]);
 
-  // Authenticate socket when user/socket changes
+  
   useEffect(() => {
     if (socket && user?.id) {
-      // Only send online if we are actually online or just switched
+      
       const statusToSend = user.status === "offline" ? "online" : user.status;
       socket.emit("authenticate", { userId: user.id, status: statusToSend });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [socket, user?.id]);
 
-  // Load initial data
+  
   useEffect(() => {
     if (user) {
       loadServers();
       loadDMConversations();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [user]);
 
-  // Socket event listeners
+  
   useEffect(() => {
     if (!socket) return;
 
     socket.on("new_message", (message: Message) => {
-      // Check if message belongs to current view
+      
       const isCurrentChannelMessage =
         currentChannel && message.channelId === currentChannel.id;
       const isCurrentDMMessage =
         currentDM &&
         message.dmUserId &&
-        ((message.dmUserId === currentDM.id && message.user.id === user?.id) || // I sent to currentDM
-          (message.dmUserId === user?.id && message.user.id === currentDM.id)); // currentDM sent to me
+        ((message.dmUserId === currentDM.id && message.user.id === user?.id) || 
+          (message.dmUserId === user?.id && message.user.id === currentDM.id)); 
 
       if (isCurrentChannelMessage || isCurrentDMMessage) {
         setMessages((prev) => [...prev, message]);
-        // Scroll to bottom
+        
         setTimeout(() => {
           messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
         }, 100);
       } else {
-        // Mark as unread
+        
         if (message.channelId) {
           setUnreadChannels((prev) => {
             const next = new Set(prev);
@@ -226,7 +232,7 @@ const Home: React.FC = () => {
             return next;
           });
         } else if (message.dmUserId) {
-          // Mark the DM partner as unread
+          
           const dmPartnerId =
             message.user.id === user?.id ? message.dmUserId : message.user.id;
           setUnreadDMs((prev) => {
@@ -246,7 +252,7 @@ const Home: React.FC = () => {
       if (currentChannel && data.channelId === currentChannel.id) {
         setTypingUsers((prev) => new Set(prev).add(data.displayName));
 
-        // Clear typing after 3 seconds
+        
         if (typingTimeoutsRef.current[data.userId]) {
           clearTimeout(typingTimeoutsRef.current[data.userId]);
         }
@@ -264,7 +270,7 @@ const Home: React.FC = () => {
     socket.on(
       "user_status",
       (data: { userId: string; status: string; customStatus?: string }) => {
-        // Update server members status
+        
         if (currentServer) {
           setCurrentServer((prev: any) => {
             if (!prev) return prev;
@@ -287,7 +293,7 @@ const Home: React.FC = () => {
           });
         }
 
-        // Update DM status if applicable
+        
         if (currentDM && currentDM.id === data.userId) {
           setCurrentDM((prev: any) => ({
             ...prev,
@@ -299,7 +305,7 @@ const Home: React.FC = () => {
     );
 
     socket.on("user_updated", (updatedUser: any) => {
-      // Update server members
+      
       if (currentServer) {
         setCurrentServer((prev: any) => {
           if (!prev) return prev;
@@ -315,19 +321,19 @@ const Home: React.FC = () => {
         });
       }
 
-      // Update DM conversations
+      
       setDmConversations((prev) =>
         prev.map((c) =>
           c.id === updatedUser.id ? { ...c, ...updatedUser } : c
         )
       );
 
-      // Update current DM if active
+      
       if (currentDM && currentDM.id === updatedUser.id) {
         setCurrentDM((prev: any) => ({ ...prev, ...updatedUser }));
       }
 
-      // Update messages (sender info)
+      
       setMessages((prev) =>
         prev.map((m) => {
           if (m.user.id === updatedUser.id) {
@@ -400,7 +406,7 @@ const Home: React.FC = () => {
     );
 
     socket.on("friend_request_received", () => {
-      // Notification will be handled by Friends component
+      
     });
 
     socket.on("member_unbanned", ({ serverId }: { serverId: string }) => {
@@ -495,7 +501,7 @@ const Home: React.FC = () => {
     socket.on("member_left", (data: { serverId: string; userId: string }) => {
       if (currentServer && data.serverId === currentServer.id) {
         if (data.userId === user?.id) {
-          // I left/was kicked
+          
           setCurrentServer(null);
           setCurrentChannel(null);
         } else {
@@ -530,7 +536,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (currentDM) {
-      // Mark DM as read
+      
       setUnreadDMs((prev) => {
         const newSet = new Set(prev);
         newSet.delete(currentDM.id);
@@ -545,7 +551,7 @@ const Home: React.FC = () => {
       socket?.emit("join_channel", currentChannel.id);
       setTypingUsers(new Set());
 
-      // Mark channel as read
+      
       setUnreadChannels((prev) => {
         const newSet = new Set(prev);
         newSet.delete(currentChannel.id);
@@ -560,7 +566,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (currentDM) {
-      // Mark DM as read
+      
       setUnreadDMs((prev) => {
         const newSet = new Set(prev);
         newSet.delete(currentDM.id);
@@ -569,10 +575,10 @@ const Home: React.FC = () => {
     }
   }, [currentDM]);
 
-  // Trigger voice join when channel is set
+  
   useEffect(() => {
     if (currentVoiceChannel?.id && socket?.connected) {
-      // Small delay to ensure auth is processed
+      
       const timer = setTimeout(() => {
         joinVoice();
       }, 500);
@@ -580,7 +586,7 @@ const Home: React.FC = () => {
     } else if (!currentVoiceChannel?.id) {
       leaveVoice();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [currentVoiceChannel?.id, socket?.connected, joinVoice]);
 
   const loadServers = async () => {
@@ -588,17 +594,27 @@ const Home: React.FC = () => {
       const res = await axios.get(`${API_URL}/servers`, {
         withCredentials: true,
       });
+      
       if (Array.isArray(res.data)) {
         setServers(res.data);
         if (res.data.length > 0) {
           selectServer(res.data[0].id);
         }
       } else {
-        console.error("Servers data is not an array:", res.data);
+        
+        console.warn(
+          "API returned invalid data format. Backend may not be running or authentication failed."
+        );
         setServers([]);
       }
-    } catch (error) {
-      console.error("Failed to load servers:", error);
+    } catch (error: any) {
+      
+      if (error?.response?.status === 401) {
+        console.warn("Unauthorized - redirecting to login");
+        navigate("/login", { replace: true });
+      } else {
+        console.error("Failed to load servers:", error?.message || error);
+      }
       setServers([]);
     }
   };
@@ -627,13 +643,13 @@ const Home: React.FC = () => {
 
   const selectChannel = (channel: Channel) => {
     setCurrentChannel(channel);
-    // Mark channel as read when selecting
+    
     setUnreadChannels((prev) => {
       const next = new Set(prev);
       next.delete(channel.id);
       return next;
     });
-    // Mark as read on server
+    
     if (socket && user) {
       socket.emit("mark_read", { channelId: channel.id });
     }
@@ -644,11 +660,13 @@ const Home: React.FC = () => {
       }
       setCurrentVoiceChannel(channel);
     }
+    
+    setShowMobileDrawer(false);
   };
 
   const disconnectVoice = () => {
     setCurrentVoiceChannel(null);
-    // Rediriger vers un channel textuel du même serveur
+    
     if (currentServer?.channels) {
       const textChannel = currentServer.channels.find(
         (c: any) => c.type === "text"
@@ -678,14 +696,27 @@ const Home: React.FC = () => {
       const res = await axios.get(`${API_URL}/dms/conversations`, {
         withCredentials: true,
       });
+      
       if (Array.isArray(res.data)) {
         setDmConversations(res.data);
       } else {
-        console.error("DM conversations data is not an array:", res.data);
+        
+        console.warn(
+          "API returned invalid DM data format. Backend may not be running or authentication failed."
+        );
         setDmConversations([]);
       }
-    } catch (error) {
-      console.error("Failed to load DM conversations:", error);
+    } catch (error: any) {
+      
+      if (error?.response?.status === 401) {
+        console.warn("Unauthorized - redirecting to login");
+        navigate("/login", { replace: true });
+      } else {
+        console.error(
+          "Failed to load DM conversations:",
+          error?.message || error
+        );
+      }
       setDmConversations([]);
     }
   };
@@ -697,7 +728,7 @@ const Home: React.FC = () => {
       setCurrentChannel(null);
       setCurrentDM(dmUser);
       setShowFriends(false);
-      // Mark DM as read when selecting
+      
       setUnreadDMs((prev) => {
         const next = new Set(prev);
         next.delete(dmUser.id);
@@ -711,10 +742,12 @@ const Home: React.FC = () => {
       } else {
         setMessages([]);
       }
-      // Mark DM as read on server
+      
       if (socket && user) {
         socket.emit("mark_read", { dmUserId: dmUser.id });
       }
+      
+      setShowMobileDrawer(false);
     } catch (error) {
       setMessages([]);
     }
@@ -730,7 +763,7 @@ const Home: React.FC = () => {
       } else {
         setMessages([]);
       }
-      // Mark channel as read when opening
+      
       if (socket && user) {
         socket.emit("mark_read", { channelId });
       }
@@ -849,7 +882,7 @@ const Home: React.FC = () => {
             });
           }
 
-          // Remove from UI
+          
           setMessages((prev) => prev.filter((m) => m.id !== messageId));
           showNotification("Message deleted", "success");
         } catch (error) {
@@ -910,9 +943,13 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <div className="home-container">
+      <div className="app-container">
         {/* Server Sidebar */}
-        <div className="server-sidebar">
+        <div
+          className={`server-sidebar ${
+            mobileTab === "servers" && showMobileDrawer ? "mobile-visible" : ""
+          }`}
+        >
           <div
             className="server-icon home-icon"
             role="button"
@@ -1002,57 +1039,24 @@ const Home: React.FC = () => {
 
         {/* Channel Sidebar - Server Mode */}
         {viewMode === "server" && currentServer && (
-          <div className="channel-sidebar">
+          <div
+            className={`channel-sidebar ${
+              mobileTab === "servers" && showMobileDrawer
+                ? "mobile-visible"
+                : ""
+            }`}
+          >
             <div className="channel-header">
               <div className="channel-header-left">
                 <h2>{currentServer.name}</h2>
-                {/* Mobile channel dropdown */}
-                <div className="mobile-channel-selector" ref={mobileChannelRef}>
-                  <button
-                    className="mobile-channel-btn"
-                    onClick={() =>
-                      setShowMobileChannelDropdown(!showMobileChannelDropdown)
-                    }
-                    title="Select Channel"
-                    aria-label="Select Channel"
-                    aria-expanded={showMobileChannelDropdown}
-                    aria-controls="mobile-channel-dropdown"
-                  >
-                    {currentChannel
-                      ? `# ${currentChannel.name}`
-                      : "Select Channel"}
-                  </button>
-                  {showMobileChannelDropdown && (
-                    <div
-                      id="mobile-channel-dropdown"
-                      className="mobile-channel-dropdown"
-                      role="menu"
-                    >
-                      {currentServer.channels?.map((channel: Channel) => (
-                        <div
-                          key={channel.id}
-                          role="menuitem"
-                          tabIndex={0}
-                          className={`mobile-channel-item ${
-                            currentChannel?.id === channel.id ? "active" : ""
-                          }`}
-                          onClick={() => {
-                            selectChannel(channel);
-                            setShowMobileChannelDropdown(false);
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") {
-                              selectChannel(channel);
-                              setShowMobileChannelDropdown(false);
-                            }
-                          }}
-                        >
-                          {channel.type === "voice" ? "🔊" : "#"} {channel.name}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                {/* Mobile Menu Button */}
+                <button
+                  className="mobile-menu-btn"
+                  onClick={() => setShowMobileDrawer(true)}
+                  aria-label="Open Menu"
+                >
+                  <MenuIcon size={24} />
+                </button>
               </div>
               <button
                 className="server-settings-btn"
@@ -1184,7 +1188,7 @@ const Home: React.FC = () => {
               >
                 <div className="status-dot-wrapper">
                   <img
-                    src={user?.avatar || "https://via.placeholder.com/32"}
+                    src={user?.avatar || "https://example.com/default-avatar.png"}
                     alt="avatar"
                     className="user-avatar"
                   />
@@ -1219,7 +1223,13 @@ const Home: React.FC = () => {
 
         {/* Channel Sidebar - DM Mode */}
         {viewMode === "dm" && (
-          <div className="channel-sidebar">
+          <div
+            className={`channel-sidebar ${
+              mobileTab === "friends" && showMobileDrawer
+                ? "mobile-visible"
+                : ""
+            }`}
+          >
             <div className="channel-header">
               <h2>Direct Messages</h2>
             </div>
@@ -1252,7 +1262,7 @@ const Home: React.FC = () => {
               >
                 <div className="status-dot-wrapper">
                   <img
-                    src={user?.avatar || "https://via.placeholder.com/32"}
+                    src={user?.avatar || "https://example.com/default-avatar.png"}
                     alt="avatar"
                     className="user-avatar"
                   />
@@ -1313,7 +1323,7 @@ const Home: React.FC = () => {
               onStopScreenShare={stopScreenShare}
             />
           ) : (
-            /* Text Channel or DM - Show Messages */
+           
             <>
               <div className="content-header">
                 <div className="channel-name">
@@ -1342,7 +1352,7 @@ const Home: React.FC = () => {
                       <div className="message-avatar-wrapper">
                         <img
                           src={
-                            msg.user.avatar || "https://via.placeholder.com/40"
+                            msg.user.avatar || "https://example.com/default-avatar.png"
                           }
                           alt="avatar"
                           className="message-avatar"
@@ -1590,6 +1600,31 @@ const Home: React.FC = () => {
         />
       )}
       <BetaExpiryNotice />
+      <MobileNav
+        activeTab={mobileTab}
+        onTabChange={(tab) => {
+          if (mobileTab === tab && tab !== "settings") {
+            
+            setShowMobileDrawer(!showMobileDrawer);
+          } else {
+            setMobileTab(tab);
+            setShowMobileDrawer(true);
+            if (tab === "servers") {
+              setViewMode("server");
+              setShowFriends(false);
+              setShowSettings(false);
+            } else if (tab === "friends") {
+              setViewMode("dm");
+              setShowFriends(true);
+              setShowSettings(false);
+            } else if (tab === "settings") {
+              setShowSettings(true);
+            }
+          }
+        }}
+        unreadDMs={unreadDMs.size}
+        unreadMentions={unreadChannels.size}
+      />
     </>
   );
 };

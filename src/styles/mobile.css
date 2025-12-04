@@ -1,16 +1,11 @@
-/* ============================================
-   MOBILE RESPONSIVE STYLES
-   Complete mobile optimization for Echo
-   ============================================ */
-
-/* Prevent text size adjustment on iOS */
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
 
-/* Safe area insets for notched devices */
+
 @supports (padding: max(0px)) {
+
   .app-container,
   .sidebar,
   .chat-area,
@@ -30,7 +25,7 @@ html {
 }
 
 @media (max-width: 768px) {
-  /* Global Mobile Adjustments */
+
   :root {
     --space-xs: 4px;
     --space-sm: 8px;
@@ -42,7 +37,7 @@ html {
     --space-4xl: 40px;
   }
 
-  /* App Layout - Mobile */
+
   .app-container {
     flex-direction: column;
     height: 100vh;
@@ -104,7 +99,7 @@ html {
     overflow-y: hidden;
   }
 
-  /* Channel header & mobile dropdown adjustments */
+
   .channel-header {
     display: flex;
     align-items: center;
@@ -124,7 +119,7 @@ html {
     flex: 1;
   }
 
-  /* Replace server title with dropdown on mobile */
+
   .channel-header h2 {
     display: none;
   }
@@ -149,7 +144,7 @@ html {
     opacity: 0.8;
   }
 
-  /* Make settings icon appear directly to the right of the dropdown */
+
   .server-settings-btn {
     margin-left: 8px;
     width: 44px;
@@ -170,7 +165,7 @@ html {
     left: 0;
     background: var(--bg-secondary);
     border-radius: 8px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
     overflow: auto;
     max-height: 280px;
     min-width: 200px;
@@ -184,7 +179,7 @@ html {
 
   .mobile-channel-item:hover,
   .mobile-channel-item.active {
-    background: rgba(255,255,255,0.02);
+    background: rgba(255, 255, 255, 0.02);
   }
 
   .server-settings-btn {
@@ -210,7 +205,7 @@ html {
     outline-offset: -1px;
   }
 
-  
+
 
   .server-settings-btn {
     min-width: 44px;
@@ -220,6 +215,7 @@ html {
     align-items: center;
     justify-content: center;
   }
+
   .chat-area {
     flex: 1;
     min-height: 0;
@@ -249,10 +245,10 @@ html {
   }
 
   .message-input {
-    font-size: 16px; /* Prevents zoom on iOS */
+    font-size: 16px;
   }
 
-  /* Friends Panel - Mobile */
+
   .friends-container {
     width: 100vw;
     height: 100vh;
@@ -284,7 +280,7 @@ html {
   }
 
   .friend-item-container .member-context-menu-trigger {
-    opacity: 1; /* Always visible on mobile */
+    opacity: 1;
     width: 32px;
     height: 32px;
     display: flex;
@@ -292,7 +288,7 @@ html {
     justify-content: center;
   }
 
-  /* Modals - Mobile */
+
   .modal-overlay {
     padding: 0;
     align-items: flex-end;
@@ -315,8 +311,8 @@ html {
     overflow: hidden;
   }
 
-  .settings-modal > *:not(.close-btn),
-  .channel-modal > *:not(.close-btn) {
+  .settings-modal>*:not(.close-btn),
+  .channel-modal>*:not(.close-btn) {
     max-height: calc(100dvh - env(safe-area-inset-bottom));
   }
 
@@ -367,7 +363,7 @@ html {
     padding: var(--space-lg);
   }
 
-  /* Channel Modal - Mobile */
+
   .channel-modal-body {
     padding: var(--space-lg);
   }
@@ -380,7 +376,7 @@ html {
     padding: var(--space-md);
   }
 
-  /* Server Settings - Mobile */
+
   .server-settings-tabs {
     flex-wrap: wrap;
     gap: var(--space-xs);
@@ -394,7 +390,7 @@ html {
     min-width: calc(50% - var(--space-xs));
   }
 
-  /* Messages - Mobile */
+
   .message {
     padding: var(--space-sm) var(--space-md);
     gap: var(--space-sm);
@@ -421,7 +417,7 @@ html {
     margin-top: var(--space-xs);
   }
 
-  /* Member List - Mobile */
+
   .member-list,
   .members-sidebar {
     width: 100vw;
@@ -433,7 +429,7 @@ html {
     border-left: none;
   }
 
-  /* Content Header - Mobile */
+
   .content-header {
     padding: var(--space-md);
     border-bottom: 1px solid var(--divider-subtle);
@@ -453,10 +449,10 @@ html {
   }
 
   .member-context-menu-trigger {
-    opacity: 1; /* Always visible on mobile */
+    opacity: 1;
   }
 
-  /* Notifications - Mobile */
+
   .notification-container {
     top: var(--space-md);
     right: var(--space-md);
@@ -470,7 +466,7 @@ html {
     font-size: var(--font-size-base);
   }
 
-  /* Confirm Dialog - Mobile */
+
   .confirm-dialog {
     width: calc(100vw - 2 * var(--space-lg));
     max-width: calc(100vw - 2 * var(--space-lg));
@@ -492,7 +488,7 @@ html {
     width: 100%;
   }
 
-  /* Voice Stage - Mobile */
+
   .voice-stage {
     width: 100vw;
     height: 100vh;
@@ -513,15 +509,15 @@ html {
     min-width: calc(50% - var(--space-xs));
   }
 
-  /* Input Fields - Mobile */
+
   .input,
   .textarea,
   .select {
-    font-size: 16px; /* Prevents zoom on iOS */
+    font-size: 16px;
     padding: var(--space-md);
   }
 
-  /* Buttons - Mobile */
+
   .btn-primary,
   .btn-secondary,
   .btn-danger {
@@ -530,12 +526,12 @@ html {
     font-size: var(--font-size-base);
   }
 
-  /* Form Groups - Mobile */
+
   .form-group {
     padding: var(--space-md) var(--space-lg);
   }
 
-  /* User Status Picker - Mobile */
+
   .user-status-picker {
     position: fixed;
     bottom: var(--space-lg);
@@ -545,14 +541,14 @@ html {
     max-width: calc(100vw - 2 * var(--space-lg));
   }
 
-  /* Beta Modal - Mobile */
+
   .beta-modal-content {
     width: calc(100vw - 2 * var(--space-lg));
     max-width: calc(100vw - 2 * var(--space-lg));
     padding: var(--space-xl);
   }
 
-  /* Image Modal - Mobile */
+
   .image-modal-content {
     max-width: 100vw;
     max-height: 100vh;
@@ -564,19 +560,19 @@ html {
     max-height: calc(100vh - 2 * var(--space-md));
   }
 
-  /* Empty States - Mobile */
+
   .empty-message {
     padding: var(--space-xl);
     font-size: var(--font-size-base);
     text-align: center;
   }
 
-  /* Scrollbars - Mobile */
+
   * {
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Touch Targets - Mobile */
+
   button,
   a,
   .clickable {
@@ -586,8 +582,9 @@ html {
     justify-content: center;
   }
 
-  /* Hide hover effects on mobile */
+
   @media (hover: none) {
+
     .friend-item-container:hover .member-context-menu-trigger,
     .member-item:hover .member-context-menu-trigger {
       opacity: 1;
@@ -595,7 +592,7 @@ html {
   }
 }
 
-/* Tablet Styles */
+
 @media (min-width: 769px) and (max-width: 1024px) {
   .sidebar {
     width: 70px;
@@ -616,7 +613,7 @@ html {
   }
 }
 
-/* Small Mobile (Portrait) */
+
 @media (max-width: 480px) {
   .friends-tabs button {
     min-width: 100%;
@@ -646,7 +643,7 @@ html {
   }
 }
 
-/* Landscape Mobile */
+
 @media (max-width: 768px) and (orientation: landscape) {
   .sidebar {
     height: 50px;
@@ -667,8 +664,10 @@ html {
   }
 }
 
-/* High DPI Displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+
   .friend-avatar,
   .message-avatar,
   .member-avatar {
@@ -677,8 +676,9 @@ html {
   }
 }
 
-/* Reduced Motion */
+
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -688,7 +688,7 @@ html {
   }
 }
 
-/* Dark Mode Mobile Optimizations */
+
 @media (prefers-color-scheme: dark) {
   .notification {
     background: var(--bg-primary);
@@ -700,8 +700,9 @@ html {
   }
 }
 
-/* Print Styles - Hide on Print */
+
 @media print {
+
   .sidebar,
   .channel-sidebar,
   .message-input-container,
@@ -715,4 +716,3 @@ html {
     width: 100%;
   }
 }
-

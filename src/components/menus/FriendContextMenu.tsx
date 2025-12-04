@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { friendsService } from '../services/friendsService';
-import { useNotification } from '../context/NotificationContext';
+import React, { useState, useRef, useEffect } from "react";
+import { friendsService } from "../../services/friendsService";
+import { useNotification } from "../../context/NotificationContext";
 
 interface FriendMenuProps {
   friendId: string;
@@ -26,54 +26,61 @@ const FriendContextMenu: React.FC<FriendMenuProps> = ({
 
     if (showMenu) {
       document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [showMenu]);
 
   const handleRemove = async () => {
     showConfirm(
-      'Remove Friend',
+      "Remove Friend",
       `Are you sure you want to remove ${friendName} from your friends?`,
       async () => {
         try {
           await friendsService.removeFriend(friendId);
           onAction();
           setShowMenu(false);
-          showNotification(`${friendName} has been removed from your friends`, 'success');
+          showNotification(
+            `${friendName} has been removed from your friends`,
+            "success"
+          );
         } catch {
-          showNotification('Failed to remove friend', 'error');
+          showNotification("Failed to remove friend", "error");
         }
       },
       undefined,
-      'Remove',
-      'Cancel'
+      "Remove",
+      "Cancel"
     );
   };
 
   const handleBlock = async () => {
     showConfirm(
-      'Block User',
+      "Block User",
       `Are you sure you want to block ${friendName}?`,
       async () => {
         try {
           await friendsService.blockUser(friendId);
           onAction();
           setShowMenu(false);
-          showNotification(`${friendName} has been blocked`, 'success');
+          showNotification(`${friendName} has been blocked`, "success");
         } catch {
-          showNotification('Failed to block user', 'error');
+          showNotification("Failed to block user", "error");
         }
       },
       undefined,
-      'Block',
-      'Cancel',
-      'danger'
+      "Block",
+      "Cancel",
+      "danger"
     );
   };
 
   return (
     <>
-      <div className="member-context-menu-trigger" onClick={() => setShowMenu(!showMenu)}>
+      <div
+        className="member-context-menu-trigger"
+        onClick={() => setShowMenu(!showMenu)}
+      >
         <span>⋯</span>
       </div>
 

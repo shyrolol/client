@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useBeta } from "../context/BetaContext";
-import { API_URL } from "../config";
+import { useBeta } from "../../context/BetaContext";
+import { API_URL } from "../../config";
 
 interface BetaAccessModalProps {
   onClose: () => void;
@@ -25,16 +25,13 @@ const BetaAccessModal: React.FC<BetaAccessModalProps> = ({ onClose }) => {
         window.location.href = "/";
       }, 2000);
     } catch (err: any) {
-      // Check if it's an authentication error
       if (
         err.response?.status === 401 ||
         err.message?.includes("unauthenticated") ||
         err.message?.includes("Not authenticated")
       ) {
-        // Set flag in localStorage to reopen modal after login
         localStorage.setItem("open_beta_modal", "true");
         localStorage.setItem("beta_key_attempt", key);
-        // Redirect to Google login
         window.location.href = `${API_URL}/auth/google`;
         return;
       }
@@ -61,7 +58,7 @@ const BetaAccessModal: React.FC<BetaAccessModalProps> = ({ onClose }) => {
         ) : (
           <>
             <h2>Echo Beta Access</h2>
-            <p>Enter your beta key to get 6 hours of access</p>
+            <p>Enter your beta key for free access to Echo !</p>
 
             <div className="beta-form">
               <input

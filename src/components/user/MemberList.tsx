@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { SearchIcon, ChevronDownIcon } from "./Icons";
-import MemberContextMenu from "./MemberContextMenu";
+import { SearchIcon, ChevronDownIcon } from "../ui/Icons";
+import MemberContextMenu from "../menus/MemberContextMenu";
 
 interface Member {
   id: string;
@@ -20,11 +20,15 @@ interface MemberListProps {
   serverOwnerId?: string;
 }
 
-const MemberList: React.FC<MemberListProps> = ({ members, currentUserId, serverId, serverOwnerId }) => {
+const MemberList: React.FC<MemberListProps> = ({
+  members,
+  currentUserId,
+  serverId,
+  serverOwnerId,
+}) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedRoles, setExpandedRoles] = useState<string[]>([]);
-
-  // Group by role, then by status (online/idle/dnd together, offline separate)
+  
   const groupedByRole = {
     admin: members.filter((m) => m.role === "admin"),
     moderator: members.filter((m) => m.role === "moderator"),
@@ -32,7 +36,9 @@ const MemberList: React.FC<MemberListProps> = ({ members, currentUserId, serverI
   };
 
   const groupByStatus = (list: Member[]) => {
-    const online = list.filter((m) => m.status === "online" || m.status === "idle" || m.status === "dnd");
+    const online = list.filter(
+      (m) => m.status === "online" || m.status === "idle" || m.status === "dnd"
+    );
     const offline = list.filter((m) => m.status === "offline" || !m.status);
     return { online, offline };
   };
@@ -179,7 +185,9 @@ const MemberList: React.FC<MemberListProps> = ({ members, currentUserId, serverI
   };
 
   const totalMembers = members.length;
-  const onlineCount = members.filter((m) => m.status === "online" || m.status === "idle" || m.status === "dnd").length;
+  const onlineCount = members.filter(
+    (m) => m.status === "online" || m.status === "idle" || m.status === "dnd"
+  ).length;
 
   return (
     <div className="member-list-container">

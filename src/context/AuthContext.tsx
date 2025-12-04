@@ -9,7 +9,7 @@ export interface User {
   avatar?: string;
   status: string;
   customStatus?: string;
-  systemRole: string; // 'user' | 'admin'
+  systemRole: string;
   createdAt: string;
 }
 
@@ -36,7 +36,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       .then((res) => {
         if (!isMounted) return;
         setUser(res.data);
-        // apply user preferences immediately so settings are active when landing on Echo
+
         try {
           const u = res.data as any;
           if (u.theme)
@@ -51,8 +51,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
               u.fontSize === "small"
                 ? "14px"
                 : u.fontSize === "large"
-                ? "18px"
-                : "16px";
+                  ? "18px"
+                  : "16px";
             document.documentElement.style.setProperty(
               "--font-size-base",
               size
@@ -63,7 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             if (u.compactMode) document.body.classList.add("compact-mode");
             else document.body.classList.remove("compact-mode");
           }
-          // persist to localStorage so hooks using local settings see them
+
           const persisted = JSON.parse(
             localStorage.getItem("userSettings") || "{}"
           );
@@ -76,18 +76,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           };
           localStorage.setItem("userSettings", JSON.stringify(merged));
         } catch (e) {
-          // ignore
+
         }
         setLoading(false);
       })
       .catch((err) => {
         if (!isMounted) return;
-        // If 403 (beta access required/expired), store error and keep user null
+
         if (err.response?.status === 403) {
           const message = err.response?.data?.error || "Beta access required";
           localStorage.setItem("betaError", message);
         }
-        // For all errors (401, 403, etc.), keep user null and let Home.tsx redirect to /login
+
         setUser(null);
         setLoading(false);
       });

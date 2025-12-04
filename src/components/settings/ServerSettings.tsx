@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { API_URL } from "../config";
-import { useAuth } from "../context/AuthContext";
+import { API_URL } from "../../config";
+import { useAuth } from "../../context/AuthContext";
 import {
   DeleteIcon,
   ServerIcon,
   CommunityIcon,
   UsersIcon,
   InviteIcon,
-} from "./Icons";
-import { Input, Textarea, Select, Button } from "./ui";
-import { useNotification } from "../context/NotificationContext";
+} from "../ui/Icons";
+import { Input, Textarea, Select, Button } from "../ui";
+import { useNotification } from "../../context/NotificationContext";
 
 interface Props {
   server: any;
@@ -132,7 +132,7 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
     setSaving(true);
     setMessage("");
     try {
-      // Build payload only with fields that should be updated
+      
       const payload: any = {};
       const trimmedName = serverName.trim();
       if (
@@ -164,7 +164,7 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
         );
       }
 
-      // Only send request if there are changes
+      
       if (Object.keys(payload).length === 0) {
         setMessageType("success");
         setMessage("No changes to save");
@@ -392,7 +392,7 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
                       accept="image/*"
                     />
                     <img
-                      src={serverIcon || "https://via.placeholder.com/100"}
+                      src={serverIcon || "https://example.com/default-server-icon.png"}
                       alt="server icon"
                       className="profile-avatar"
                     />
@@ -492,7 +492,7 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
                         <img
                           src={
                             member.user?.avatar ||
-                            `https://ui-avatars.com/api/?name=${
+                            `https:
                               member.user?.displayName || "User"
                             }`
                           }
@@ -577,7 +577,7 @@ const ServerSettings: React.FC<Props> = ({ server, onClose, onSuccess }) => {
                         <img
                           src={
                             ban.user?.avatar ||
-                            `https://ui-avatars.com/api/?name=${
+                            `https:
                               ban.user?.displayName || "User"
                             }`
                           }

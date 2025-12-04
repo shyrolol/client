@@ -18,21 +18,15 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         if (data.maintenance) {
-          // Check if we have a session (admin check would be better but requires auth load)
-          // For now, simple maintenance page.
-          // Admins can bypass via direct login if we implement that logic,
-          // or we rely on AuthContext to load and then decide.
-          // But if maintenance middleware blocks everything, we can't load auth unless we allow it.
-          // Middleware allows /api/auth. So AuthContext works.
           setMaintenance(true);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
-  // We need to access AuthContext to check if user is admin.
-  // But App wraps AuthProvider. So we can't use useAuth here.
-  // We need a wrapper component inside AuthProvider.
+
+
+
 
   return (
     <AuthProvider>
@@ -63,7 +57,7 @@ const AppContent = ({ maintenance }: { maintenance: boolean }) => {
     if (!socket) return;
 
     const handleMaintenance = (data: { active: boolean; message?: string }) => {
-      // If status changes, reload to ensure fresh state/cache
+
       if (data.active !== maintenance) {
         window.location.reload();
       }
@@ -75,6 +69,22 @@ const AppContent = ({ maintenance }: { maintenance: boolean }) => {
       socket.off("maintenance_status", handleMaintenance);
     };
   }, [socket, maintenance]);
+
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleBetaExpired = () => {
+
+      window.location.reload();
+    };
+
+    socket.on("beta_expired", handleBetaExpired);
+
+    return () => {
+      socket.off("beta_expired", handleBetaExpired);
+    };
+  }, [socket]);
 
   if (maintenance && !loading) {
     const isAdmin =

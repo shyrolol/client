@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { API_URL } from "../config";
-import { useSocket } from "../context/SocketContext";
-import FriendContextMenu from "./FriendContextMenu";
-import { useUnreadIndicators } from "../hooks/useUnreadIndicators";
-import { UnreadBadge } from "./UnreadBadge";
-import { useNotification } from "../context/NotificationContext";
+import { API_URL } from "../../config";
+import { useSocket } from "../../context/SocketContext";
+import FriendContextMenu from "../menus/FriendContextMenu";
+import { useUnreadIndicators } from "../../hooks/useUnreadIndicators";
+import { UnreadBadge } from "../ui/UnreadBadge";
+import { useNotification } from "../../context/NotificationContext";
 
 interface Props {
   onClose: () => void;
@@ -55,10 +55,10 @@ const Friends: React.FC<Props> = ({
         prev.map((friend) =>
           friend.id === data.userId
             ? {
-                ...friend,
-                status: data.status,
-                customStatus: data.customStatus,
-              }
+              ...friend,
+              status: data.status,
+              customStatus: data.customStatus,
+            }
             : friend
         )
       );
@@ -92,7 +92,7 @@ const Friends: React.FC<Props> = ({
       });
       setFriends(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
-      // Silent fail
+
       setFriends([]);
     }
   };
@@ -108,7 +108,7 @@ const Friends: React.FC<Props> = ({
         onPendingCountChange(requests.length);
       }
     } catch (error) {
-      // Silent fail
+
       setPendingRequests([]);
     }
   };
@@ -120,7 +120,7 @@ const Friends: React.FC<Props> = ({
       });
       setSentRequests(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
-      // Silent fail
+
       setSentRequests([]);
     }
   };
@@ -162,7 +162,7 @@ const Friends: React.FC<Props> = ({
       loadFriends();
       loadPendingRequests();
     } catch (error) {
-      // Silent fail
+
     }
   };
 
@@ -173,7 +173,7 @@ const Friends: React.FC<Props> = ({
     }
   };
 
-  // Group friends: online (including idle and dnd), offline
+
   const onlineFriends = friends.filter(
     (f) =>
       (f.status === "online" || f.status === "idle" || f.status === "dnd") &&
@@ -253,16 +253,15 @@ const Friends: React.FC<Props> = ({
                   return (
                     <div key={friend.id} className="friend-item-container">
                       <div
-                        className={`friend-item ${
-                          unreadCount > 0 ? "unread" : ""
-                        }`}
+                        className={`friend-item ${unreadCount > 0 ? "unread" : ""
+                          }`}
                         onClick={() => handleMessageClick(friend)}
                       >
                         <div className="friend-avatar-container">
                           <img
                             src={
                               friend.avatar ||
-                              `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                              `https:
                                 friend.displayName || "User"
                               )}&size=128`
                             }
@@ -270,9 +269,8 @@ const Friends: React.FC<Props> = ({
                             className="friend-avatar"
                           />
                           <div
-                            className={`friend-status-dot status-${
-                              friend.status || "offline"
-                            }`}
+                            className={`friend-status-dot status-${friend.status || "offline"
+                              }`}
                           />
                         </div>
                         <div className="friend-info">
@@ -324,16 +322,15 @@ const Friends: React.FC<Props> = ({
                       return (
                         <div key={friend.id} className="friend-item-container">
                           <div
-                            className={`friend-item ${
-                              unreadCount > 0 ? "unread" : ""
-                            }`}
+                            className={`friend-item ${unreadCount > 0 ? "unread" : ""
+                              }`}
                             onClick={() => handleMessageClick(friend)}
                           >
                             <div className="friend-avatar-container">
                               <img
                                 src={
                                   friend.avatar ||
-                                  `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                  `https:
                                     friend.displayName || "User"
                                   )}&size=128`
                                 }
@@ -341,9 +338,8 @@ const Friends: React.FC<Props> = ({
                                 className="friend-avatar"
                               />
                               <div
-                                className={`friend-status-dot status-${
-                                  friend.status || "offline"
-                                }`}
+                                className={`friend-status-dot status-${friend.status || "offline"
+                                  }`}
                               />
                             </div>
                             <div className="friend-info">
@@ -388,16 +384,15 @@ const Friends: React.FC<Props> = ({
                       return (
                         <div key={friend.id} className="friend-item-container">
                           <div
-                            className={`friend-item ${
-                              unreadCount > 0 ? "unread" : ""
-                            }`}
+                            className={`friend-item ${unreadCount > 0 ? "unread" : ""
+                              }`}
                             onClick={() => handleMessageClick(friend)}
                           >
                             <div className="friend-avatar-container">
                               <img
                                 src={
                                   friend.avatar ||
-                                  `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                  `https:
                                     friend.displayName || "User"
                                   )}&size=128`
                                 }
@@ -405,9 +400,8 @@ const Friends: React.FC<Props> = ({
                                 className="friend-avatar"
                               />
                               <div
-                                className={`friend-status-dot status-${
-                                  friend.status || "offline"
-                                }`}
+                                className={`friend-status-dot status-${friend.status || "offline"
+                                  }`}
                               />
                             </div>
                             <div className="friend-info">
@@ -458,7 +452,7 @@ const Friends: React.FC<Props> = ({
                     <img
                       src={
                         request.user?.avatar ||
-                        `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                        `https:
                           request.user?.displayName || "User"
                         )}&size=128`
                       }
@@ -505,7 +499,7 @@ const Friends: React.FC<Props> = ({
                     <img
                       src={
                         request.friend?.avatar ||
-                        `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                        `https:
                           request.friend?.displayName || "User"
                         )}&size=128`
                       }
@@ -547,7 +541,7 @@ const Friends: React.FC<Props> = ({
                       <img
                         src={
                           friend.avatar ||
-                          `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                          `https:
                             friend.displayName || "User"
                           )}&size=128`
                         }

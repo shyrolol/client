@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { SignalIcon, HeadphoneIcon, MicOffIcon } from "../Icons";
+import { SignalIcon, HeadphoneIcon, MicOffIcon } from "../ui/Icons";
 import VoiceControls from "./VoiceControls";
 
 type ConnectionQuality = "excellent" | "good" | "fair" | "poor";
@@ -93,9 +93,7 @@ const VoiceStage: React.FC<VoiceStageProps> = ({
               </div>
               <div className="voice-metadata-item">
                 <span className="metadata-label">User in voice:</span>
-                <span className="metadata-value">
-                  {userInVoice.length + 1}
-                </span>
+                <span className="metadata-value">{userInVoice.length + 1}</span>
               </div>
               <div className="voice-metadata-item">
                 <span className="metadata-label">Status:</span>
@@ -138,7 +136,9 @@ const VoiceStage: React.FC<VoiceStageProps> = ({
             {[localUser, ...userInVoice].map((user) => (
               <div
                 key={user.id}
-                className={`voice-user-sidebar-item ${user.isSpeaking ? "speaking" : ""}`}
+                className={`voice-user-sidebar-item ${
+                  user.isSpeaking ? "speaking" : ""
+                }`}
               >
                 <div className="voice-user-sidebar-avatar">
                   <img
@@ -155,7 +155,9 @@ const VoiceStage: React.FC<VoiceStageProps> = ({
                   )}
                 </div>
                 <div className="voice-user-sidebar-info">
-                  <div className="voice-user-sidebar-name">{user.displayName}</div>
+                  <div className="voice-user-sidebar-name">
+                    {user.displayName}
+                  </div>
                   {user.id === localUser.id && (
                     <div className="voice-user-sidebar-badge">You</div>
                   )}

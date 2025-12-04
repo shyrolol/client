@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useBeta } from "../context/BetaContext";
+import { useBeta } from "../../context/BetaContext";
 import { Clock, ExternalLink } from "lucide-react";
 
 const BetaExpiryNotice: React.FC = () => {

@@ -90,7 +90,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({ socket }) => {
       };
       socket.emit("send_message", message);
     } catch (error) {
-      // silently ignore upload errors (handled elsewhere)
+
     }
   };
 

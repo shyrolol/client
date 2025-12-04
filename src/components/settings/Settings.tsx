@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { API_URL } from "../config";
-import { useAuth } from "../context/AuthContext";
+import { API_URL } from "../../config";
+import { useAuth } from "../../context/AuthContext";
 import {
   LogoutIcon,
   UserIcon,
@@ -9,9 +9,9 @@ import {
   ShieldIcon,
   BellIcon,
   MicIcon,
-} from "./Icons";
-import { Input, Select, Toggle, Button } from "./ui";
-import { useNotification } from "../context/NotificationContext";
+} from "../ui/Icons";
+import { Input, Select, Toggle, Button } from "../ui";
+import { useNotification } from "../../context/NotificationContext";
 
 interface Props {
   onClose: () => void;
@@ -72,7 +72,7 @@ const Settings: React.FC<Props> = ({ onClose }) => {
           setOutputDevice(outputs[0].deviceId);
         }
       } catch (error) {
-        // Silent fail
+        
       }
     };
 
@@ -341,7 +341,7 @@ const Settings: React.FC<Props> = ({ onClose }) => {
                         accept="image/*"
                       />
                       <img
-                        src={user?.avatar || "https://via.placeholder.com/100"}
+                        src={user?.avatar || "https://placeholder.com/100"}
                         alt="avatar"
                         className="profile-avatar"
                       />

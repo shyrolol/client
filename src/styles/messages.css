@@ -80,13 +80,13 @@
   cursor: pointer;
   transition: transform 0.16s ease, box-shadow 0.16s ease;
   object-fit: cover;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
 }
 
 .message-image:hover,
 .chat-message-image:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
 }
 
 .chat-message-body {

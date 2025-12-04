@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { useNotification } from "../context/NotificationContext";
-import { API_URL } from "../config";
+import { useNotification } from "../../context/NotificationContext";
+import { API_URL } from "../../config";
 
 interface MemberContextMenuProps {
   memberId: string;
@@ -37,7 +37,8 @@ const MemberContextMenu: React.FC<MemberContextMenuProps> = ({
 
     if (showMenu) {
       document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [showMenu]);
 
@@ -61,7 +62,10 @@ const MemberContextMenu: React.FC<MemberContextMenuProps> = ({
       showNotification(`${memberName} has been kicked`, "success");
       onAction();
     } catch (error: any) {
-      showNotification(error?.response?.data?.error || "Failed to kick member", "error");
+      showNotification(
+        error?.response?.data?.error || "Failed to kick member",
+        "error"
+      );
     } finally {
       setLoading(false);
     }
@@ -85,18 +89,23 @@ const MemberContextMenu: React.FC<MemberContextMenuProps> = ({
       showNotification(`${memberName} has been banned`, "success");
       onAction();
     } catch (error: any) {
-      showNotification(error?.response?.data?.error || "Failed to ban member", "error");
+      showNotification(
+        error?.response?.data?.error || "Failed to ban member",
+        "error"
+      );
     } finally {
       setLoading(false);
     }
   };
 
-
   if (!canModerate) return null;
 
   return (
     <>
-      <div className="member-context-menu-trigger" onClick={() => setShowMenu(!showMenu)}>
+      <div
+        className="member-context-menu-trigger"
+        onClick={() => setShowMenu(!showMenu)}
+      >
         <span>⋯</span>
       </div>
 
@@ -128,7 +137,10 @@ const MemberContextMenu: React.FC<MemberContextMenuProps> = ({
           <div className="channel-modal" onClick={(e) => e.stopPropagation()}>
             <div className="channel-modal-header">
               <h2>Kick {memberName}</h2>
-              <button className="channel-modal-close" onClick={() => setShowKickModal(false)}>
+              <button
+                className="channel-modal-close"
+                onClick={() => setShowKickModal(false)}
+              >
                 ×
               </button>
             </div>
@@ -147,10 +159,17 @@ const MemberContextMenu: React.FC<MemberContextMenuProps> = ({
             </div>
             <div className="channel-modal-footer">
               <div className="flex-1" />
-              <button onClick={() => setShowKickModal(false)} className="btn-secondary">
+              <button
+                onClick={() => setShowKickModal(false)}
+                className="btn-secondary"
+              >
                 Cancel
               </button>
-              <button onClick={handleKick} className="btn-primary danger" disabled={loading}>
+              <button
+                onClick={handleKick}
+                className="btn-primary danger"
+                disabled={loading}
+              >
                 {loading ? "Kicking..." : "Kick"}
               </button>
             </div>
@@ -163,7 +182,10 @@ const MemberContextMenu: React.FC<MemberContextMenuProps> = ({
           <div className="channel-modal" onClick={(e) => e.stopPropagation()}>
             <div className="channel-modal-header">
               <h2>Ban {memberName}</h2>
-              <button className="channel-modal-close" onClick={() => setShowBanModal(false)}>
+              <button
+                className="channel-modal-close"
+                onClick={() => setShowBanModal(false)}
+              >
                 ×
               </button>
             </div>
@@ -182,20 +204,25 @@ const MemberContextMenu: React.FC<MemberContextMenuProps> = ({
             </div>
             <div className="channel-modal-footer">
               <div className="flex-1" />
-              <button onClick={() => setShowBanModal(false)} className="btn-secondary">
+              <button
+                onClick={() => setShowBanModal(false)}
+                className="btn-secondary"
+              >
                 Cancel
               </button>
-              <button onClick={handleBan} className="btn-primary danger" disabled={loading}>
+              <button
+                onClick={handleBan}
+                className="btn-primary danger"
+                disabled={loading}
+              >
                 {loading ? "Banning..." : "Ban"}
               </button>
             </div>
           </div>
         </div>
       )}
-
     </>
   );
 };
 
 export default MemberContextMenu;
-

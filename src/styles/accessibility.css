@@ -1,6 +1,3 @@
-/* Accessibility Features - Minimaliste */
-
-/* Focus styles */
 *:focus-visible {
   outline: 1px solid var(--accent);
   outline-offset: 1px;
@@ -15,7 +12,7 @@ select:focus-visible {
   outline-offset: 1px;
 }
 
-/* Screen reader only */
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -28,8 +25,9 @@ select:focus-visible {
   border: 0;
 }
 
-/* Reduced motion support */
+
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -39,7 +37,7 @@ select:focus-visible {
   }
 }
 
-/* High contrast mode support */
+
 @media (prefers-contrast: high) {
   :root {
     --text-primary: #ffffff;
@@ -47,7 +45,7 @@ select:focus-visible {
   }
 }
 
-/* Skip to main content link */
+
 .skip-link {
   position: absolute;
   top: -40px;

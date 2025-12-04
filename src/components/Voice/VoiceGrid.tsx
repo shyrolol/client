@@ -1,5 +1,5 @@
 import React from "react";
-import { MicOffIcon } from "../Icons";
+import { MicOffIcon } from "../ui/Icons";
 
 interface VoiceUser {
   id: string;

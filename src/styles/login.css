@@ -1,8 +1,3 @@
-/* Login & Beta System Styles - Echo Style */
-
-/* Animated Background */
-/* Login & Beta System Styles - Echo Style */
-
 :root {
   --bg-color: #000000;
   --card-bg: rgba(255, 255, 255, 0.05);
@@ -30,31 +25,23 @@ body {
   height: 100vh;
   width: 100vw;
   position: relative;
-  background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000000 100%);
 }
 
 .login-box {
   background: var(--card-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-color);
-  border-radius: 24px;
+  border: 2px solid var(--border-color);
+  border-radius: 20px;
   padding: 48px;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   z-index: 10;
-  animation: fadeIn 0.8s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 .login-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .login-header h1 {
@@ -62,7 +49,7 @@ body {
   font-weight: 700;
   margin: 0 0 12px 0;
   letter-spacing: -0.5px;
-  background: linear-gradient(to right, #fff, #888);
+  background: white;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -70,8 +57,8 @@ body {
 
 .login-header p {
   color: var(--text-secondary);
-  font-size: 16px;
-  margin: 0;
+  font-size: 17px;
+  margin: 10px;
 }
 
 .google-login-btn {
@@ -83,23 +70,18 @@ body {
   background-color: #ffffff;
   color: #000000;
   padding: 14px;
-  border-radius: 12px;
+  border-radius: 14px;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 18px;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
   margin-bottom: 24px;
 }
 
-.link-btn {
-  text-align: center;
-  background-color: transparent;
-}
-
 .login-footer {
   text-align: center;
-  margin-top: 24px;
+  margin-top: 20px;
 }
 
 .beta-link {
@@ -117,7 +99,6 @@ body {
   text-decoration: underline;
 }
 
-/* Beta Modal Styles */
 .beta-modal-overlay {
   position: fixed;
   top: 0;
@@ -154,12 +135,6 @@ body {
   cursor: pointer;
   padding: 8px;
   border-radius: 50%;
-  transition: all 0.2s;
-}
-
-.beta-modal-close:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-primary);
 }
 
 .beta-modal-content h2 {
@@ -233,20 +208,4 @@ body {
 
 .beta-success h2 {
   color: var(--accent-color);
-}
-
-.beta-info {
-  margin-top: 24px !important;
-  font-size: 14px !important;
-  text-align: center;
-}
-
-.beta-info a {
-  color: var(--text-primary);
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.beta-info a:hover {
-  text-decoration: underline;
 }

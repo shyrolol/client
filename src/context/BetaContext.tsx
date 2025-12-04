@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { useSocket } from "./SocketContext";
 import { API_URL } from "../config";
 
 interface BetaContextType {
@@ -20,7 +19,6 @@ export const BetaProvider: React.FC<{ children: React.ReactNode }> = ({
   const [betaExpiry, setBetaExpiry] = useState<number | null>(null);
   const [remainingMinutes, setRemainingMinutes] = useState(0);
   const [error, setError] = useState<string | null>(null);
-  const { socket } = useSocket();
 
   const redeemBetaKey = async (key: string): Promise<boolean> => {
     try {
@@ -29,7 +27,7 @@ export const BetaProvider: React.FC<{ children: React.ReactNode }> = ({
         { key },
         { withCredentials: true }
       );
-      // server responds with { success: true, expiresAt }
+
       if (response.data && response.data.expiresAt) {
         const expires = new Date(response.data.expiresAt).getTime();
         setBetaExpiry(expires);
@@ -44,27 +42,6 @@ export const BetaProvider: React.FC<{ children: React.ReactNode }> = ({
       return false;
     }
   };
-
-  // Listen for beta expiry from server
-  useEffect(() => {
-    if (!socket) return;
-
-    const handleBetaExpired = () => {
-      // Mark beta as expired
-      setIsBetaAccess(false);
-      setBetaExpiry(null);
-      setRemainingMinutes(0);
-
-      // Reload page to show modal
-      window.location.reload();
-    };
-
-    socket.on("beta_expired", handleBetaExpired);
-
-    return () => {
-      socket.off("beta_expired", handleBetaExpired);
-    };
-  }, [socket]);
 
   useEffect(() => {
     const timer = setInterval(() => {
