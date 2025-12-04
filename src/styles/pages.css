@@ -1,22 +1,12 @@
-/* ========================================
-   ECHO - COMPLETE DISCORD-STYLE CSS
-   Fixed Layout + All Components
-   ======================================== */
-
-/* ========================================
-   MAIN APP LAYOUT
-   ======================================== */
 .app-container {
   display: flex;
-  flex-direction: row;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
   background-color: var(--bg-primary);
   overflow: hidden;
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
 }
 
 .loading {
@@ -26,16 +16,12 @@
   width: 100%;
   height: 100vh;
   color: var(--text-muted);
-  font-size: var(--font-size-md);
+  font-size: 16px;
 }
 
-/* ========================================
-   SERVER SIDEBAR (72px)
-   ======================================== */
 .server-sidebar {
   width: 72px;
   min-width: 72px;
-  max-width: 72px;
   height: 100%;
   background-color: var(--bg-primary);
   display: flex;
@@ -69,22 +55,19 @@
   font-size: 16px;
   color: var(--text-normal);
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
   position: relative;
   flex-shrink: 0;
 }
 
 .server-icon:hover {
   background-color: var(--accent);
-  border-radius: 14px;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
+  border-radius: 16px;
 }
 
 .server-icon.active {
   background-color: var(--accent);
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
+  border-radius: 16px;
 }
 
 .server-icon.home-icon,
@@ -117,13 +100,9 @@
   flex-shrink: 0;
 }
 
-/* ========================================
-   CHANNEL SIDEBAR (240px)
-   ======================================== */
 .channel-sidebar {
   width: 240px;
   min-width: 240px;
-  max-width: 240px;
   height: 100%;
   background-color: var(--bg-secondary);
   display: flex;
@@ -138,12 +117,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   cursor: pointer;
+  transition: background-color var(--transition-fast);
 }
 
 .channel-header:hover {
-  background-color: var(--bg-modifier-hover);
+  background-color: var(--bg-hover);
 }
 
 .channel-header-left {
@@ -170,11 +150,12 @@
   border: none;
   color: var(--interactive-normal);
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: color var(--transition-fast);
 }
 
 .server-settings-btn:hover {
@@ -226,6 +207,7 @@
   align-items: center;
   justify-content: center;
   opacity: 0;
+  transition: opacity var(--transition-fast);
 }
 
 .section-header:hover .add-channel-btn {
@@ -237,20 +219,20 @@
   align-items: center;
   padding: 6px 8px;
   margin: 1px 0;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   cursor: pointer;
   color: var(--interactive-normal);
-  transition: background-color 0.1s, color 0.1s;
+  transition: all var(--transition-fast);
   position: relative;
 }
 
 .channel-item:hover {
-  background-color: var(--bg-modifier-hover);
+  background-color: var(--bg-hover);
   color: var(--interactive-hover);
 }
 
 .channel-item.active {
-  background-color: var(--bg-modifier-selected);
+  background-color: var(--bg-selected);
   color: var(--interactive-active);
 }
 
@@ -291,6 +273,7 @@
   opacity: 0;
   margin-left: auto;
   flex-shrink: 0;
+  transition: opacity var(--transition-fast);
 }
 
 .channel-item:hover .channel-edit-btn {
@@ -301,18 +284,15 @@
   width: 8px;
   height: 8px;
   background-color: var(--danger);
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   margin-left: auto;
   flex-shrink: 0;
 }
 
-/* ========================================
-   USER PANEL (Bottom of channel sidebar)
-   ======================================== */
 .user-panel {
   height: 52px;
   min-height: 52px;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   padding: 0 8px;
@@ -327,12 +307,13 @@
   flex: 1;
   min-width: 0;
   padding: 4px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   cursor: pointer;
+  transition: background-color var(--transition-fast);
 }
 
 .user-info-wrapper:hover {
-  background-color: var(--bg-modifier-hover);
+  background-color: var(--bg-hover);
 }
 
 .status-dot-wrapper {
@@ -343,7 +324,7 @@
 .user-avatar {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   object-fit: cover;
 }
 
@@ -353,8 +334,8 @@
   right: -2px;
   width: 14px;
   height: 14px;
-  border-radius: 50%;
-  border: 3px solid rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-full);
+  border: 3px solid rgba(0, 0, 0, 0.4);
   background-color: var(--status-offline);
 }
 
@@ -389,29 +370,24 @@
   border: none;
   color: var(--interactive-normal);
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: all var(--transition-fast);
 }
 
 .settings-btn:hover {
-  background-color: var(--bg-modifier-hover);
+  background-color: var(--bg-hover);
   color: var(--interactive-hover);
 }
 
-/* ========================================
-   STATUS COLORS
-   ======================================== */
 .status-online { background-color: var(--status-online) !important; }
 .status-idle { background-color: var(--status-idle) !important; }
 .status-dnd { background-color: var(--status-dnd) !important; }
 .status-offline { background-color: var(--status-offline) !important; }
 
-/* ========================================
-   MAIN CONTENT AREA
-   ======================================== */
 .main-content {
   flex: 1;
   display: flex;
@@ -429,7 +405,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   flex-shrink: 0;
 }
 
@@ -442,9 +418,6 @@
   gap: 8px;
 }
 
-/* ========================================
-   MESSAGES CONTAINER
-   ======================================== */
 .messages-container {
   flex: 1;
   overflow-y: auto;
@@ -474,9 +447,6 @@
   color: var(--text-muted);
 }
 
-/* ========================================
-   MESSAGE INPUT
-   ======================================== */
 .message-input-container {
   padding: 0 16px 24px;
   flex-shrink: 0;
@@ -485,8 +455,8 @@
 .message-input-wrapper {
   display: flex;
   align-items: center;
-  background-color: var(--bg-modifier-active);
-  border-radius: 8px;
+  background-color: var(--bg-active);
+  border-radius: var(--radius-md);
   padding: 0 16px;
 }
 
@@ -501,6 +471,7 @@
   color: var(--interactive-normal);
   cursor: pointer;
   flex-shrink: 0;
+  transition: color var(--transition-fast);
 }
 
 .file-upload-btn:hover {
@@ -515,7 +486,6 @@
   border: none;
   padding: 12px 0;
   font-size: 14px;
-  font-family: var(--font-primary);
   color: var(--text-normal);
   resize: none;
 }
@@ -540,7 +510,7 @@
   justify-content: space-between;
   padding: 8px 16px;
   background-color: var(--bg-secondary);
-  border-radius: 8px 8px 0 0;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
   font-size: 12px;
   color: var(--text-muted);
   margin-bottom: -1px;
@@ -570,7 +540,7 @@
   gap: 8px;
   padding: 12px;
   background-color: var(--bg-secondary);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   margin-bottom: 8px;
 }
 
@@ -580,7 +550,7 @@
   gap: 4px;
   padding: 4px 8px;
   background-color: var(--bg-tertiary);
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 12px;
   color: var(--text-normal);
 }
@@ -605,26 +575,17 @@
   padding: 8px;
 }
 
-/* ========================================
-   MEMBERS SIDEBAR (280px - wider)
-   ======================================== */
 .members-sidebar {
   width: 280px;
   min-width: 280px;
-  max-width: 280px;
   height: 100%;
   background-color: var(--bg-secondary);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  border: none;
-  box-shadow: none;
 }
 
-/* ========================================
-   MEMBER LIST COMPONENT
-   ======================================== */
 .member-list-container {
   display: flex;
   flex-direction: column;
@@ -678,7 +639,7 @@
   font-size: 14px;
   background-color: var(--bg-primary);
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   color: var(--text-normal);
 }
 
@@ -721,12 +682,11 @@
 }
 
 .chevron-expanded {
-  transition: transform 0.15s;
+  transition: transform var(--transition-fast);
 }
 
 .chevron-collapsed {
   transform: rotate(-90deg);
-  transition: transform 0.15s;
 }
 
 .member-group-content {
@@ -745,13 +705,13 @@
   gap: 12px;
   padding: 8px 12px;
   margin: 1px 0;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   cursor: pointer;
-  transition: background-color 0.1s;
+  transition: background-color var(--transition-fast);
 }
 
 .member-item:hover {
-  background-color: var(--bg-modifier-hover);
+  background-color: var(--bg-hover);
 }
 
 .member-avatar-container {
@@ -765,7 +725,7 @@
 .member-avatar {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   object-fit: cover;
 }
 
@@ -775,7 +735,7 @@
   right: -2px;
   width: 12px;
   height: 12px;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   border: 2px solid var(--bg-secondary);
 }
 
@@ -801,107 +761,496 @@
   color: var(--interactive-hover);
 }
 
-.member-username {
-  font-size: 11px;
-  color: var(--text-muted);
+.member-role-badge {
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  color: white;
+  background-color: var(--accent);
+  border-radius: var(--radius-xs);
+  text-transform: uppercase;
 }
 
-.member-role {
+.member-role-badge.owner {
+  background-color: var(--warning);
+}
+
+.member-status-custom {
   font-size: 12px;
-  color: var(--text-muted);
-}
-
-.member-status-text,
-.member-custom-status {
-  font-size: 11px;
   color: var(--text-muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.member-badge,
-.current-badge {
-  padding: 2px 6px;
-  font-size: 10px;
-  font-weight: 600;
-  border-radius: 3px;
-  text-transform: uppercase;
+.friends-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--bg-tertiary);
+  animation: fadeIn var(--transition-normal);
 }
 
-.member-badge.admin {
+.friends-header {
+  height: 48px;
+  min-height: 48px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.friends-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--header-primary);
+}
+
+.friends-divider {
+  width: 1px;
+  height: 24px;
+  background-color: var(--border-strong);
+}
+
+.friends-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.friends-tab {
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--interactive-normal);
+  background: none;
+  border: none;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.friends-tab:hover {
+  background-color: var(--bg-hover);
+  color: var(--interactive-hover);
+}
+
+.friends-tab.active {
+  background-color: var(--bg-selected);
+  color: var(--interactive-active);
+}
+
+.friends-add-btn {
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  background-color: var(--success);
+  border: none;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-left: auto;
+}
+
+.friends-add-btn:hover {
+  background-color: #2d8049;
+}
+
+.friends-close-btn {
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  color: var(--interactive-normal);
+  cursor: pointer;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.friends-close-btn:hover {
+  background-color: var(--bg-hover);
+  color: var(--interactive-hover);
+}
+
+.friends-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.friends-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--header-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+}
+
+.friends-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.friend-item:hover {
+  background-color: var(--bg-hover);
+}
+
+.friend-avatar-wrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.friend-avatar-wrapper img {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+}
+
+.friend-status-dot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+  border: 3px solid var(--bg-tertiary);
+}
+
+.friend-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.friend-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--header-primary);
+}
+
+.friend-status {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.friend-actions {
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.friend-item:hover .friend-actions {
+  opacity: 1;
+}
+
+.friend-action-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-secondary);
+  border: none;
+  border-radius: var(--radius-full);
+  color: var(--interactive-normal);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.friend-action-btn:hover {
+  color: var(--interactive-hover);
+}
+
+.friend-action-btn.accept {
+  color: var(--success);
+}
+
+.friend-action-btn.accept:hover {
+  background-color: var(--success);
+  color: white;
+}
+
+.friend-action-btn.decline {
+  color: var(--danger);
+}
+
+.friend-action-btn.decline:hover {
   background-color: var(--danger);
   color: white;
 }
 
-.member-badge.moderator {
-  background-color: var(--accent);
-  color: white;
+.add-friend-section {
+  padding: 20px;
 }
 
-.current-badge {
-  background-color: var(--bg-modifier-active);
+.add-friend-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--header-primary);
+  margin-bottom: 8px;
+}
+
+.add-friend-desc {
+  font-size: 14px;
   color: var(--text-muted);
+  margin-bottom: 16px;
 }
 
-.member-list-empty {
-  text-align: center;
-  color: var(--text-muted);
-  padding: 24px;
-}
-
-/* ========================================
-   CONTEXT MENUS (3-dots)
-   ======================================== */
-.member-context-menu-trigger {
-  width: 28px;
-  height: 28px;
+.add-friend-form {
   display: flex;
+  gap: 12px;
+}
+
+.add-friend-input {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: var(--text-normal);
+  background-color: var(--bg-primary);
+  border: none;
+  border-radius: var(--radius-md);
+}
+
+.add-friend-input::placeholder {
+  color: var(--text-muted);
+}
+
+.add-friend-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.add-friend-submit {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  background-color: var(--accent);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.add-friend-submit:hover {
+  background-color: var(--accent-hover);
+}
+
+.add-friend-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-modifier-hover);
-  border-radius: 4px;
+  padding: 40px;
+  text-align: center;
+}
+
+.empty-state-icon {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 20px;
+  opacity: 0.3;
+}
+
+.empty-state-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--header-primary);
+  margin-bottom: 8px;
+}
+
+.empty-state-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.dm-list {
+  padding: 8px 0;
+}
+
+.dm-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  margin: 0 8px;
+  border-radius: var(--radius-xs);
   cursor: pointer;
-  color: var(--interactive-normal);
-  font-size: 16px;
-  font-weight: bold;
-  transition: all 0.1s;
+  transition: background-color var(--transition-fast);
+}
+
+.dm-item:hover {
+  background-color: var(--bg-hover);
+}
+
+.dm-item.active {
+  background-color: var(--bg-selected);
+}
+
+.dm-avatar-wrapper {
+  position: relative;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
-  margin-left: 8px;
 }
 
-.member-context-menu-trigger:hover {
-  background-color: var(--bg-modifier-selected);
-  color: var(--interactive-hover);
+.dm-avatar-wrapper img {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+  object-fit: cover;
 }
 
-.member-context-menu {
+.dm-status-dot {
   position: absolute;
-  right: 0;
-  top: 100%;
-  min-width: 180px;
-  padding: 6px;
+  bottom: -2px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--bg-secondary);
+}
+
+.dm-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--interactive-normal);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dm-item:hover .dm-name,
+.dm-item.active .dm-name {
+  color: var(--interactive-active);
+}
+
+.dm-unread {
+  width: 8px;
+  height: 8px;
+  background-color: var(--danger);
+  border-radius: var(--radius-full);
+}
+
+.status-picker-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-popout);
+}
+
+.status-picker {
+  position: absolute;
+  bottom: 60px;
+  left: 8px;
+  width: 220px;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: slideUp var(--transition-fast);
+  z-index: var(--z-popout);
+}
+
+.status-picker-header {
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--header-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.status-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.status-option:hover {
+  background-color: var(--bg-hover);
+}
+
+.status-option.active {
+  background-color: var(--bg-active);
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+}
+
+.status-label {
+  font-size: 14px;
+  color: var(--text-normal);
+}
+
+.custom-status-input {
+  margin: 8px 16px 16px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text-normal);
   background-color: var(--bg-primary);
-  border-radius: 4px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.24);
-  z-index: 1000;
-  animation: scaleIn 0.1s ease;
+  border: none;
+  border-radius: var(--radius-xs);
+  width: calc(100% - 32px);
+}
+
+.custom-status-input::placeholder {
+  color: var(--text-muted);
+}
+
+.context-menu {
+  position: fixed;
+  min-width: 180px;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 6px 0;
+  z-index: var(--z-popout);
+  animation: scaleIn var(--transition-fast);
 }
 
 .context-menu-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: 3px;
+  gap: 12px;
+  padding: 8px 12px;
   font-size: 14px;
-  color: var(--interactive-normal);
+  color: var(--text-normal);
   cursor: pointer;
-  background: none;
-  border: none;
-  text-align: left;
-  transition: all 0.1s;
+  transition: all var(--transition-fast);
 }
 
 .context-menu-item:hover {
@@ -918,505 +1267,8 @@
   color: white;
 }
 
-/* ========================================
-   USER STATUS PICKER
-   ======================================== */
-.user-status-picker-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-}
-
-.user-status-picker {
-  position: absolute;
-  bottom: 60px;
-  left: 80px;
-  width: 200px;
-  background-color: var(--bg-primary);
-  border-radius: 8px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.24);
-  padding: 8px;
-  z-index: 1000;
-  animation: scaleIn 0.15s ease;
-}
-
-.status-option {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  color: var(--interactive-normal);
-  transition: all 0.1s;
-}
-
-.status-option:hover {
-  background-color: var(--bg-modifier-hover);
-  color: var(--interactive-hover);
-}
-
-.status-indicator {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.custom-status-input {
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.custom-status-input input {
-  width: 100%;
-  padding: 8px 10px;
-  font-size: 14px;
-  background-color: var(--bg-tertiary);
-  border: none;
-  border-radius: 4px;
-  color: var(--text-normal);
-}
-
-.custom-status-input input::placeholder {
-  color: var(--text-muted);
-}
-
-.custom-status-input input:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--accent);
-}
-
-/* ========================================
-   FRIENDS PAGE
-   ======================================== */
-.friends-container {
-  position: fixed;
-  top: 0;
-  left: 72px;
-  right: 0;
-  bottom: 0;
-  background: var(--bg-tertiary);
-  display: flex;
-  flex-direction: column;
-  z-index: 500;
-}
-
-.friends-header {
-  height: 48px;
-  min-height: 48px;
-  padding: 0 16px;
-  background-color: var(--bg-tertiary);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.2);
-}
-
-.friends-header h2 {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--header-primary);
-}
-
-.friends-tabs {
-  display: flex;
-  gap: 16px;
-  padding: 16px;
-  background-color: var(--bg-tertiary);
-  border-bottom: 1px solid var(--border-subtle);
-  flex-wrap: wrap;
-}
-
-.friends-tabs button {
-  background: none;
-  border: none;
-  color: var(--interactive-normal);
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.1s;
-}
-
-.friends-tabs button:hover {
-  background-color: var(--bg-modifier-hover);
-  color: var(--interactive-hover);
-}
-
-.friends-tabs button.active {
-  background-color: var(--bg-modifier-selected);
-  color: var(--header-primary);
-}
-
-.friends-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-}
-
-.friends-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.friend-group {
-  margin-bottom: 16px;
-}
-
-.friend-group-header {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--interactive-normal);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  padding: 16px 12px 8px;
-}
-
-.friend-item-container {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.friend-item {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  border-top: 1px solid var(--border-subtle);
-  transition: background-color 0.1s;
-}
-
-.friend-item:hover {
-  background-color: var(--bg-modifier-hover);
-}
-
-.friend-avatar-container {
-  position: relative;
-  flex-shrink: 0;
-}
-
-.friend-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.friend-status-dot {
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 3px solid var(--bg-tertiary);
-}
-
-.friend-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.friend-name {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--header-primary);
-  line-height: 1.25;
-}
-
-.friend-username-status {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-.friend-separator {
-  opacity: 0.5;
-}
-
-.friend-action-btn {
-  padding: 8px 16px;
-  border-radius: 4px;
-  border: none;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.1s;
-}
-
-.friend-action-btn.accept {
-  background-color: var(--success);
-  color: white;
-}
-
-.friend-action-btn.accept:hover {
-  background-color: #2d8049;
-}
-
-.empty-message {
-  text-align: center;
-  color: var(--text-muted);
-  padding: 24px;
-}
-
-.add-friend-section {
-  max-width: 500px;
-}
-
-.add-friend-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.help-text {
-  color: var(--text-muted);
-  font-size: 14px;
-  margin-bottom: 16px;
-  line-height: 1.4;
-}
-
-/* ========================================
-   STANDARD CLOSE BUTTON
-   ======================================== */
-.close-btn {
-  width: 32px;
-  height: 32px;
-  background: none;
-  border: none;
-  color: var(--interactive-normal);
-  font-size: 24px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  transition: all 0.1s;
-  flex-shrink: 0;
-  line-height: 1;
-}
-
-.close-btn:hover {
-  background-color: var(--bg-modifier-hover);
-  color: var(--interactive-hover);
-}
-
-/* ========================================
-   INVITE CODE CONTAINER
-   ======================================== */
-.invite-code-container {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.invite-code-input {
-  flex: 1;
-}
-
-/* ========================================
-   MEMBERS LIST (Settings)
-   ======================================== */
-.members-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.members-list .member-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background-color: var(--bg-secondary);
-  border-radius: 8px;
-}
-
-.members-list .member-avatar {
-  width: 40px;
-  height: 40px;
-}
-
-/* ========================================
-   VOICE CONNECTION BAR
-   ======================================== */
-.voice-connection-bar {
-  background-color: var(--bg-modifier-active);
-  border-top: 1px solid var(--border-subtle);
-  padding: 12px;
-}
-
-.voice-connection-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-
-.voice-status {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--success);
-}
-
-.voice-channel-name {
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-.voice-controls-bar {
-  display: flex;
-  gap: 8px;
-}
-
-.voice-control-btn-small {
-  width: 32px;
-  height: 32px;
-  background: none;
-  border: none;
-  border-radius: 4px;
-  color: var(--interactive-normal);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.1s;
-}
-
-.voice-control-btn-small:hover {
-  background-color: var(--bg-modifier-hover);
-  color: var(--interactive-hover);
-}
-
-.voice-control-btn-small.muted {
-  color: var(--danger);
-}
-
-.voice-control-btn-small.disconnect {
-  color: var(--danger);
-}
-
-/* ========================================
-   NOTIFICATION BADGES
-   ======================================== */
-.notification-badge {
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 16px;
-  height: 16px;
-  padding: 0 4px;
-  background-color: var(--danger);
-  color: white;
-  font-size: 10px;
-  font-weight: 700;
-  border-radius: 8px;
-  z-index: 10;
-}
-
-/* ========================================
-   UTILITIES
-   ======================================== */
-.flex-1 { flex: 1; }
-.padding-xl { padding: 24px; }
-.whitespace-nowrap { white-space: nowrap; }
-.text-muted { color: var(--text-muted); }
-
-/* ========================================
-   RESPONSIVE - Hide members sidebar
-   ======================================== */
-@media (max-width: 1200px) {
-  .members-sidebar {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .app-container {
-    flex-direction: column;
-  }
-
-  .server-sidebar {
-    width: 100%;
-    height: 56px;
-    min-width: 100%;
-    max-width: 100%;
-    flex-direction: row;
-    padding: 8px 12px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    order: -1;
-  }
-
-  .server-icon {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    min-height: 40px;
-  }
-
-  .channel-sidebar {
-    position: fixed;
-    left: 0;
-    top: 56px;
-    width: 85%;
-    max-width: 300px;
-    min-width: auto;
-    height: calc(100vh - 56px);
-    transform: translateX(-100%);
-    transition: transform 0.2s;
-    z-index: 600;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.24);
-  }
-
-  .channel-sidebar.mobile-visible {
-    transform: translateX(0);
-  }
-
-  .mobile-menu-btn {
-    display: flex;
-    width: 32px;
-    height: 32px;
-    background: none;
-    border: none;
-    color: var(--interactive-normal);
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .main-content {
-    width: 100%;
-    flex: 1;
-  }
-
-  .friends-container {
-    left: 0;
-    top: 56px;
-  }
-
-  .members-sidebar {
-    display: none;
-  }
-
-  .user-status-picker {
-    left: 16px;
-    bottom: 70px;
-    width: calc(100% - 32px);
-    max-width: 300px;
-  }
+.context-menu-separator {
+  height: 1px;
+  background-color: var(--border-subtle);
+  margin: 6px 0;
 }

@@ -1,9 +1,3 @@
-/* ========================================
-   MOBILE CSS
-   Additional mobile-specific styles
-   ======================================== */
-
-/* Mobile Navigation */
 .mobile-nav {
   display: none;
 }
@@ -20,7 +14,6 @@
   display: block;
 }
 
-/* Mobile Toggle Button */
 .header-toggle-btn {
   display: none;
   width: 40px;
@@ -35,11 +28,10 @@
 }
 
 .header-toggle-btn:hover {
-  background-color: var(--bg-modifier-hover);
+  background-color: var(--bg-hover);
   color: var(--interactive-hover);
 }
 
-/* Mobile Settings Button */
 .mobile-settings-btn {
   display: none;
   width: 40px;
@@ -51,7 +43,6 @@
   border-radius: var(--radius-sm);
 }
 
-/* Safe Area for iOS */
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0);
 }
@@ -60,15 +51,14 @@
   padding-top: env(safe-area-inset-top, 0);
 }
 
-/* Touch-friendly sizes */
 @media (pointer: coarse) {
   .channel-item {
-    padding: 10px var(--spacing-sm);
+    padding: 10px 12px;
     min-height: 44px;
   }
 
   .member-item {
-    padding: 10px var(--spacing-sm);
+    padding: 10px 12px;
     min-height: 44px;
   }
 
@@ -90,7 +80,12 @@
   }
 }
 
-/* Mobile Breakpoints */
+@media (max-width: 1024px) {
+  .members-sidebar {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .header-toggle-btn {
     display: flex;
@@ -100,18 +95,86 @@
     display: flex;
   }
 
-  /* Voice Stage Mobile */
-  .voice-stage-content {
-    padding: var(--spacing-md);
+  .server-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: var(--z-overlay);
+    transform: translateX(-100%);
+    transition: transform var(--transition-normal);
+  }
+
+  .server-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .channel-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: var(--z-overlay);
+    transform: translateX(-100%);
+    transition: transform var(--transition-normal);
+  }
+
+  .channel-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .mobile-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border-subtle);
+    z-index: var(--z-above);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .mobile-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    color: var(--interactive-normal);
+    cursor: pointer;
+    transition: color var(--transition-fast);
+  }
+
+  .mobile-nav-item:hover,
+  .mobile-nav-item.active {
+    color: var(--interactive-active);
+  }
+
+  .mobile-nav-label {
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  .main-content {
+    padding-bottom: 60px;
+  }
+
+  .voice-stage-users-sidebar {
+    display: none;
   }
 
   .voice-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-sm);
+    gap: 12px;
   }
 
   .voice-tile {
-    padding: var(--spacing-md);
+    padding: 16px;
   }
 
   .voice-avatar-wrapper {
@@ -119,25 +182,33 @@
     height: 48px;
   }
 
-  /* Settings Modal Mobile */
   .settings-close {
-    position: absolute;
-    top: var(--spacing-sm);
-    right: var(--spacing-sm);
+    top: 12px;
+    right: 12px;
   }
 
-  /* Modals Mobile */
-  .modal-content {
-    width: 100%;
-    max-width: 100%;
-    height: 100%;
-    max-height: 100%;
-    border-radius: 0;
+  .friends-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 8px;
   }
 
-  /* Members Sidebar Hidden */
-  .members-sidebar {
+  .friends-tabs::-webkit-scrollbar {
     display: none;
+  }
+
+  .friends-tab {
+    flex-shrink: 0;
+  }
+
+  .add-friend-form {
+    flex-direction: column;
+  }
+
+  .connection-bar {
+    left: 0;
+    width: 100%;
+    bottom: 60px;
   }
 }
 
@@ -146,13 +217,33 @@
     grid-template-columns: 1fr 1fr;
   }
 
-  .friends-tabs {
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: var(--spacing-sm);
+  .friends-header {
+    flex-wrap: wrap;
+    gap: 8px;
+    height: auto;
+    padding: 12px 16px;
   }
 
-  .friends-tabs button {
-    flex-shrink: 0;
+  .friends-divider {
+    display: none;
+  }
+
+  .friends-add-btn {
+    order: -1;
+    width: 100%;
+  }
+
+  .message-input-wrapper {
+    padding: 0 12px;
+  }
+
+  .profile-header-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-details {
+    padding-top: 16px;
   }
 }
