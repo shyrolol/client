@@ -3,17 +3,17 @@
   top: -100%;
   left: 50%;
   transform: translateX(-50%);
-  padding: 10px 20px;
+  padding: 12px 24px;
   background-color: var(--accent);
   color: #fff;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   border-radius: var(--radius-md);
   z-index: var(--z-toast);
 }
 
 .skip-link:focus {
-  top: 12px;
+  top: 16px;
 }
 
 :focus-visible {
@@ -38,9 +38,7 @@ textarea:focus-visible,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -76,7 +74,7 @@ textarea:focus-visible,
   .channel-item.active,
   .dm-item.active,
   .settings-tab.active {
-    border: 2px solid var(--text-normal);
+    border: 2px solid var(--header-primary);
   }
 }
 
@@ -134,11 +132,6 @@ textarea:focus-visible,
 [role="link"]:focus {
   outline: 2px solid var(--border-strong);
   outline-offset: 2px;
-}
-
-img[alt=""],
-img:not([alt]) {
-  border: 2px solid var(--danger);
 }
 
 .live-region {

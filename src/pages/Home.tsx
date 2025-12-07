@@ -1297,8 +1297,16 @@ const Home: React.FC = () => {
 
         {/* Main Content */}
         <div className="main-content">
-          {/* Voice Channel - Show VoiceStage */}
-          {currentChannel?.type === "voice" &&
+          {/* Friends Page */}
+          {showFriends && viewMode === "dm" ? (
+            <Friends
+              onClose={() => setShowFriends(false)}
+              selectDM={selectDM}
+              setShowSettings={setShowSettings}
+              onPendingCountChange={setPendingFriendRequestsCount}
+            />
+          ) : /* Voice Channel - Show VoiceStage */
+          currentChannel?.type === "voice" &&
           currentVoiceChannel?.id === currentChannel.id ? (
             <VoiceStage
               channelName={currentChannel.name}
@@ -1572,14 +1580,6 @@ const Home: React.FC = () => {
           server={currentServer}
           onClose={() => setShowServerSettings(false)}
           onSuccess={() => selectServer(currentServer.id)}
-        />
-      )}
-      {showFriends && (
-        <Friends
-          onClose={() => setShowFriends(false)}
-          selectDM={selectDM}
-          setShowSettings={setShowSettings}
-          onPendingCountChange={setPendingFriendRequestsCount}
         />
       )}
 

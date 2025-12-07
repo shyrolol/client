@@ -8,7 +8,7 @@
 
 .voice-stage-header {
   flex-shrink: 0;
-  padding: 12px 16px;
+  padding: 16px 20px;
   background-color: var(--bg-secondary);
   border-bottom: 1px solid var(--border-subtle);
 }
@@ -22,11 +22,11 @@
 .voice-stage-title-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .voice-stage-title {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--header-primary);
   margin: 0;
@@ -35,12 +35,12 @@
 .voice-connection-badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
+  gap: 6px;
+  padding: 6px 12px;
   font-size: 11px;
-  font-weight: 500;
-  border-radius: var(--radius-sm);
-  background-color: rgba(74, 222, 128, 0.15);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  background-color: rgba(74, 222, 128, 0.1);
   color: var(--success);
   text-transform: uppercase;
 }
@@ -64,8 +64,8 @@
   flex-wrap: wrap;
   align-content: center;
   justify-content: center;
-  gap: 12px;
-  padding: 16px;
+  gap: 16px;
+  padding: 24px;
   overflow-y: auto;
 }
 
@@ -74,13 +74,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 20px;
-  width: 160px;
-  height: 160px;
+  gap: 16px;
+  padding: 28px;
+  width: 180px;
+  height: 180px;
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
 }
 
 .voice-tile:hover {
@@ -93,8 +93,8 @@
 
 .voice-avatar-wrapper {
   position: relative;
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
 }
 
 .voice-avatar-wrapper img {
@@ -106,27 +106,27 @@
 }
 
 .voice-avatar-wrapper.speaking img {
-  outline: 2px solid var(--success);
+  outline: 3px solid var(--success);
   outline-offset: 2px;
 }
 
 .voice-tile-name {
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
   color: var(--text-normal);
   text-align: center;
 }
 
 .voice-tile-status {
   position: absolute;
-  bottom: 12px;
+  bottom: 16px;
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 .voice-tile-icon {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -145,19 +145,19 @@
   display: flex;
   flex-direction: column;
   background-color: #000;
-  margin: 12px;
-  border-radius: var(--radius-md);
+  margin: 16px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--border-subtle);
 }
 
 .voice-share-header {
-  padding: 10px 12px;
+  padding: 12px 16px;
   background-color: var(--bg-tertiary);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-normal);
 }
 
@@ -176,7 +176,7 @@
 }
 
 .voice-stage-users-sidebar {
-  width: 240px;
+  width: 260px;
   background-color: var(--bg-secondary);
   border-left: 1px solid var(--border-subtle);
   display: flex;
@@ -184,26 +184,26 @@
 }
 
 .voice-users-sidebar-header {
-  padding: 12px 16px;
+  padding: 16px 20px;
   font-size: 11px;
   font-weight: 600;
   color: var(--text-faint);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   border-bottom: 1px solid var(--border-subtle);
 }
 
 .voice-users-sidebar-list {
   flex: 1;
   overflow-y: auto;
-  padding: 6px 0;
+  padding: 8px 0;
 }
 
 .voice-user-sidebar-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 16px;
+  gap: 12px;
+  padding: 10px 20px;
   cursor: pointer;
 }
 
@@ -213,8 +213,8 @@
 
 .voice-user-sidebar-avatar {
   position: relative;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
 }
 
 .voice-user-sidebar-avatar img {
@@ -226,7 +226,7 @@
 
 .voice-user-sidebar-speaking-indicator {
   position: absolute;
-  inset: -2px;
+  inset: -3px;
   border-radius: 50%;
   border: 2px solid var(--success);
 }
@@ -237,7 +237,7 @@
 }
 
 .voice-user-sidebar-name {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--text-normal);
   white-space: nowrap;
@@ -246,7 +246,7 @@
 }
 
 .voice-user-sidebar-badge {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--text-faint);
 }
 
@@ -259,15 +259,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 16px;
+  gap: 16px;
+  padding: 20px;
   background-color: var(--bg-secondary);
   border-top: 1px solid var(--border-subtle);
 }
 
 .voice-control-btn {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -279,7 +279,7 @@
 }
 
 .voice-control-btn:hover {
-  background-color: var(--bg-hover);
+  background-color: var(--bg-quaternary);
 }
 
 .voice-control-btn.active {
@@ -307,13 +307,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
+  gap: 8px;
+  padding: 12px 20px;
   background-color: var(--accent);
   color: #fff;
   border: none;
   border-radius: var(--radius-md);
   font-weight: 500;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
 }
 
@@ -321,17 +322,23 @@
   background-color: var(--accent-hover);
 }
 
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
-  background-color: var(--bg-tertiary);
+  gap: 8px;
+  padding: 12px 20px;
+  background-color: transparent;
   color: var(--text-normal);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   font-weight: 500;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
 }
 
@@ -342,15 +349,16 @@
 
 .input {
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 14px;
   background-color: var(--bg-tertiary);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   color: var(--text-normal);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .input:focus {
   outline: none;
   border-color: var(--border-strong);
+  background-color: var(--bg-quaternary);
 }
