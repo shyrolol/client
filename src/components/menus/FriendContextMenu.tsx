@@ -76,25 +76,30 @@ const FriendContextMenu: React.FC<FriendMenuProps> = ({
   };
 
   return (
-    <>
-      <div
-        className="member-context-menu-trigger"
-        onClick={() => setShowMenu(!showMenu)}
+    <div className="friend-menu-wrapper" ref={menuRef}>
+      <button
+        className="friend-options-btn"
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowMenu(!showMenu);
+        }}
+        title="More options"
       >
-        <span>⋯</span>
-      </div>
+        •••
+      </button>
 
       {showMenu && (
-        <div className="member-context-menu" ref={menuRef}>
+        <div className="context-menu">
           <button className="context-menu-item" onClick={handleRemove}>
             Remove Friend
           </button>
+          <div className="context-menu-separator" />
           <button className="context-menu-item danger" onClick={handleBlock}>
             Block User
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
