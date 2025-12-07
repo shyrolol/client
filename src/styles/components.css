@@ -89,35 +89,6 @@
   background-color: var(--bg-primary);
 }
 
-.voice-stage-center-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: var(--text-faint);
-}
-
-.voice-stage-center-empty svg {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 24px;
-  opacity: 0.4;
-}
-
-.voice-stage-center-empty h3 {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-muted);
-  margin: 0 0 8px 0;
-}
-
-.voice-stage-center-empty p {
-  font-size: 14px;
-  color: var(--text-faint);
-  margin: 0;
-}
-
 .voice-share-container {
   width: 100%;
   max-width: 1000px;
@@ -264,11 +235,12 @@
   align-items: center;
 }
 
+/* Voice Controls - HORIZONTAL layout */
 .voice-controls {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 24px;
   padding: 20px;
   background-color: var(--bg-secondary);
   border-top: 1px solid var(--border-subtle);
@@ -277,12 +249,27 @@
 .voice-controls-info {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 4px;
-  margin-bottom: 8px;
 }
 
 .voice-controls-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4ade80;
+}
+
+.voice-controls-status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #4ade80;
+  border-radius: 50%;
+}
+
+.voice-controls-status-text {
   font-size: 13px;
   font-weight: 600;
   color: #4ade80;
@@ -293,8 +280,17 @@
   color: var(--text-faint);
 }
 
+/* Voice Controls Actions - HORIZONTAL */
+.voice-controls-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
 .voice-controls-buttons {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 12px;
 }
@@ -333,12 +329,7 @@
   background-color: #dc2626;
 }
 
-.badge-container {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
+/* Badges */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -348,11 +339,6 @@
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-}
-
-.badge-primary {
-  background-color: var(--accent);
-  color: #fff;
 }
 
 .badge-success {
@@ -375,29 +361,7 @@
   color: var(--text-muted);
 }
 
-.btn-group {
-  display: flex;
-  gap: 8px;
-}
-
-.btn-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background-color: var(--bg-tertiary);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  color: var(--text-muted);
-  cursor: pointer;
-}
-
-.btn-icon:hover {
-  background-color: var(--bg-quaternary);
-  color: var(--text-normal);
-}
-
+/* Empty State */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -434,6 +398,7 @@
   line-height: 1.5;
 }
 
+/* Loading Spinner */
 .loading-spinner {
   width: 32px;
   height: 32px;
@@ -447,12 +412,33 @@
   to { transform: rotate(360deg); }
 }
 
+/* Status Colors */
 .status-online { background-color: #22c55e; }
 .status-idle { background-color: #eab308; }
 .status-dnd { background-color: #ef4444; }
 .status-offline { background-color: #52525b; }
 .status-invisible { background-color: #52525b; }
 
+/* Button Icon */
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.btn-icon:hover {
+  background-color: var(--bg-quaternary);
+  color: var(--text-normal);
+}
+
+/* More Options Button */
 .more-options-btn {
   display: flex;
   align-items: center;
@@ -465,6 +451,8 @@
   color: var(--text-muted);
   cursor: pointer;
   opacity: 0;
+  font-size: 14px;
+  letter-spacing: 2px;
 }
 
 .friend-item:hover .more-options-btn,
@@ -477,12 +465,7 @@
   color: var(--text-normal);
 }
 
-.more-options-btn::before {
-  content: '•••';
-  font-size: 14px;
-  letter-spacing: 2px;
-}
-
+/* Mobile Voice */
 @media (max-width: 900px) {
   .voice-stage-main {
     flex-direction: column;
@@ -512,8 +495,18 @@
   }
 
   .voice-controls {
+    flex-direction: column;
+    gap: 16px;
     padding: 16px;
-    gap: 10px;
+  }
+
+  .voice-controls-info {
+    align-items: center;
+  }
+
+  .voice-controls-actions {
+    flex-direction: row;
+    gap: 12px;
   }
 
   .voice-control-btn {
@@ -535,9 +528,5 @@
 
   .voice-stage-center {
     padding: 20px;
-  }
-
-  .voice-users-sidebar-list {
-    flex-direction: column;
   }
 }

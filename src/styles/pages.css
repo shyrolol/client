@@ -19,6 +19,7 @@
   font-size: 14px;
 }
 
+/* Server Sidebar */
 .server-sidebar {
   width: 72px;
   min-width: 72px;
@@ -72,8 +73,8 @@
 
 .server-icon.home-icon:hover,
 .server-icon.home-icon.active {
-  background-color: var(--accent);
-  color: #fff;
+  background-color: var(--header-primary);
+  color: #000;
 }
 
 .server-icon.settings-icon {
@@ -95,18 +96,28 @@
   flex-shrink: 0;
 }
 
+/* Add Server Button with Animation */
 .server-icon.add-server {
   background-color: transparent;
   color: var(--success);
   border: 2px dashed var(--border-strong);
+  transition: all 0.2s ease;
 }
 
 .server-icon.add-server:hover {
   background-color: var(--success);
   color: #fff;
   border-color: transparent;
+  border-style: solid;
+  transform: scale(1.05);
+  border-radius: var(--radius-lg);
 }
 
+.server-icon.add-server:active {
+  transform: scale(0.95);
+}
+
+/* Channel Sidebar */
 .channel-sidebar {
   width: 240px;
   min-width: 240px;
@@ -286,6 +297,7 @@
   color: var(--text-normal);
 }
 
+/* User Panel */
 .user-panel {
   display: flex;
   align-items: center;
@@ -377,6 +389,7 @@
   color: var(--text-normal);
 }
 
+/* Main Content */
 .main-content {
   flex: 1;
   display: flex;
@@ -434,6 +447,7 @@
   margin: 0;
 }
 
+/* Message Input */
 .message-input-container {
   padding: 10px 20px 24px;
   background-color: var(--bg-primary);
@@ -553,6 +567,7 @@
   padding: 10px;
 }
 
+/* Members Sidebar */
 .members-sidebar {
   width: 280px;
   min-width: 280px;
@@ -621,7 +636,7 @@
 
 .member-search-container input:focus {
   outline: none;
-  border-color: var(--accent);
+  border-color: var(--border-strong);
 }
 
 .member-group {
@@ -643,6 +658,7 @@
   gap: 2px;
 }
 
+/* Member Item - Fixed status dot position */
 .member-item {
   display: flex;
   align-items: center;
@@ -650,6 +666,7 @@
   padding: 10px 12px;
   border-radius: var(--radius-md);
   cursor: pointer;
+  position: relative;
 }
 
 .member-item:hover {
@@ -671,6 +688,7 @@
   object-fit: cover;
 }
 
+/* Status dot next to avatar (bottom-right) */
 .member-status-dot {
   position: absolute;
   bottom: -2px;
@@ -725,6 +743,7 @@
   white-space: nowrap;
 }
 
+/* Member Options Button (3 dots) */
 .member-options-btn {
   display: flex;
   align-items: center;
@@ -738,6 +757,8 @@
   cursor: pointer;
   opacity: 0;
   flex-shrink: 0;
+  font-size: 14px;
+  letter-spacing: 2px;
 }
 
 .member-item:hover .member-options-btn {
@@ -749,6 +770,22 @@
   color: var(--text-normal);
 }
 
+/* Member Context Menu */
+.member-context-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 160px;
+  background-color: var(--bg-floating);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 8px;
+  z-index: var(--z-popout);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  margin-top: 4px;
+}
+
+/* Friends Container */
 .friends-container {
   display: flex;
   flex-direction: column;
@@ -824,7 +861,7 @@
 
 .friends-tabs button.active {
   background-color: var(--bg-active);
-  color: var(--text-normal);
+  color: var(--header-primary);
 }
 
 .friends-content {
@@ -833,10 +870,30 @@
   padding: 20px;
 }
 
+/* Friends List - Improved layout */
 .friends-list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+}
+
+.friend-group {
+  margin-bottom: 24px;
+}
+
+.friend-group-header {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 8px 16px;
+  margin-bottom: 4px;
+}
+
+/* Friend Item - Improved presentation */
+.friend-item-container {
+  position: relative;
 }
 
 .friend-item {
@@ -846,34 +903,46 @@
   padding: 12px 16px;
   border-radius: var(--radius-lg);
   cursor: pointer;
+  background-color: var(--bg-secondary);
+  margin-bottom: 4px;
 }
 
 .friend-item:hover {
-  background-color: var(--bg-hover);
+  background-color: var(--bg-tertiary);
 }
 
+.friend-item.unread {
+  border-left: 3px solid var(--header-primary);
+}
+
+.friend-avatar-container,
 .friend-avatar-wrapper {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
 }
 
 .friend-avatar {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-full);
   object-fit: cover;
 }
 
+/* Friend status dot - bottom right of avatar */
 .friend-status-dot {
   position: absolute;
-  bottom: -2px;
-  right: -2px;
+  bottom: 0;
+  right: 0;
   width: 14px;
   height: 14px;
   border-radius: var(--radius-full);
-  border: 3px solid var(--bg-primary);
+  border: 3px solid var(--bg-secondary);
+}
+
+.friend-item:hover .friend-status-dot {
+  border-color: var(--bg-tertiary);
 }
 
 .friend-info {
@@ -882,21 +951,34 @@
 }
 
 .friend-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-normal);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--header-primary);
 }
 
 .friend-username {
-  font-size: 12px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-left: 8px;
+}
+
+.friend-username-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
   color: var(--text-faint);
-  margin-left: 6px;
+  margin-top: 2px;
+}
+
+.friend-separator {
+  font-size: 10px;
+  color: var(--text-faint);
 }
 
 .friend-status-text {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-faint);
-  margin-top: 2px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -915,7 +997,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-tertiary);
+  background-color: var(--bg-quaternary);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-full);
   color: var(--text-muted);
@@ -923,7 +1005,7 @@
 }
 
 .friend-action-btn:hover {
-  background-color: var(--bg-quaternary);
+  background-color: var(--bg-hover);
   color: var(--text-normal);
 }
 
@@ -947,6 +1029,13 @@
   background-color: #dc2626;
 }
 
+/* Friend Options Button (3 dots) - FIXED */
+.friend-menu-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 .friend-options-btn {
   display: flex;
   align-items: center;
@@ -958,19 +1047,23 @@
   border-radius: var(--radius-md);
   color: var(--text-faint);
   cursor: pointer;
-  opacity: 0;
   flex-shrink: 0;
+  font-size: 14px;
+  letter-spacing: 2px;
+  opacity: 0;
 }
 
-.friend-item:hover .friend-options-btn {
+.friend-item:hover .friend-options-btn,
+.friend-item-container:hover .friend-options-btn {
   opacity: 1;
 }
 
 .friend-options-btn:hover {
-  background-color: var(--bg-tertiary);
+  background-color: var(--bg-hover);
   color: var(--text-normal);
 }
 
+/* Add Friend Section */
 .add-friend-section {
   max-width: 600px;
 }
@@ -992,6 +1085,7 @@
   font-size: 14px;
 }
 
+/* User Status Picker */
 .user-status-picker {
   position: fixed;
   width: 280px;
@@ -1063,6 +1157,7 @@
   font-size: 13px;
 }
 
+/* Notification Badge */
 .notification-badge {
   position: fixed;
   display: flex;
@@ -1085,6 +1180,7 @@
   left: 52px;
 }
 
+/* Status Colors */
 .status-dot-small {
   width: 10px;
   height: 10px;
@@ -1101,10 +1197,12 @@
 .status-offline { background-color: #52525b; }
 .status-invisible { background-color: #52525b; }
 
+/* Mobile Navigation */
 .mobile-nav {
   display: none;
 }
 
+/* Responsive */
 @media (max-width: 1100px) {
   .members-sidebar {
     display: none;
@@ -1115,7 +1213,7 @@
   .channel-sidebar {
     display: none;
   }
-  
+
   .channel-sidebar.mobile-visible {
     display: flex;
     position: fixed;
@@ -1141,7 +1239,7 @@
     z-index: 100;
     box-shadow: 8px 0 32px rgba(0,0,0,0.4);
   }
-  
+
   .channel-sidebar.mobile-visible {
     left: 0;
     width: 100%;
@@ -1174,6 +1272,13 @@
     color: var(--text-faint);
     cursor: pointer;
     font-size: 10px;
+    background: none;
+    border: none;
+    padding: 8px;
+  }
+
+  .mobile-nav-item:active {
+    background-color: var(--bg-hover);
   }
 
   .mobile-nav-item.active {

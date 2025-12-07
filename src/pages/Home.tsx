@@ -636,6 +636,8 @@ const Home: React.FC = () => {
           setCurrentChannel(textChannel || res.data.channels[0]);
         }
       }
+      
+      setShowMobileDrawer(false);
     } catch (error) {
       console.error("Failed to select server:", error);
     }
