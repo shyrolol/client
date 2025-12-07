@@ -65,6 +65,19 @@ export const useVoice = (channelId: string | null) => {
     return "poor";
   };
 
+  // Sound Effects
+  const playSound = (type: 'join' | 'leave' | 'mute' | 'deafen') => {
+    const sounds = {
+      join: 'https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3',
+      leave: 'https://assets.mixkit.co/active_storage/sfx/2572/2572-preview.mp3',
+      mute: 'https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3',
+      deafen: 'https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3'
+    };
+    const audio = new Audio(sounds[type]);
+    audio.volume = 0.4;
+    audio.play().catch(e => console.log('Audio play failed', e));
+  };
+
   const getAudioConstraints = useCallback(async () => {
     const userSettings = getUserSettings();
     const constraints: MediaStreamConstraints = {
@@ -137,7 +150,6 @@ export const useVoice = (channelId: string | null) => {
 
   const setupRemoteAudioAnalysis = (stream: MediaStream, socketId: string) => {
     try {
-      
       const audioContext = new (window.AudioContext ||
         (window as any).webkitAudioContext)();
       remoteAudioContextsRef.current[socketId] = audioContext;
@@ -242,13 +254,11 @@ export const useVoice = (channelId: string | null) => {
       delete audioElementsRef.current[socketId];
     }
 
-    
     if (remoteAudioContextsRef.current[socketId]) {
       remoteAudioContextsRef.current[socketId].close();
       delete remoteAudioContextsRef.current[socketId];
     }
 
-    
     if (remoteAnimationFramesRef.current[socketId]) {
       cancelAnimationFrame(remoteAnimationFramesRef.current[socketId]);
       delete remoteAnimationFramesRef.current[socketId];
@@ -339,6 +349,7 @@ export const useVoice = (channelId: string | null) => {
       localStreamRef.current = stream;
       setLocalStream(stream);
       setupAudioAnalysis(stream);
+      playSound('join');
 
       const handleVoiceUsers = (userInVoice: VoiceParticipantPayload[]) => {
         const media = localStreamRef.current;
@@ -454,6 +465,7 @@ export const useVoice = (channelId: string | null) => {
       localStreamRef.current.getTracks().forEach((track) => track.stop());
       localStreamRef.current = null;
       setLocalStream(null);
+      playSound('leave');
     }
 
     if (screenStreamRef.current) {
@@ -475,13 +487,11 @@ export const useVoice = (channelId: string | null) => {
     gainNodeRef.current = null;
     analyserRef.current = null;
 
-    
     Object.values(remoteAudioContextsRef.current).forEach((ctx) => {
       ctx.close();
     });
     remoteAudioContextsRef.current = {};
 
-    
     Object.values(remoteAnimationFramesRef.current).forEach((frameId) => {
       cancelAnimationFrame(frameId);
     });
@@ -511,9 +521,17 @@ export const useVoice = (channelId: string | null) => {
       if (audioTrack) {
         audioTrack.enabled = !audioTrack.enabled;
         setIsMuted(!audioTrack.enabled);
+        playSound('mute');
+        if (socket) {
+          socket.emit("voice_state_update", {
+            channelId,
+            isMuted: !audioTrack.enabled,
+            isDeafened,
+          });
+        }
       }
     }
-  }, []);
+  }, [channelId, socket, isDeafened]);
 
   const toggleDeafen = useCallback(() => {
     setIsDeafened((prev) => {
@@ -521,9 +539,17 @@ export const useVoice = (channelId: string | null) => {
       Object.values(audioElementsRef.current).forEach((audio) => {
         audio.muted = nextState;
       });
+      playSound('deafen');
+      if (socket) {
+        socket.emit("voice_state_update", {
+          channelId,
+          isMuted: isMuted || nextState,
+          isDeafened: nextState,
+        });
+      }
       return nextState;
     });
-  }, []);
+  }, [channelId, socket, isMuted]);
 
   const stopScreenShare = useCallback(() => {
     if (!screenStreamRef.current) return;

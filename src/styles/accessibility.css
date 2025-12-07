@@ -3,22 +3,21 @@
   top: -100%;
   left: 50%;
   transform: translateX(-50%);
-  padding: 12px 24px;
+  padding: 10px 20px;
   background-color: var(--accent);
   color: #fff;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   border-radius: var(--radius-md);
   z-index: var(--z-toast);
-  transition: top var(--transition-fast);
 }
 
 .skip-link:focus {
-  top: 16px;
+  top: 12px;
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--border-strong);
   outline-offset: 2px;
 }
 
@@ -29,13 +28,13 @@ select:focus-visible,
 textarea:focus-visible,
 [role="button"]:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--border-strong);
   outline-offset: 2px;
 }
 
 .focus-ring:focus {
   outline: none;
-  box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--accent);
+  box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--border-strong);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -70,15 +69,14 @@ textarea:focus-visible,
     --border-strong: rgba(255, 255, 255, 0.3);
   }
 
-  .btn-primary,
-  .ds-button.primary {
+  .btn-primary {
     border: 2px solid #fff;
   }
 
   .channel-item.active,
   .dm-item.active,
   .settings-tab.active {
-    border: 2px solid var(--accent);
+    border: 2px solid var(--text-normal);
   }
 }
 
@@ -134,7 +132,7 @@ textarea:focus-visible,
 
 [role="button"]:focus,
 [role="link"]:focus {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--border-strong);
   outline-offset: 2px;
 }
 

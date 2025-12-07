@@ -103,13 +103,14 @@ const ChatArea: React.FC<ChatAreaProps> = ({ socket }) => {
             msg.senderName ?? (isOwn ? user?.displayName ?? "You" : "Unknown");
           return (
             <div key={msg.id} className={`chat-message ${isOwn ? "own" : ""}`}>
-              {msg.senderAvatar && (
+              <div className="message-avatar-wrapper">
                 <img
-                  src={msg.senderAvatar}
+                  src={msg.senderAvatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(author)}&background=random`}
                   alt={author}
-                  className="chat-message-avatar"
+                  className="message-avatar"
                 />
-              )}
+                <div className="status-indicator online" />
+              </div>
               <div className="chat-message-body">
                 <div className="chat-message-author">{author}</div>
                 {msg.image && (
