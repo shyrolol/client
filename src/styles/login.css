@@ -2,226 +2,90 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background: var(--bg-base);
-  padding: 24px;
+  width: 100vw;
+  height: 100vh;
+  background: url("https://cdn.discordapp.com/attachments/1079532824987570227/1118944583489822760/Login_Background.png") no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+}
+
+.login-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4); /* Dark overlay */
+  z-index: 0;
 }
 
 .login-box {
+  background-color: var(--background-primary);
+  padding: 32px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
   width: 100%;
-  max-width: 400px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xl);
-  padding: 48px 40px;
-}
-
-.login-header {
+  max-width: 480px;
   text-align: center;
-  margin-bottom: 36px;
-}
-
-.login-logo {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 20px;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
+  z-index: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-normal);
+  flex-direction: column;
+  gap: 24px;
 }
 
 .login-header h1 {
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 24px;
   color: var(--header-primary);
-  margin-bottom: 10px;
-  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  font-weight: 600;
 }
 
 .login-header p {
-  font-size: 14px;
-  color: var(--text-muted);
-  line-height: 1.5;
+  color: var(--header-secondary);
+  font-size: 16px;
 }
 
-.google-login-btn,
-.login-google-btn {
-  width: 100%;
+.google-login-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 14px 24px;
-  font-size: 15px;
-  font-weight: 500;
+  background-color: var(--background-secondary);
   color: var(--header-primary);
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  cursor: pointer;
+  padding: 12px 16px;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  width: 100%;
+  margin-top: 16px;
 }
 
-.google-login-btn:hover,
-.login-google-btn:hover {
-  background: var(--bg-quaternary);
-  border-color: var(--border-strong);
-}
-
-.google-login-btn img,
-.google-login-btn svg,
-.login-google-btn img,
-.login-google-btn svg {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
+.google-login-btn:hover {
+  background-color: var(--background-tertiary);
 }
 
 .login-footer {
-  margin-top: 32px;
-  text-align: center;
+  margin-top: 16px;
 }
 
 .beta-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-size: 13px;
-  color: var(--text-muted);
-  cursor: pointer;
   background: none;
-  border: none;
-  padding: 8px 16px;
-  border-radius: var(--radius-md);
+  color: var(--text-link);
+  font-size: 14px;
+  padding: 0;
 }
 
 .beta-link:hover {
-  color: var(--text-normal);
-  background: var(--bg-hover);
+  text-decoration: underline;
 }
 
 .beta-error {
-  padding: 14px 16px;
-  background: rgba(248, 113, 113, 0.1);
-  border: 1px solid rgba(248, 113, 113, 0.2);
-  border-radius: var(--radius-md);
-  color: var(--danger);
+  color: var(--text-danger);
+  background-color: rgba(242, 63, 66, 0.1);
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid var(--text-danger);
   font-size: 14px;
-  text-align: center;
-}
-
-.beta-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: var(--z-modal);
-}
-
-.beta-modal {
-  width: 100%;
-  max-width: 380px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xl);
-  padding: 32px;
-  margin: 16px;
-}
-
-.beta-modal h2 {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--header-primary);
-  margin-bottom: 8px;
-  text-align: center;
-}
-
-.beta-modal p {
-  font-size: 14px;
-  color: var(--text-muted);
-  margin-bottom: 24px;
-  text-align: center;
-  line-height: 1.5;
-}
-
-.beta-modal input {
-  width: 100%;
-  padding: 14px 16px;
-  font-size: 15px;
-  color: var(--text-normal);
-  background-color: var(--bg-tertiary);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  margin-bottom: 20px;
-}
-
-.beta-modal input:focus {
-  outline: none;
-  border-color: var(--border-strong);
-  background-color: var(--bg-quaternary);
-}
-
-.beta-modal input::placeholder {
-  color: var(--text-faint);
-}
-
-.beta-modal-actions {
-  display: flex;
-  gap: 12px;
-}
-
-.beta-modal-actions button {
-  flex: 1;
-}
-
-.maintenance-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: var(--bg-base);
-  padding: 32px;
-  text-align: center;
-}
-
-.maintenance-container h1 {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--header-primary);
-  margin-bottom: 12px;
-}
-
-.maintenance-container p {
-  font-size: 15px;
-  color: var(--text-muted);
-  max-width: 400px;
-  line-height: 1.6;
-}
-
-@media (max-width: 480px) {
-  .login-box {
-    padding: 36px 24px;
-    border-radius: var(--radius-lg);
-  }
-  .login-header h1 {
-    font-size: 22px;
-  }
-  .login-logo {
-    width: 56px;
-    height: 56px;
-    font-size: 20px;
-  }
-  .beta-modal {
-    padding: 24px 20px;
-    border-radius: var(--radius-lg);
-  }
 }

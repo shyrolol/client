@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { API_URL, BASE_URL } from "../config";
+import "../styles/Home.css";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useSocket } from "../context/SocketContext";
